@@ -1,0 +1,20 @@
+#logo {
+    width: 50px;
+    height: auto;
+}
+.navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: #771919;
+}
+.nav-item {
+    font: size 20px;
+}
+.nav-link {
+    color: #f0f0f0 !important;
+}
+
+.navbar {
+    background-color: #153b79 !important;
+}
