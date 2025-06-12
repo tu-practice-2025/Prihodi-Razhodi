@@ -20,7 +20,7 @@ namespace SummerPracticeWebApi.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var products = await _context.Products.ToListAsync();
+            var products = await _context.Transactions.ToListAsync();
             return Ok(products);
         }
 
@@ -28,7 +28,7 @@ namespace SummerPracticeWebApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            var product = await _context.Products
+            var product = await _context.Transactions
                 .Where(x => x.Id == id)
                 .OrderBy(x => x.Id)
                 .FirstOrDefaultAsync();
@@ -40,7 +40,7 @@ namespace SummerPracticeWebApi.Controllers
         [HttpGet("list")]
         public IActionResult GetProducts()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Transactions.ToList();
             return Ok(products);
         }
     }

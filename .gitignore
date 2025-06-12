@@ -1,0 +1,38 @@
+﻿# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+out/
+
+# NuGet
+*.nupkg
+packages/
+.nuget/
+
+# ASP.NET secrets and config
+appsettings.Development.json
+secrets.json
+
+# Entity Framework Migrations (optional)
+Migrations/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+TestResults/
+*.dbmdl
+
+# Rider (if used)
+.idea/
+
+# VS Code (if opened there occasionally)
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
