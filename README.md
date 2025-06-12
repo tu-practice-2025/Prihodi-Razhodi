@@ -34,11 +34,11 @@ git fetch origin
 git merge origin/development
 
 ## 6. Реши конфликтите, ако има
-
+```
 git add .
 git commit -m "Development merge, resolved conflicts"
 git push origin yourname/feature-name
-
+```
 ## 7. След одобрение и мърдж:
 
 git checkout development
