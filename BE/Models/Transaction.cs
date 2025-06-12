@@ -12,12 +12,12 @@ namespace SummerPracticeWebApi.Models
         public bool IsIncome { get; set; }
 
         [Required]
-        public string Currency { get; set; }
+        public Currency Currency { get; set; }
 
         [Required]
         [Column(TypeName = "decimal(18,2)")]
         public decimal Amount { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Required]
         public DateTime Date { get; set; }
