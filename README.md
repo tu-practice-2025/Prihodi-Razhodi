@@ -8,7 +8,7 @@ git pull origin development
 git checkout -b yourname/feature-name
 ```
 Пример: ако си Джонката и работиш по login функционалността, бранчът ще е:
-``
+```
 git checkout -b johnkata/login
 ```
 ## 2. Пишем код, когато сме готови - commit-ваме:
