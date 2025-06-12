@@ -39,7 +39,7 @@ git add .
 git commit -m "Development merge, resolved conflicts"
 git push origin yourname/feature-name
 
-##7. След одобрение и мърдж:
+## 7. След одобрение и мърдж:
 
 git checkout development
 git pull origin development
