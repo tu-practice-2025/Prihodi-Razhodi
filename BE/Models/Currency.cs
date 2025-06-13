@@ -2,8 +2,8 @@ namespace SummerPracticeWebApi.Models
 {
     public enum Currency
     {
-        BGN,
-        EURO,
+        BGN = 1,
+        EUR,
         USD,
         GBP
     }

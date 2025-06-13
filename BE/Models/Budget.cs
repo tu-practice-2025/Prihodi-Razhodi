@@ -12,6 +12,7 @@ namespace SummerPracticeWebApi.Models
 
         [Column("amount")]
         public int Amount { get; set; }
+        [Column("currency")]
         public Currency Currency { get; set; }
 
         [Column("is_income")]
