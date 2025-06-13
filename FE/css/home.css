@@ -2,6 +2,7 @@
     width: 50px;
     height: auto;
 }
+
 .navbar-brand {
     font-size: 24px;
     font-weight: bold;
@@ -12,15 +13,31 @@
 .navbar {
     position: sticky;
     top: 0;
-    overflow: hidden;
     background-color: #153b79 !important;
-    z-index: 3;
+    z-index: 1000;
+    padding: 0.5rem 1rem;
 }
-.nav-item {
-    font: size 20px;
+
+.navbar .container-fluid {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
+
+.navbar-nav {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
 .nav-link {
     color: #f0f0f0 !important;
+    font-size: 20px;
+}
+
+.nav-item.dropdown .dropdown-menu {
+    z-index: 9999;
+    position: absolute;
 }
 
 .dashboard {
@@ -113,15 +130,18 @@
     flex-direction: column;
     justify-content: stretch;
 }
+
 .pie-placeholder {
-    height: 900px; /* каквато искаш височина за pie chart блока */
+    height: 900px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 #pieChart {
     height: max-content;
 }
+
 .chart-placeholder {
     height: 300px;
     background: #ffffff;

@@ -7,21 +7,18 @@
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css"
             rel="stylesheet"
-            integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT"
-            crossorigin="anonymous"
         />
         <link rel="stylesheet" href="css/home.css" />
-        <script src="js/home.js"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="js/charts.js"></script>
+        <script src="js/home.js"></script>
     </head>
 
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div
-                class="container-fluid d-flex justify-content-between align-items-center"
-            >
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- Left side: Logo + Brand -->
                 <div class="d-flex align-items-center">
                     <img
                         id="logo"
@@ -31,31 +28,32 @@
                     <a class="navbar-brand" href="#">Expenses Tracker</a>
                 </div>
 
-                <div
-                    class="collapse navbar-collapse"
-                    id="navbarSupportedContent"
-                >
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- Right side: Links -->
+                <div class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a
-                                class="nav-link active home"
+                                class="nav-link active"
                                 aria-current="page"
                                 href="home.html"
                                 >Home</a
                             >
                         </li>
-
                         <li class="nav-item dropdown">
                             <a
                                 class="nav-link dropdown-toggle"
                                 href="#"
+                                id="categoriesDropdown"
                                 role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
                                 Categories
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul
+                                class="dropdown-menu"
+                                aria-labelledby="categoriesDropdown"
+                            >
                                 <li>
                                     <a class="dropdown-item" href="#">Health</a>
                                 </li>
@@ -87,7 +85,6 @@
                                 </li>
                             </ul>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="#">Planning</a>
                         </li>
@@ -95,6 +92,7 @@
                 </div>
             </div>
         </nav>
+
         <div class="dashboard">
             <div class="summary-cards">
                 <div class="card income">
@@ -104,7 +102,6 @@
                         <p>$24.76</p>
                     </div>
                 </div>
-
                 <div class="card expenses">
                     <div class="card-icon">$</div>
                     <div class="card-content">
@@ -112,7 +109,6 @@
                         <p>$18.19</p>
                     </div>
                 </div>
-
                 <div class="card balance">
                     <div class="card-icon">$</div>
                     <div class="card-content">
@@ -135,7 +131,7 @@
                     <div class="quick-access">
                         <h4>Quick access</h4>
                         <div class="button-group">
-                            <button class="">+ New expense</button>
+                            <button>+ New expense</button>
                             <button>View Income</button>
                             <button>View expenses</button>
                         </div>
@@ -153,10 +149,6 @@
             </div>
         </div>
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
-            crossorigin="anonymous"
-        ></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
