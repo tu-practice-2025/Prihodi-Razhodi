@@ -16,5 +16,10 @@ namespace SummerPracticeWebApi.Controllers
         {
             _context = context;
         }
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok();
+        }
     }
 }

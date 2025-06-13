@@ -8,9 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+    options.UseMySQL(
+        builder.Configuration.GetConnectionString("DefaultConnection")
     ));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

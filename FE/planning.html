@@ -26,31 +26,32 @@
                     <a class="navbar-brand" href="#">Expenses Tracker</a>
                 </div>
 
-                <div
-                    class="collapse navbar-collapse"
-                    id="navbarSupportedContent"
-                >
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <!-- Right side: Links -->
+                <div class="collapse navbar-collapse justify-content-end">
+                    <ul class="navbar-nav">
                         <li class="nav-item">
                             <a
-                                class="nav-link active home"
+                                class="nav-link active"
                                 aria-current="page"
                                 href="home.html"
                                 >Home</a
                             >
                         </li>
-
                         <li class="nav-item dropdown">
                             <a
                                 class="nav-link dropdown-toggle"
                                 href="#"
+                                id="categoriesDropdown"
                                 role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false"
                             >
                                 Categories
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul
+                                class="dropdown-menu"
+                                aria-labelledby="categoriesDropdown"
+                            >
                                 <li>
                                     <a class="dropdown-item" href="#">Health</a>
                                 </li>
@@ -82,7 +83,6 @@
                                 </li>
                             </ul>
                         </li>
-
                         <li class="nav-item">
                             <a class="nav-link" href="#">Planning</a>
                         </li>
