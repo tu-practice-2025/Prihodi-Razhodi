@@ -8,6 +8,14 @@
     margin-left: 10px;
     color: #f0f0f0;
 }
+
+.navbar {
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background-color: #153b79 !important;
+    z-index: 3;
+}
 .nav-item {
     font: size 20px;
 }
@@ -15,9 +23,6 @@
     color: #f0f0f0 !important;
 }
 
-.navbar {
-    background-color: #153b79 !important;
-}
 .dashboard {
     display: flex;
     flex-direction: column;
@@ -108,11 +113,19 @@
     flex-direction: column;
     justify-content: stretch;
 }
-
+.pie-placeholder {
+    height: 900px; /* каквато искаш височина за pie chart блока */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#pieChart {
+    height: max-content;
+}
 .chart-placeholder {
     height: 300px;
     background: #ffffff;
-    border: 2px dashed #ccc;
+    border: none;
     border-radius: 10px;
     display: flex;
     align-items: center;

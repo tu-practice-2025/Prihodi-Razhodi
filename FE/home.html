@@ -12,6 +12,9 @@
         />
         <link rel="stylesheet" href="css/home.css" />
         <script src="js/home.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="js/charts.js"></script>
     </head>
 
     <body>
@@ -125,7 +128,7 @@
                         <h4>Income & Expenses</h4>
                         <p class="amount-label">$9,756</p>
                         <div class="chart-placeholder">
-                            [Line Chart Placeholder]
+                            <canvas id="lineChart"></canvas>
                         </div>
                     </div>
 
@@ -142,8 +145,8 @@
                 <div class="right-side">
                     <div class="chart-container full-height">
                         <h4>Expenses by Category</h4>
-                        <div class="chart-placeholder">
-                            [Donut Chart Placeholder]
+                        <div class="chart-placeholder pie-placeholder">
+                            <canvas id="pieChart"></canvas>
                         </div>
                     </div>
                 </div>
