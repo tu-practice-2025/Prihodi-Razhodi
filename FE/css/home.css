@@ -8,16 +8,23 @@
     margin-left: 10px;
     color: #f0f0f0;
 }
+
 .nav-item {
     font: size 20px;
 }
+
 .nav-link {
     color: #f0f0f0 !important;
 }
 
 .navbar {
     background-color: #153b79 !important;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    z-index: 3;
 }
+
 .dashboard {
     display: flex;
     flex-direction: column;
