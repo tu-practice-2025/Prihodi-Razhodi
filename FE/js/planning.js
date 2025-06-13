@@ -25,14 +25,29 @@ document.addEventListener("DOMContentLoaded", function () {
         textSpan.innerHTML = `${type} - ${category}: ${amount} лв <br>Start date: ${start_date}<br>End date: ${end_date}`;
 
         const editButton = document.createElement("button");
-        editButton.innerHTML='✏️</br>Edit';
+        editButton.innerHTML = "✏️</br>Edit";
         editButton.className = "edit-btn";
-        editButton.addEventListener("click", () => editEntry(entry, {
-            amount, category, start_date, end_date, isExpense
-        }));
+        editButton.addEventListener("click", () =>
+            editEntry(entry, {
+                amount,
+                category,
+                date,
+                description,
+                isExpense,
+            })
+        );
+        editButton.addEventListener("click", () =>
+            editEntry(entry, {
+                amount,
+                category,
+                start_date,
+                end_date,
+                isExpense,
+            })
+        );
 
         const deleteButton = document.createElement("button");
-        deleteButton.innerHTML='❌</br>Delete';
+        deleteButton.innerHTML = "❌</br>Delete";
         deleteButton.className = "delete-btn";
         deleteButton.addEventListener("click", () => entry.remove());
 
