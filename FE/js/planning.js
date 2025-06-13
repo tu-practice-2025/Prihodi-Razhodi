@@ -25,14 +25,20 @@ document.addEventListener("DOMContentLoaded", function () {
         textSpan.textContent = `${type}: ${amount} лв – ${category} – ${description} (${date})`;
 
         const editButton = document.createElement("button");
-        editButton.innerHTML='✏️</br>Edit';
+        editButton.innerHTML = "✏️</br>Edit";
         editButton.className = "edit-btn";
-        editButton.addEventListener("click", () => editEntry(entry, {
-            amount, category, date, description, isExpense
-        }));
+        editButton.addEventListener("click", () =>
+            editEntry(entry, {
+                amount,
+                category,
+                date,
+                description,
+                isExpense,
+            })
+        );
 
         const deleteButton = document.createElement("button");
-        deleteButton.innerHTML='❌</br>Delete';
+        deleteButton.innerHTML = "❌</br>Delete";
         deleteButton.className = "delete-btn";
         deleteButton.addEventListener("click", () => entry.remove());
 

@@ -9,9 +9,20 @@
     margin-left: 10px;
     color: #f0f0f0;
 }
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+body {
+    padding-top: 62px;
+}
 
 .navbar {
-    position: sticky;
+    position: static;
     top: 0;
     background-color: #153b79 !important;
     z-index: 1000;
