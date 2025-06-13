@@ -17,6 +17,8 @@ namespace SummerPracticeWebApi.Controllers
             _context = context;
         }
 
+
+        // Budget post api
         [HttpPost]
         public async Task<IActionResult> AddBudget([FromBody] PlanningBudgetDto dto)
         {
@@ -35,6 +37,26 @@ namespace SummerPracticeWebApi.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
+        }
+
+        // Budget get api, search by id
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetBudgetsByUser(int userId)
+        {
+            var budgets = await _context.Budgets
+                .Where(b => b.UserId == userId)
+                .Select(b => new
+                {
+                    b.Amount,
+                    Currency = ((Currency)b.Currency).ToString(),
+                    b.IsIncome,
+                    StartDate = b.StartDate.ToString("yyyy-MM-dd"),
+                    EndDate = b.EndDate.ToString("yyyy-MM-dd"),
+                    b.CategoryCode
+                })
+                .ToListAsync();
+
+            return Ok(budgets);
         }
     }
 }
