@@ -6,7 +6,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-left: 10px;
-    color: #771919;
+    color: #f0f0f0;
 }
 .nav-item {
     font: size 20px;
@@ -17,4 +17,141 @@
 
 .navbar {
     background-color: #153b79 !important;
+}
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+}
+
+.summary-cards {
+    display: flex;
+    gap: 1rem;
+}
+
+.card {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    background: #dff6fa;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.card-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.card.income .card-icon {
+    background-color: #0d9488;
+}
+
+.card.expenses .card-icon {
+    background-color: #dc2626;
+}
+
+.card.balance .card-icon {
+    background-color: #2563eb;
+}
+
+.card-content h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    flex-grow: 4;
+}
+
+.card-content p {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    align-items: stretch;
+}
+
+.left-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container {
+    background: #e6f8fd;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.full-height {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+.chart-placeholder {
+    height: 300px;
+    background: #ffffff;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+.amount-label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.quick-access {
+    background: #dff6fa;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+.quick-access h4 {
+    margin-bottom: 1rem;
+}
+
+.button-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.button-group button {
+    background: #083d77;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.button-group button:hover {
+    background: #135378;
 }
