@@ -7,11 +7,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const amount = document.getElementById("amount").value.trim();
         const category = document.getElementById("category").value;
-        const date = document.getElementById("date").value;
-        const description = document.getElementById("description").value.trim();
+        const start_date = document.getElementById("date").value;
+        const end_date = document.getElementById("date").value;
         const isExpense = document.getElementById("entryToggle").checked;
 
-        if (!amount || !category || !date || !description) {
+        if (!amount || !category || !start_date || !end_date) {
             alert("Моля, попълнете всички полета.");
             return;
         }
@@ -22,13 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
         entry.classList.add(isExpense ? "expense-entry" : "income-entry");
 
         const textSpan = document.createElement("span");
-        textSpan.textContent = `${type}: ${amount} лв – ${category} – ${description} (${date})`;
+        textSpan.innerHTML = `${type} - ${category}: ${amount} лв <br>Start date: ${start_date}<br>End date: ${end_date}`;
 
         const editButton = document.createElement("button");
         editButton.innerHTML='✏️</br>Edit';
         editButton.className = "edit-btn";
         editButton.addEventListener("click", () => editEntry(entry, {
-            amount, category, date, description, isExpense
+            amount, category, start_date, end_date, isExpense
         }));
 
         const deleteButton = document.createElement("button");
@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Попълваме формата с данните на записа
         document.getElementById("amount").value = data.amount;
         document.getElementById("category").value = data.category;
-        document.getElementById("date").value = data.date;
-        document.getElementById("description").value = data.description;
+        document.getElementById("start_date").value = data.date;
+        document.getElementById("end").value = data.date;
         document.getElementById("entryToggle").checked = data.isExpense;
 
         // Премахваме стария елемент
