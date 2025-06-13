@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/Categories.css">
+    <title>Expense Tracker</title>
+    <script src="/js/Categories.js"></script>
+</head>
+<body>
+    <main>
+        <section class="enter-data">
+            <h2>Enter Data</h2>
+            <input type="number" id="amount" placeholder="$0.00">
+            <select id="category">
+                <option value="">Category</option>
+                <option value="income">Food</option>
+                <option value="expense">Transport</option>
+                <option value="planned-income">Household</option>
+                <option value="planned-expense">Health</option>
+                <option value="planned-expense">Education</option>
+                <option value="planned-expense">Beauty</option>
+                <option value="planned-expense">Lifestyle</option>
+            </select>
+            <input type="date" id="date">
+            <input type="text" id="description" placeholder="Description">
+            <button onclick="addEntry()">Enter</button>
+        </section>
+
+        <section class="recent-entries">
+            <h2>Recent Entries</h2>
+            <ul id="entriesList">
+                <!-- JS results -->
+            </ul>
+        </section>
+    </main>
+</body>
+</html>
