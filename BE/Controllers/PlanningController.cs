@@ -58,5 +58,36 @@ namespace SummerPracticeWebApi.Controllers
 
             return Ok(budgets);
         }
+
+        // Budget put api, edit by id
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBudget(int id, [FromBody] PlanningBudgetDto dto)
+        {
+            var budget = await _context.Budgets.FindAsync(id);
+            if (budget == null) return NotFound();
+
+            budget.Amount = dto.Amount;
+            budget.Currency = dto.Currency;
+            budget.IsIncome = dto.IsIncome;
+            budget.StartDate = dto.StartDate;
+            budget.EndDate = dto.EndDate;
+            budget.CategoryCode = dto.CategoryCode;
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
+        // Budget delete api, delete by id
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBudget(int id)
+        {
+            var budget = await _context.Budgets.FindAsync(id);
+            if (budget == null) return NotFound();
+
+            _context.Budgets.Remove(budget);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
     }
 }
