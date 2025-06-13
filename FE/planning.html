@@ -10,13 +10,12 @@
             crossorigin="anonymous"
         />
         <title>Planning</title>
-        <script defer src="/js/planning.js"></script>
+        <script defer src="./js/planning.js"></script>
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div
-                class="container-fluid d-flex justify-content-between align-items-center"
-            >
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <!-- Left side: Logo + Brand -->
                 <div class="d-flex align-items-center">
                     <img
                         id="logo"
@@ -103,6 +102,14 @@
                     required
                 />
 
+                <select id="currency" name="currency" required>
+                    <option value="">Currency</option>
+                    <option>BGN</option>
+                    <option>EUR</option>
+                    <option>USD</option>
+                    <option>GBP</option>
+                </select>
+
                 <select id="category" name="category" required>
                     <option value="">Category</option>
                     <option>Food</option>
@@ -125,14 +132,11 @@
                     <span class="toggle-label">Разход</span>
                 </div>
 
-                <input type="date" id="date" name="date" required />
-                <input
-                    type="text"
-                    id="description"
-                    name="description"
-                    placeholder="Description"
-                    required
-                />
+                <span><b>Start date</b></span>
+                <input type="date" id="date" name="start_date" required>
+                
+                <span><b>End date</b></span>
+                <input type="date" id="date" name="end_date" required>
 
                 <button type="submit">Enter</button>
             </form>
