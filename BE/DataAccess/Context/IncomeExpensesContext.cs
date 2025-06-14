@@ -5,7 +5,7 @@ using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.DataAccess.Context;
 
-public partial class IncomeExpensesContext : DbContext
+public class IncomeExpensesContext : DbContext
 {
     public IncomeExpensesContext()
     {
@@ -55,6 +55,9 @@ public partial class IncomeExpensesContext : DbContext
                 .HasDefaultValueSql("'BGN'")
                 .HasColumnType("enum('BGN','EUR','USD','GBP')")
                 .HasColumnName("currency");
+            entity.Property(e => e.Description)
+                .HasMaxLength(255)
+                .HasColumnName("description");
             entity.Property(e => e.Iban)
                 .HasMaxLength(34)
                 .HasColumnName("iban");
@@ -83,13 +86,7 @@ public partial class IncomeExpensesContext : DbContext
             entity.Property(e => e.Currency)
                 .HasColumnType("enum('BGN','EUR','USD','GBP')")
                 .HasColumnName("currency");
-            entity.Property(e => e.EndDate)
-                .HasColumnType("date")
-                .HasColumnName("end_date");
-            entity.Property(e => e.IsIncome).HasColumnName("is_income");
-            entity.Property(e => e.StartDate)
-                .HasColumnType("date")
-                .HasColumnName("start_date");
+            entity.Property(e => e.Month).HasColumnName("month");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.CategoryCodeNavigation).WithMany(p => p.Budgets)
@@ -304,9 +301,5 @@ public partial class IncomeExpensesContext : DbContext
                 .HasColumnName("middle_name");
             entity.Property(e => e.Username).HasColumnName("username");
         });
-
-        OnModelCreatingPartial(modelBuilder);
     }
-
-    partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

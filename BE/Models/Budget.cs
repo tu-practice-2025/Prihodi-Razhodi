@@ -1,5 +1,4 @@
-﻿using SummerPracticeWebApi.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace SummerPracticeWebApi.Models;
@@ -10,17 +9,13 @@ public class Budget
 
     public uint Amount { get; set; }
 
-    public Currency Currency { get; set; }
-
-    public bool IsIncome { get; set; }
-
-    public DateTime StartDate { get; set; }
-
-    public DateTime EndDate { get; set; }
+    public string Currency { get; set; } = null!;
 
     public uint UserId { get; set; }
 
     public string? CategoryCode { get; set; }
+
+    public byte? Month { get; set; }
 
     public virtual Category? CategoryCodeNavigation { get; set; }
 
