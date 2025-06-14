@@ -9,11 +9,11 @@ namespace SummerPracticeWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PlanningController : ControllerBase
+    public class BudgetController : ControllerBase
     {
         private readonly IncomeExpensesContext _context;
 
-        public PlanningController(IncomeExpensesContext context)
+        public BudgetController(IncomeExpensesContext context)
         {
             _context = context;
         }
@@ -21,7 +21,7 @@ namespace SummerPracticeWebApi.Controllers
 
         // Budget post api
         [HttpPost]
-        public async Task<IActionResult> AddBudget([FromBody] PlanningBudgetDto dto)
+        public async Task<IActionResult> AddBudget([FromBody] BudgetDto dto)
         {
             var budget = new Budget
             {
@@ -62,7 +62,7 @@ namespace SummerPracticeWebApi.Controllers
 
         // Budget put api, edit by id
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBudget(int id, [FromBody] PlanningBudgetDto dto)
+        public async Task<IActionResult> UpdateBudget(int id, [FromBody] BudgetDto dto)
         {
             var budget = await _context.Budgets.FindAsync(id);
             if (budget == null) return NotFound();
