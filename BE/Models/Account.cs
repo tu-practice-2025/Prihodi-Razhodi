@@ -17,6 +17,8 @@ public class Account
 
     public uint UserId { get; set; }
 
+    public string? Description { get; set; }
+
     public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 
     public virtual ICollection<Operation> Operations { get; set; } = new List<Operation>();
