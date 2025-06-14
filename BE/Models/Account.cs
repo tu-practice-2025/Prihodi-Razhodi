@@ -13,8 +13,6 @@ public class Account
 
     public string Currency { get; set; } = null!;
 
-    public string Description { get; set; }
-
     public uint UserId { get; set; }
 
     public string? Description { get; set; }

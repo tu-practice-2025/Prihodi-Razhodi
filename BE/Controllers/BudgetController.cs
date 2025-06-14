@@ -27,9 +27,7 @@ namespace SummerPracticeWebApi.Controllers
             {
                 Amount = dto.Amount,
                 Currency = dto.Currency,
-                IsIncome = dto.IsIncome,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
+                Month = dto.Month,
                 CategoryCode = dto.CategoryCode,
                 UserId = dto.UserId,
             };
@@ -46,15 +44,6 @@ namespace SummerPracticeWebApi.Controllers
         {
             var budgets = await _context.Budgets
                 .Where(b => b.UserId == userId)
-                .Select(b => new
-                {
-                    b.Amount,
-                    Currency = ((Currency)b.Currency).ToString(),
-                    b.IsIncome,
-                    StartDate = b.StartDate.ToString("yyyy-MM-dd"),
-                    EndDate = b.EndDate.ToString("yyyy-MM-dd"),
-                    b.CategoryCode
-                })
                 .ToListAsync();
 
             return Ok(budgets);
@@ -69,9 +58,7 @@ namespace SummerPracticeWebApi.Controllers
 
             budget.Amount = dto.Amount;
             budget.Currency = dto.Currency;
-            budget.IsIncome = dto.IsIncome;
-            budget.StartDate = dto.StartDate;
-            budget.EndDate = dto.EndDate;
+            budget.Month = dto.Month;
             budget.CategoryCode = dto.CategoryCode;
 
             await _context.SaveChangesAsync();
