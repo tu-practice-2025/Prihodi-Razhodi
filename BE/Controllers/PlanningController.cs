@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Enums;
 using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Controllers
@@ -10,9 +11,9 @@ namespace SummerPracticeWebApi.Controllers
     [ApiController]
     public class PlanningController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IncomeExpensesContext _context;
 
-        public PlanningController(AppDbContext context)
+        public PlanningController(IncomeExpensesContext context)
         {
             _context = context;
         }

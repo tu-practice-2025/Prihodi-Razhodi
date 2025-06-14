@@ -1,34 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using SummerPracticeWebApi.Enums;
+using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class Budget
 {
-    [Table("budgets")]
-    public class Budget
-    {
-        [Key]
-        [Column("id")]
-        public int Id { get; set; }
+    public uint Id { get; set; }
 
-        [Column("amount")]
-        public int Amount { get; set; }
-        [Column("currency")]
-        public Currency Currency { get; set; }
+    public uint Amount { get; set; }
 
-        [Column("is_income")]
-        public bool IsIncome { get; set; }
+    public Currency Currency { get; set; }
 
-        [Column("start_date")]
-        public DateTime StartDate { get; set; }
-        [Column("end_date")]
-        public DateTime EndDate { get; set; }
+    public bool IsIncome { get; set; }
 
-        [Column("user_id")]
-        public int UserId { get; set; }
-        public User User { get; set; }
+    public DateTime StartDate { get; set; }
 
-        [Column("category_code")]
-        public string CategoryCode { get; set; }
-        public Category Category { get; set; }
-    }
+    public DateTime EndDate { get; set; }
+
+    public uint UserId { get; set; }
+
+    public string? CategoryCode { get; set; }
+
+    public virtual Category? CategoryCodeNavigation { get; set; }
+
+    public virtual User User { get; set; } = null!;
 }

@@ -1,30 +1,23 @@
-using SummerPracticeWebApi.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class Account
 {
-    [Table("accounts")]
-    public class Account
-    {
-        [Key]
-        public int Id { get; set; }
+    public uint Id { get; set; }
 
-        [Required]
-        public string IBAN { get; set; }
+    public string Iban { get; set; } = null!;
 
-        [Required]
-        public decimal Balance { get; set; }
+    public decimal Balance { get; set; }
 
-        [Required]
-        public Currency Currency { get; set; }
+    public string Currency { get; set; } = null!;
 
+    public uint UserId { get; set; }
 
-        public int UserId { get; set; }
-        public User User { get; set; }
+    public virtual ICollection<Card> Cards { get; set; } = new List<Card>();
 
-        public ICollection<Card> Cards { get; set; }
-        public ICollection<Expense> Expenses { get; set; }
-        public ICollection<Income> Incomes { get; set; }
-    }
+    public virtual ICollection<Operation> Operations { get; set; } = new List<Operation>();
+
+    public virtual User User { get; set; } = null!;
 }

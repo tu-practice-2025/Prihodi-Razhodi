@@ -1,31 +1,23 @@
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Transactions;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class User
 {
+    public uint Id { get; set; }
 
-    [Index(nameof(Username), IsUnique = true)]
-    [Index(nameof(EGN), IsUnique = true)]
-    [Table("users")]
-    public class User
-    {
-        [Key]
-        public int Id { get; set; }
-        [Required]
-        public required string Username { get; set; }
-        [Required]
-        public string FirstName { get; set; } = string.Empty;
-        [Required]
-        public string MiddleName { get; set; }
-        [Required]
-        public required string LastName { get; set; }
-        [Required]
-        public required string EGN { get; set; }
+    public string Username { get; set; } = null!;
 
+    public string FirstName { get; set; } = null!;
 
-        public ICollection<Account> Accounts { get; set; }
-        public ICollection<Budget> Budgets { get; set; }
-    }
+    public string MiddleName { get; set; } = null!;
+
+    public string LastName { get; set; } = null!;
+
+    public string Egn { get; set; } = null!;
+
+    public virtual ICollection<Account> Accounts { get; set; } = new List<Account>();
+
+    public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
 }

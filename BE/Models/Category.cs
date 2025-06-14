@@ -1,21 +1,19 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Transactions;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class Category
 {
-    [Table("categories")]
-    public class Category
-    {
-        [Key]
-        [StringLength(4)]
-        public string Code { get; set; }
+    public string Code { get; set; } = null!;
 
-        public string Description { get; set; }
+    public string? Description { get; set; }
 
-        public ICollection<Budget> Budgets { get; set; }
-        public ICollection<TrnCode> TrnCodes { get; set; }
-        public ICollection<MccCode> MccCodes { get; set; }
-        public ICollection<Expense> Expenses { get; set; }
-    }
+    public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
+
+    public virtual ICollection<MccCode> MccCodes { get; set; } = new List<MccCode>();
+
+    public virtual ICollection<Operation> Operations { get; set; } = new List<Operation>();
+
+    public virtual ICollection<TrnCode> TrnCodes { get; set; } = new List<TrnCode>();
 }

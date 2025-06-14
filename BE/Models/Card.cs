@@ -1,22 +1,21 @@
-using SummerPracticeWebApi.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class Card
 {
-    [Table("cards")]
-    public class Card
-    {
-        [Key]
-        public int Id { get; set; }
+    public uint Id { get; set; }
 
-        [StringLength(16)]
-        public string CardNumber { get; set; }
+    public string CardNumber { get; set; } = null!;
 
-        public string CardHolder { get; set; }
-        public DateTime Validity { get; set; }
+    public string CardHolder { get; set; } = null!;
 
-        public int AccountId { get; set; }
-        public Account Account { get; set; }
-    }
+    public DateTime Validity { get; set; }
+
+    public uint AccountId { get; set; }
+
+    public virtual Account Account { get; set; } = null!;
+
+    public virtual ICollection<Operation> Operations { get; set; } = new List<Operation>();
 }
