@@ -7,9 +7,7 @@ namespace SummerPracticeWebApi.Models
     {
         public uint Amount { get; set; }
         public Currency Currency { get; set; }
-        public bool IsIncome { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public byte Month { get; set; }
         public string CategoryCode { get; set; }
         public uint UserId { get; set; }
     }
