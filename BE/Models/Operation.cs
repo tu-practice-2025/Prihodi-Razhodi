@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SummerPracticeWebApi.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace SummerPracticeWebApi.Models;
@@ -11,9 +12,9 @@ public class Operation
 
     public decimal AmountFcy { get; set; }
 
-    public string LocalCurrency { get; set; } = null!;
+    public Currency LocalCurrency { get; set; }
 
-    public string ForeignCurrency { get; set; } = null!;
+    public Currency ForeignCurrency { get; set; }
 
     public DateTime DateTime { get; set; }
 
