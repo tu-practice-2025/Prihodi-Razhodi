@@ -3,7 +3,7 @@ using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Models
 {
-    public class PlanningBudgetDto
+    public class BudgetDto
     {
         public uint Amount { get; set; }
         public Currency Currency { get; set; }
