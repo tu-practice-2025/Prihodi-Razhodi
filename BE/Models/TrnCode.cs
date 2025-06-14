@@ -1,22 +1,17 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Transactions;
+﻿using System;
+using System.Collections.Generic;
 
-namespace SummerPracticeWebApi.Models
+namespace SummerPracticeWebApi.Models;
+
+public class TrnCode
 {
-    [Table("trn_codes")]
-    public class TrnCode
-    {
-        [Key]
-        [StringLength(3)]
-        public string Code { get; set; }
+    public string Code { get; set; } = null!;
 
-        public string TrnDesc { get; set; }
+    public string TrnDescription { get; set; } = null!;
 
-        public string CategoryCode { get; set; }
-        public Category Category { get; set; }
+    public string CategoryCode { get; set; } = null!;
 
-        public ICollection<Expense> Expenses { get; set; }
-        public ICollection<Income> Incomes { get; set; }
-    }
+    public virtual Category CategoryCodeNavigation { get; set; } = null!;
+
+    public virtual ICollection<Operation> Operations { get; set; } = new List<Operation>();
 }
