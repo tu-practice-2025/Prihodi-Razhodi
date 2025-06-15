@@ -15,7 +15,8 @@ namespace SummerPracticeWebApi.Dtos
         public string OwnName { get; set; }
         public string OtherIban { get; set; }
         public string OtherName { get; set; }
-        public string Category { get; set; }
+        public string CategoryCode { get; set; }
+        public string CategoryDescription { get; set; }
         public bool IsExpense { get; set; }
         public string CardNumber { get; set; }
         public string AccountDescription { get; set; }
