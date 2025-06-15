@@ -16,7 +16,7 @@ public class Budget
 
     public string? CategoryCode { get; set; }
 
-    public byte? Month { get; set; }
+    public byte Month { get; set; }
 
     public virtual Category? CategoryCodeNavigation { get; set; }
 

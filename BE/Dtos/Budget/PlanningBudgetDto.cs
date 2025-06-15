@@ -3,7 +3,7 @@ using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Models
 {
-    public class BudgetDto
+    public class PlanningBudgetDto
     {
         public uint Amount { get; set; }
         public uint UserId { get; set; }

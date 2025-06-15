@@ -1,11 +1,12 @@
-﻿using SummerPracticeWebApi.Dtos.User;
+﻿using SummerPracticeWebApi.Dtos;
+using SummerPracticeWebApi.Dtos.User;
 using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Mappers
 {
     public class UserMapper
     {
-        public static User MapToModel(UserDto UserDto)
+        public static User MapLoginDtoToModel(LoginUserDto UserDto)
         {
             return new User
             {
@@ -13,7 +14,7 @@ namespace SummerPracticeWebApi.Mappers
             };
         }
 
-        public static UserDto MapToDto(User User)
+        public static UserDto MapToUserDto(User User)
         {
             return new UserDto
             {
