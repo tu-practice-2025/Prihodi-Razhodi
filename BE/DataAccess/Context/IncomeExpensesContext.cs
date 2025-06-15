@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.Models;
+using SummerPracticeWebApi.Enums;
 
 namespace SummerPracticeWebApi.DataAccess.Context;
 
@@ -52,7 +53,7 @@ public class IncomeExpensesContext : DbContext
                 .HasPrecision(15)
                 .HasColumnName("balance");
             entity.Property(e => e.Currency)
-                .HasDefaultValueSql("'BGN'")
+                .HasConversion<string>()
                 .HasColumnType("enum('BGN','EUR','USD','GBP')")
                 .HasColumnName("currency");
             entity.Property(e => e.Description)
