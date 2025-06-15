@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SummerPracticeWebApi.Services.Implementations;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Controllers
@@ -13,12 +12,6 @@ namespace SummerPracticeWebApi.Controllers
         public OperationController(IOperationService operationService)
         {
             _operationService = operationService;
-        }
-
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetOperationsById(uint userId)
-        {
-            return Ok(await _operationService.GetOperationsByUserId(userId));
         }
 
         [HttpGet]
