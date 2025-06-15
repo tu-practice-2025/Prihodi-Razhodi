@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SummerPracticeWebApi.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace SummerPracticeWebApi.Models;
@@ -11,7 +12,7 @@ public class Account
 
     public decimal Balance { get; set; }
 
-    public string Currency { get; set; } = null!;
+    public Currency Currency { get; set; }
 
     public uint UserId { get; set; }
 
