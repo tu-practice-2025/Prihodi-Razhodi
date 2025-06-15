@@ -1,6 +1,8 @@
 using SummerPracticeWebApi.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
+using SummerPracticeWebApi.Services.Implementations;
+using SummerPracticeWebApi.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddDbContext<IncomeExpensesContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("DefaultConnection")
     ));
+
+builder.Services.AddScoped<IOperationService, OperationService>();
 
 // OpenAPI configuration
 builder.Services.AddOpenApi();

@@ -15,16 +15,18 @@ namespace SummerPracticeWebApi.Mappers
                 LocalCurrency = Operation.LocalCurrency,
                 ForeignCurrency = Operation.ForeignCurrency,
                 DateTime = Operation.DateTime,
-                Description = Operation.Description,
-                OwnIban = Operation.OwnIban,
-                OwnName = Operation.OwnName,
-                OtherIban = Operation.OtherIban,
-                OtherName = Operation.OtherName,
-                CategoryCode = Operation.CategoryCode,
-                CategoryDescription = Operation.CategoryCodeNavigation.Description,
+                Description = Operation.Description ?? "No Desctiption",
+                OwnIban = Operation.OwnIban ?? "No Own IBAN",
+                OwnName = Operation.OwnName ?? "No Own Name",
+                OtherIban = Operation.OtherIban ?? "No Other IBAN",
+                OtherName = Operation.OtherName ?? "No Other Name",
+                CategoryCode = Operation.CategoryCode ?? "No Category",
+                CategoryDescription = Operation.CategoryCodeNavigation?.Description ?? "No Description",
                 IsExpense = Operation.IsExpense,
-                CardNumber = Operation.Card.CardNumber.Substring(12),
-                AccountDescription = Operation.Acc.Description
+                CardNumber = Operation.Card?.CardNumber != null
+                    ? Operation.Card.CardNumber.Substring(12)
+                    : "NoCard",
+                AccountDescription = Operation.Acc.Description ?? "No Description"
             };
         }
     }
