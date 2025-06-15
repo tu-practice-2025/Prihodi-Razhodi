@@ -1,4 +1,4 @@
-﻿using SummerPracticeWebApi.Dtos;
+﻿using SummerPracticeWebApi.Dtos.User;
 using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Mappers
