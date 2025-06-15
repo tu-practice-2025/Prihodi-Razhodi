@@ -2,7 +2,6 @@
 using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Mappers;
-using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations

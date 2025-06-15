@@ -19,6 +19,7 @@ builder.Services.AddDbContext<IncomeExpensesContext>(options =>
     ));
 
 builder.Services.AddScoped<IOperationService, OperationService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 
 // OpenAPI configuration
 builder.Services.AddOpenApi();
