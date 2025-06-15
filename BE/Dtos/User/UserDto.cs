@@ -1,4 +1,4 @@
-﻿namespace SummerPracticeWebApi.Dtos
+﻿namespace SummerPracticeWebApi.Dtos.User
 {
     public class UserDto
     {
