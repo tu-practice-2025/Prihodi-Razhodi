@@ -15,6 +15,13 @@ namespace SummerPracticeWebApi.Controllers
             _categoryService = categoryService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCategories()
+        {
+            var result = await _categoryService.GetAllCategories();
+            return Ok(result);
+        }
+
         // GET: /api/Category/{userId}/spending
         [HttpGet("{userId}/spending")]
         public async Task<IActionResult> GetSpendingByCategory(uint userId, [FromQuery] byte month, [FromQuery] uint year)

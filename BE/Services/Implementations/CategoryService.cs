@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Dtos;
+using SummerPracticeWebApi.Mappers;
 using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
@@ -14,6 +15,12 @@ namespace SummerPracticeWebApi.Services.Implementations
         public CategoryService(IncomeExpensesContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<CategoryDto>> GetAllCategories()
+        {
+            var categories = await _context.Categories.ToListAsync();
+            return categories.Select(CategoryMapper.MapToDto);
         }
 
         public async Task<List<CategorySpendingDto>> GetUserSpendingsByCategoryAsync(uint userId, byte month, uint year)
@@ -56,6 +63,5 @@ namespace SummerPracticeWebApi.Services.Implementations
                 .Take(10)
                 .ToListAsync();
         }
-
     }
 }
