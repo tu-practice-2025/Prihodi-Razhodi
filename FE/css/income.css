@@ -1,72 +1,15 @@
-/* Additional styles for the income page – UniCredit Bulbank theme */
-
-.table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #ffffff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
+/* Additional styles for the income page */
 
 .table th,
 .table td {
     vertical-align: middle;
-    padding: 12px 16px;
-    border: 1px solid #dee2e6;
-    font-size: 16px;
-}
-
-.table th {
-    background-color: #e2001a; /* UniCredit red */
-    color: #ffffff;
-    text-align: center;
-}
-
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: #f9f9f9;
-}
-
-.table-hover tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-.card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-    background-color: #ffffff;
 }
 
 .card-header {
-    background-color: #e2001a; /* red header */
-    color: #ffffff;
+    background-color: #e9f7fc;
     font-weight: bold;
-    font-size: 18px;
-    padding: 12px 20px;
-}
-
-.card-body {
-    padding: 20px;
 }
 
 .text-center {
     text-align: center;
-}
-
-.text-red {
-    color: #e2001a;
-}
-
-.btn-primary {
-    background-color: #e2001a;
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-}
-
-.btn-primary:hover {
-    background-color: #c00016;
 }
