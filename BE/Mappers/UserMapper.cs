@@ -10,7 +10,7 @@ namespace SummerPracticeWebApi.Mappers
         {
             return new User
             {
-                Username = UserDto.Username
+                Email = UserDto.Email
             };
         }
 
@@ -19,7 +19,7 @@ namespace SummerPracticeWebApi.Mappers
             return new UserDto
             {
                 Id = User.Id,
-                Username = User.Username,
+                Email = User.Email,
                 FirstName = User.FirstName,
                 MiddleName = User.MiddleName,
                 LastName = User.LastName,
