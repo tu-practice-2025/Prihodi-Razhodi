@@ -19,7 +19,7 @@ namespace SummerPracticeWebApi.Services.Implementations
         public async Task<UserDto> GetUserByUsername(LoginUserDto loginUserDto)
         {
             var user = await _context.Users
-                .SingleOrDefaultAsync(user => user.Username == loginUserDto.Username);
+                .SingleOrDefaultAsync(user => user.Email == loginUserDto.Email);
 
             return user != null ? UserMapper.MapToUserDto(user) : null;
         }

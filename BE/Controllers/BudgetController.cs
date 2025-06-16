@@ -1,82 +1,53 @@
-﻿//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using SummerPracticeWebApi.DataAccess.Context;
-//using SummerPracticeWebApi.Dtos.Budget;
-//using SummerPracticeWebApi.Enums;
-//using SummerPracticeWebApi.Models;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Dtos.Budget;
+using SummerPracticeWebApi.Enums;
+using SummerPracticeWebApi.Models;
+using SummerPracticeWebApi.Services.Interfaces;
 
-//namespace SummerPracticeWebApi.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class BudgetController : ControllerBase
-//    {
-//        private readonly IncomeExpensesContext _context;
+namespace SummerPracticeWebApi.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class BudgetController : ControllerBase
+    {
+        private readonly IBudgetService _budgetService;
 
-//        public BudgetController(IncomeExpensesContext context)
-//        {
-//            _context = context;
-//        }
+        public BudgetController(IBudgetService budgetService)
+        {
+            _budgetService = budgetService;
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> AddBudget([FromBody] PlanningBudgetDto dto)
+        {
+            await _budgetService.AddBudgetAsync(dto);
+            return Ok();
+        }
 
-//        // Budget post api
-//        [HttpPost]
-//        public async Task<IActionResult> AddBudget([FromBody] BudgetDto dto)
-//        {
-//            var budget = new Budget
-//            {
-//                Amount = dto.Amount,
-//                Currency = dto.Currency,
-//                Month = dto.Month,
-//                CategoryCode = dto.CategoryCode,
-//                UserId = dto.UserId,
-//            };
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetBudgetsByUser(uint userId)
+        {
+            var budgets = await _budgetService.GetBudgetsByUserAsync(userId);
+            return Ok(budgets);
+        }
 
-//            _context.Budgets.Add(budget);
-//            await _context.SaveChangesAsync();
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateBudget(uint id, [FromBody] PlanningBudgetDto dto)
+        {
+            var success = await _budgetService.UpdateBudgetAsync(id, dto);
+            if (!success) return NotFound();
+            return Ok();
+        }
 
-//            return Ok();
-//        }
-
-//        // Budget get api, search by id
-//        [HttpGet("{userId}")]
-//        public async Task<IActionResult> GetBudgetsByUser(int userId)
-//        {
-//            var budgets = await _context.Budgets
-//                .Where(b => b.UserId == userId)
-//                .ToListAsync();
-
-//            return Ok(budgets);
-//        }
-
-//        // Budget put api, edit by id
-//        [HttpPut("{id}")]
-//        public async Task<IActionResult> UpdateBudget(int id, [FromBody] BudgetDto dto)
-//        {
-//            var budget = await _context.Budgets.FindAsync(id);
-//            if (budget == null) return NotFound();
-
-//            budget.Amount = dto.Amount;
-//            budget.Currency = dto.Currency;
-//            budget.Month = dto.Month;
-//            budget.CategoryCode = dto.CategoryCode;
-
-//            await _context.SaveChangesAsync();
-//            return Ok();
-//        }
-
-//        // Budget delete api, delete by id
-//        [HttpDelete("{id}")]
-//        public async Task<IActionResult> DeleteBudget(int id)
-//        {
-//            var budget = await _context.Budgets.FindAsync(id);
-//            if (budget == null) return NotFound();
-
-//            _context.Budgets.Remove(budget);
-//            await _context.SaveChangesAsync();
-
-//            return Ok();
-//        }
-//    }
-//}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteBudget(uint id)
+        {
+            var success = await _budgetService.DeleteBudgetAsync(id);
+            if (!success) return NotFound();
+            return Ok();
+        }
+    }
+}
