@@ -88,6 +88,7 @@ public class IncomeExpensesContext : DbContext
                 .HasColumnType("enum('BGN','EUR','USD','GBP')")
                 .HasColumnName("currency");
             entity.Property(e => e.Month).HasColumnName("month");
+            entity.Property(e => e.Year).HasColumnName("year");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.CategoryCodeNavigation).WithMany(p => p.Budgets)
@@ -285,7 +286,7 @@ public class IncomeExpensesContext : DbContext
 
             entity.HasIndex(e => e.Egn, "egn").IsUnique();
 
-            entity.HasIndex(e => e.Username, "username").IsUnique();
+            entity.HasIndex(e => e.Email, "email").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Egn)
@@ -300,7 +301,7 @@ public class IncomeExpensesContext : DbContext
             entity.Property(e => e.MiddleName)
                 .HasMaxLength(63)
                 .HasColumnName("middle_name");
-            entity.Property(e => e.Username).HasColumnName("username");
+            entity.Property(e => e.Email).HasColumnName("email");
         });
     }
 }

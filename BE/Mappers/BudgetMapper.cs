@@ -13,6 +13,7 @@ namespace SummerPracticeWebApi.Mappers
                 Amount = Budget.Amount,
                 Currency = Budget.Currency,
                 Month = Budget.Month,
+                Year = Budget.Year,
                 CategoryDescription = Budget.CategoryCodeNavigation?.Description ?? "No Description",
                 UserId = Budget.UserId
             };
@@ -25,7 +26,8 @@ namespace SummerPracticeWebApi.Mappers
                 Amount = planningBudgetDto.Amount,
                 UserId = planningBudgetDto.UserId,
                 CategoryCode = planningBudgetDto.CategoryCode,
-                Month = planningBudgetDto.Month
+                Month = planningBudgetDto.Month,
+                Year = planningBudgetDto.Year
             };
         }
     }
