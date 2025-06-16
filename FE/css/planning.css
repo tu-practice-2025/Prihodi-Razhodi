@@ -1,42 +1,9 @@
-#logo {
-    width: 50px;
-    height: auto;
-}
-
-.navbar-brand {
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 10px;
-    color: #f0f0f0 !important;
-}
-
-.navbar {
-    position: sticky;
+.header {
+    position: fixed;
     top: 0;
-    background-color: #153b79 !important;
-    z-index: 1000;
-    padding: 0.5rem 1rem;
-}
-
-.navbar .container-fluid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-nav {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-.nav-link {
-    color: #f0f0f0 !important;
-    font-size: 20px;
-}
-
-.nav-item.dropdown .dropdown-menu {
-    z-index: 9999;
-    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 100;
 }
 
 body {
@@ -69,7 +36,7 @@ h2 {
 }
 
 input[type="number"],
-input[type="date"],
+input[type="month"],
 input[type="text"],
 select {
     width: 100%;
@@ -89,6 +56,7 @@ select {
 button[type="submit"] {
     width: 100%;
     padding: 12px;
+    margin-top: 14px;
     background-color: #4caf50;
     color: white;
     font-size: 1em;

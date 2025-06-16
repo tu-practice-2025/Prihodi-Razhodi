@@ -33,15 +33,16 @@ namespace SummerPracticeWebApi.Services.Implementations
             return budgets.Select(BudgetMapper.MapToBudgetDto).ToList();
         }
 
-        public async Task<bool> UpdateBudgetAsync(uint id, PlanningBudgetDto dto)
+        public async Task<bool> UpdateBudgetAsync(BudgetDto dto)
         {
-            var budget = await _context.Budgets.FindAsync(id);
+            var budget = await _context.Budgets.FindAsync(dto.Id);
             if (budget == null) return false;
 
             budget.Amount = dto.Amount;
             budget.CategoryCode = dto.CategoryCode;
             budget.Month = dto.Month;
             budget.Year = dto.Year;
+            budget.UserId = dto.UserId;
 
             await _context.SaveChangesAsync();
             return true;
