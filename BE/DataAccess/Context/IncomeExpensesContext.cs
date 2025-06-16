@@ -88,6 +88,7 @@ public class IncomeExpensesContext : DbContext
                 .HasColumnType("enum('BGN','EUR','USD','GBP')")
                 .HasColumnName("currency");
             entity.Property(e => e.Month).HasColumnName("month");
+            entity.Property(e => e.Year).HasColumnName("year");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
             entity.HasOne(d => d.CategoryCodeNavigation).WithMany(p => p.Budgets)

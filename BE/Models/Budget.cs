@@ -18,6 +18,8 @@ public class Budget
 
     public byte Month { get; set; }
 
+    public uint Year { get; set; }
+
     public virtual Category? CategoryCodeNavigation { get; set; }
 
     public virtual User User { get; set; } = null!;

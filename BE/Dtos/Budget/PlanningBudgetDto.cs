@@ -9,5 +9,6 @@ namespace SummerPracticeWebApi.Models
         public uint UserId { get; set; }
         public string CategoryCode { get; set; }
         public byte Month { get; set; }
+        public uint Year { get; set; }
     }
 }
