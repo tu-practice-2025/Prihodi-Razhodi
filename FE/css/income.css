@@ -13,3 +13,23 @@
 .text-center {
     text-align: center;
 }
+
+/* Match the Home page button style */
+.button-group {
+    display: flex;
+    justify-content: space-around;
+}
+
+.button-group button {
+    background: #e2001a;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: background 0.2s ease-in-out;
+}
+
+.button-group button:hover {
+    background: #b60015;
+}
