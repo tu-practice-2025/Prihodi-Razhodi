@@ -1,38 +1,90 @@
-window.onload = function () {
-    // 📊 ЛИНЕЙНА ГРАФИКА (Income & Expenses)
-    const lineLabels = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-    ];
+import { getOperations } from './data/api.js';
+import { state } from './data/state.js';
 
-    const lineData = {
-        labels: lineLabels,
+window.onload = async function () {
+    const userId = 1; //hardcoded, should be changed to state values
+    const month = 6; //hardcoded, should be changed to state values
+    const year = 2025; //hardcoded, should be changed to state values
+
+    if (!userId || !month || !year) {
+        console.error("Missing user, month, or year");  // cheks for invalid data
+        return;
+    }
+
+    const operations = await getOperations(userId, month, year);    //fetching operations
+    if (!operations) {
+        console.error("No operations loaded");
+        return;
+    }
+
+    function groupOperationsByWeek(operations) {    //grouping operations by week
+        const weeks = { //initializing arrays
+            week1: [],
+            week2: [],
+            week3: [],
+            week4: [],
+            week5: []
+        };
+
+        operations.forEach(op => {  //separation by weeks in arrays
+            const date = new Date(op.dateTime);
+            const day = date.getDate();
+
+            if (day <= 7) weeks.week1.push(op);
+            else if (day <= 14) weeks.week2.push(op);
+            else if (day <= 21) weeks.week3.push(op);
+            else if (day <= 28) weeks.week4.push(op);
+            else weeks.week5.push(op);
+        });
+
+        return weeks;
+    }
+
+    function getWeeklyTotals(grouped) { //summing incomes and expenses
+        const income = [];
+        const expenses = [];
+
+        for (let i = 1; i <= 5; i++) {
+            const week = grouped[`week${i}`];
+            let incomeSum = 0;
+            let expenseSum = 0;
+
+            week.forEach(op => {
+                if (op.isExpense) expenseSum += op.amountLcy;
+                else incomeSum += op.amountLcy;
+            });
+
+            income.push(incomeSum);
+            expenses.push(expenseSum);
+        }
+
+        return { income, expenses };
+    }
+
+    const grouped = groupOperationsByWeek(operations);
+    const { income, expenses } = getWeeklyTotals(grouped);
+
+    const data = {
+        labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
         datasets: [
             {
                 label: "Income",
-                data: [3000, 3200, 2800, 3500, 4000, 3800, 4200],
+                data: income,
                 borderColor: "green",
                 backgroundColor: "rgba(0, 128, 0, 0.2)",
-                yAxisID: "y",
             },
             {
                 label: "Expenses",
-                data: [2000, 1800, 2200, 2500, 2600, 2400, 2700],
+                data: expenses,
                 borderColor: "red",
                 backgroundColor: "rgba(255, 0, 0, 0.2)",
-                yAxisID: "y1",
-            },
-        ],
+            }
+        ]
     };
 
     const lineConfig = {
         type: "line",
-        data: lineData,
+        data: data,
         options: {
             responsive: true,
             interaction: {
@@ -43,7 +95,6 @@ window.onload = function () {
             plugins: {
                 title: {
                     display: true,
-                    text: "Income & Expenses Over Time",
                 },
             },
             scales: {

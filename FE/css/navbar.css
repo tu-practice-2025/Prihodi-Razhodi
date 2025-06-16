@@ -32,7 +32,7 @@ body {
     background-color: #e2001a !important; /* UniCredit red */
     z-index: 1000;
     padding: 0.5rem 1rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* subtle shadow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar .container-fluid {
@@ -93,7 +93,6 @@ body {
     padding: 4px 8px;
     font-size: 16px;
     min-width: 120px;
-    border: none;
 }
 
 /* Style the dropdown options (works on most modern browsers) */

@@ -34,6 +34,7 @@ html {
     flex-direction: column;
     background-color: #fff5f5;
     border: 1px solid #e9dada;
+    align-items: center;
 }
 
 .main-grid {
@@ -159,11 +160,8 @@ html {
 .transactions-section {
     background-color: #fff5f5;
     padding: 24px;
-    border-radius: 12px;
-    border: 1px solid #e9dada;
     width: 100%;
     max-width: 400px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .transactions-section ul {
