@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        const type = isExpense ? "Разход" : "Приход";
+        const type = isExpense ? "Expense" : "Income";
 
         const entry = document.createElement("li");
         entry.classList.add(isExpense ? "expense-entry" : "income-entry");
