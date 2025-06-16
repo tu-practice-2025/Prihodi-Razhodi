@@ -34,7 +34,7 @@ public class IncomeExpensesContext : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySQL("server=localhost;user=root;password=123123;database=income_expenses;");
+        => optionsBuilder.UseMySQL("server=localhost;user=root;password=root;database=income_expenses;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
