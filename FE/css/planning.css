@@ -7,7 +7,7 @@
     font-size: 24px;
     font-weight: bold;
     margin-left: 10px;
-    color: #f0f0f0;
+    color: #f0f0f0 !important;
 }
 
 .navbar {
@@ -40,7 +40,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #f5f5f5;
     margin: 0;
     padding: 0;
@@ -82,14 +82,14 @@ select {
     box-sizing: border-box;
 }
 
-#currency{
+#currency {
     margin-bottom: 14px;
 }
 
 button[type="submit"] {
     width: 100%;
     padding: 12px;
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: white;
     font-size: 1em;
     border: none;
@@ -134,7 +134,7 @@ button[type="submit"]:hover {
 }
 
 .expense,
-.planned-expense [type="number"]{
+.planned-expense [type="number"] {
     color: red;
 }
 

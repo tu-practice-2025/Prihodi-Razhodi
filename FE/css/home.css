@@ -1,14 +1,3 @@
-#logo {
-    width: 50px;
-    height: auto;
-}
-
-.navbar-brand {
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 10px;
-    color: #f0f0f0;
-}
 .header {
     position: fixed;
     top: 0;
@@ -21,34 +10,6 @@ body {
     padding-top: 62px;
 }
 
-.navbar {
-    position: static;
-    top: 0;
-    background-color: #153b79 !important;
-    z-index: 1000;
-    padding: 0.5rem 1rem;
-}
-
-.navbar .container-fluid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-nav {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-.nav-link {
-    color: #f0f0f0 !important;
-    font-size: 20px;
-}
-
-.nav-item.dropdown .dropdown-menu {
-    z-index: 9999;
-    position: absolute;
-}
 .dashboard {
     display: flex;
     flex-direction: column;
@@ -62,8 +23,13 @@ body {
     gap: 1rem;
 }
 
-.card {
+.card-link {
     flex: 1;
+    text-decoration: none;
+    color: inherit;
+}
+
+.card {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -100,7 +66,6 @@ body {
 .card-content h4 {
     margin: 0;
     font-size: 1.2rem;
-    flex-grow: 4;
 }
 
 .card-content p {
