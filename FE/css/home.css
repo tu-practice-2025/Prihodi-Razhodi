@@ -8,13 +8,15 @@
 
 body {
     padding-top: 62px;
+    background-color: #ffffff;
+    font-family: Arial, sans-serif;
+    color: #1c1c1c;
 }
 
 .dashboard {
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    font-family: Arial, sans-serif;
     padding: 2rem;
 }
 
@@ -35,9 +37,11 @@ body {
     justify-content: space-around;
     align-items: center;
     gap: 1rem;
-    background: #dff6fa;
+    background: #fff5f5;
     padding: 1rem;
     border-radius: 1rem;
+    border: 1px solid #e9dada;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
 .card-icon {
@@ -93,9 +97,10 @@ body {
 }
 
 .chart-container {
-    background: #e6f8fd;
+    background: #ffffff;
     padding: 1rem;
     border-radius: 1rem;
+    border: 1px solid #e0e0e0;
 }
 
 .full-height {
@@ -119,12 +124,12 @@ body {
 .chart-placeholder {
     height: 300px;
     background: #ffffff;
-    border: none;
+    border: 1px solid #e0e0e0;
     border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #999;
+    color: #6a6a6a;
     font-size: 0.9rem;
     margin-top: 1rem;
 }
@@ -135,9 +140,10 @@ body {
 }
 
 .quick-access {
-    background: #dff6fa;
+    background: #fff4f4;
     padding: 1rem;
     border-radius: 1rem;
+    border: 1px solid #f0dcdc;
 }
 
 .quick-access h4 {
@@ -150,7 +156,7 @@ body {
 }
 
 .button-group button {
-    background: #083d77;
+    background: #e2001a;
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -160,5 +166,5 @@ body {
 }
 
 .button-group button:hover {
-    background: #135378;
+    background: #b60015;
 }
