@@ -1,3 +1,5 @@
+let lineChartInstance = null;
+
 export function renderCharts() {
     const operations = JSON.parse(sessionStorage.getItem("thisMonthAndYearOperations"));    //fetching operations
     if (!operations) {
@@ -127,7 +129,10 @@ export function renderCharts() {
 
     const lineCtx = document.getElementById("lineChart")?.getContext("2d");
     if (lineCtx) {
-        new Chart(lineCtx, lineConfig);
+        if (lineChartInstance) {
+            lineChartInstance.destroy();
+        }
+        lineChartInstance = new Chart(lineCtx, lineConfig);
     } else {
         console.error("No canvas with id='lineChart'");
     }
