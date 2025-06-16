@@ -1,49 +1,7 @@
-#logo {
-    width: 50px;
-    height: auto;
-}
-
-.navbar-brand {
-    font-size: 24px;
-    font-weight: bold;
-    margin-left: 10px;
-    color: #f0f0f0 !important;
-}
-
-.navbar {
-    position: sticky;
-    top: 0;
-    background-color: #153b79 !important;
-    z-index: 1000;
-    padding: 0.5rem 1rem;
-}
-
-.navbar .container-fluid {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.navbar-nav {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-.nav-link {
-    color: #f0f0f0 !important;
-    font-size: 20px;
-}
-
-.nav-item.dropdown .dropdown-menu {
-    z-index: 9999;
-    position: absolute;
-}
-
 body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f5f5;
+    background-color: #ffffff;
     margin: 0;
-    padding: 0;
 }
 
 main {
@@ -54,9 +12,10 @@ main {
 }
 
 form {
-    background-color: #e6f8fd;
     padding: 24px;
     border-radius: 12px;
+    background-color: #fff5f5;
+    border: 1px solid #e9dada;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -69,7 +28,7 @@ h2 {
 }
 
 input[type="number"],
-input[type="date"],
+input[type="month"],
 input[type="text"],
 select {
     width: 100%;
@@ -78,7 +37,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 1em;
-    background-color: #fafafa;
+    background-color: #ffffff;
     box-sizing: border-box;
 }
 
@@ -89,6 +48,7 @@ select {
 button[type="submit"] {
     width: 100%;
     padding: 12px;
+    margin-top: 14px;
     background-color: #4caf50;
     color: white;
     font-size: 1em;
@@ -103,9 +63,10 @@ button[type="submit"]:hover {
 }
 
 .recent-entries {
-    background-color: #e6f8fd;
+    background-color: #fff5f5;
     padding: 24px;
     border-radius: 12px;
+    border: 1px solid #e9dada;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -122,6 +83,7 @@ button[type="submit"]:hover {
     padding: 10px 14px;
     margin-bottom: 10px;
     border-radius: 8px;
+    border: 1px solid #e9dada;
     font-size: 0.95em;
     display: flex;
     justify-content: space-between;
