@@ -86,3 +86,20 @@ body {
 .navbar-toggler {
     border-color: #ffffff;
 }
+.month-select {
+    background-color: #e2001a !important;
+    color: #ffffff !important;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 16px;
+    min-width: 120px;
+    border: none;
+    -webkit-appearance: none; /* Safari/Chrome */
+    -moz-appearance: none;
+}
+
+/* Style the dropdown options (works on most modern browsers) */
+.month-select option {
+    background-color: #e2001a;
+    color: #ffffff;
+}

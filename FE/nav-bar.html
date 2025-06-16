@@ -1,6 +1,6 @@
 <nav
     class="navbar navbar-expand-lg navbar-dark"
-    style="background-color: #153b79"
+    style="background-color: #e2001a"
 >
     <div class="container-fluid">
         <div class="d-flex align-items-center">
@@ -29,7 +29,7 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
                 <li class="nav-item">
                     <a
                         class="nav-link active"
@@ -42,7 +42,7 @@
                 <li class="nav-item dropdown">
                     <a
                         class="nav-link dropdown-toggle"
-                        href=""
+                        href="#"
                         id="categoriesDropdown"
                         role="button"
                         data-bs-toggle="dropdown"
@@ -66,6 +66,26 @@
 
                 <li class="nav-item">
                     <a class="nav-link" href="/FE/planning.html">Planning</a>
+                </li>
+
+                <li class="nav-item ms-lg-3">
+                    <select
+                        id="monthSelector"
+                        class="form-select form-select-sm text-white month-select bg-danger border-0"
+                    >
+                        <option value="01">January</option>
+                        <option value="02">February</option>
+                        <option value="03">March</option>
+                        <option value="04">April</option>
+                        <option value="05">May</option>
+                        <option value="06">June</option>
+                        <option value="07">July</option>
+                        <option value="08">August</option>
+                        <option value="09">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
                 </li>
             </ul>
         </div>
