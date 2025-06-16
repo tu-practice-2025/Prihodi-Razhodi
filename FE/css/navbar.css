@@ -103,3 +103,8 @@ body {
     background-color: #e2001a;
     color: #ffffff;
 }
+
+option {
+    background-color: #ffffff;
+    color: #333;
+}
