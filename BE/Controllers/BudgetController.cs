@@ -34,10 +34,10 @@ namespace SummerPracticeWebApi.Controllers
             return Ok(budgets);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBudget(uint id, [FromBody] PlanningBudgetDto dto)
+        [HttpPut]
+        public async Task<IActionResult> UpdateBudget([FromBody] BudgetDto dto)
         {
-            var success = await _budgetService.UpdateBudgetAsync(id, dto);
+            var success = await _budgetService.UpdateBudgetAsync(dto);
             if (!success) return NotFound();
             return Ok();
         }

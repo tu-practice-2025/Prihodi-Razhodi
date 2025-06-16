@@ -10,11 +10,12 @@ namespace SummerPracticeWebApi.Mappers
         {
             return new BudgetDto
             {
+                Id = Budget.Id,
                 Amount = Budget.Amount,
                 Currency = Budget.Currency,
                 Month = Budget.Month,
                 Year = Budget.Year,
-                CategoryDescription = Budget.CategoryCodeNavigation?.Description ?? "No Description",
+                CategoryCode = Budget.CategoryCode ?? "No Description",
                 UserId = Budget.UserId
             };
         }
