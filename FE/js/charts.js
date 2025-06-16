@@ -1,71 +1,89 @@
-import { getOperations } from './data/api.js';
-import { state } from './data/state.js';
-
-window.onload = async function () {
-    const userId = 1; //hardcoded, should be changed to state values
-    const month = 6; //hardcoded, should be changed to state values
-    const year = 2025; //hardcoded, should be changed to state values
-
-    if (!userId || !month || !year) {
-        console.error("Missing user, month, or year");  // cheks for invalid data
-        return;
-    }
-
-    const operations = await getOperations(userId, month, year);    //fetching operations
+export function renderCharts() {
+    const operations = JSON.parse(sessionStorage.getItem("thisMonthAndYearOperations"));    //fetching operations
     if (!operations) {
         console.error("No operations loaded");
         return;
     }
 
-    function groupOperationsByWeek(operations) {    //grouping operations by week
-        const weeks = { //initializing arrays
-            week1: [],
-            week2: [],
-            week3: [],
-            week4: [],
-            week5: []
-        };
+    function getISOWeek(date) {
+        const tempDate = new Date(date);
+        tempDate.setHours(0, 0, 0, 0);
 
-        operations.forEach(op => {  //separation by weeks in arrays
-            const date = new Date(op.dateTime);
-            const day = date.getDate();
+        // Thursday is used to determine the week (ISO 8601)
+        tempDate.setDate(tempDate.getDate() + 3 - ((tempDate.getDay() + 6) % 7));
 
-            if (day <= 7) weeks.week1.push(op);
-            else if (day <= 14) weeks.week2.push(op);
-            else if (day <= 21) weeks.week3.push(op);
-            else if (day <= 28) weeks.week4.push(op);
-            else weeks.week5.push(op);
-        });
+        const firstThursday = new Date(tempDate.getFullYear(), 0, 4);
+        const weekNumber = 1 + Math.round(((tempDate - firstThursday) / 86400000 - 3 + ((firstThursday.getDay() + 6) % 7)) / 7);
 
-        return weeks;
+        return weekNumber;
     }
 
-    function getWeeklyTotals(grouped) { //summing incomes and expenses
+    function groupOperationsByWeek(operations, selectedMonth, selectedYear) {
+        const startDate = new Date(selectedYear, selectedMonth - 1, 1);
+        const endDate = new Date(selectedYear, selectedMonth, 0); // last day of the month
+
+        // Get ISO weeks covered by the month
+        const weekSet = new Set();
+        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+            weekSet.add(getISOWeek(new Date(d)));
+        }
+
+        // Initialize empty week structure
+        const grouped = {};
+        for (const weekNum of weekSet) {
+            grouped[`week${weekNum}`] = [];
+        }
+
+        // Assign operations into correct weeks
+        operations.forEach(op => {
+            const date = new Date(op.dateTime);
+            const weekNum = getISOWeek(date);
+            const key = `week${weekNum}`;
+            if (grouped[key]) {
+                grouped[key].push(op);
+            }
+        });
+
+        return grouped;
+    }
+
+
+    function getWeeklyTotals(grouped) {
         const income = [];
         const expenses = [];
+        const labels = [];
 
-        for (let i = 1; i <= 5; i++) {
-            const week = grouped[`week${i}`];
+        const sortedWeeks = Object.keys(grouped).sort((a, b) => {
+            const numA = parseInt(a.replace("week", ""));
+            const numB = parseInt(b.replace("week", ""));
+            return numA - numB;
+        });
+
+        for (const week of sortedWeeks) {
             let incomeSum = 0;
             let expenseSum = 0;
 
-            week.forEach(op => {
+            grouped[week].forEach(op => {
                 if (op.isExpense) expenseSum += op.amountLcy;
                 else incomeSum += op.amountLcy;
             });
 
             income.push(incomeSum);
             expenses.push(expenseSum);
+            labels.push(week.replace("week", "Week "));
         }
 
-        return { income, expenses };
+        return { income, expenses, labels };
     }
 
-    const grouped = groupOperationsByWeek(operations);
-    const { income, expenses } = getWeeklyTotals(grouped);
+    const month = parseInt(sessionStorage.getItem("month"));
+    const year = parseInt(sessionStorage.getItem("year"));
+
+    const grouped = groupOperationsByWeek(operations, month, year);
+    const { income, expenses, labels } = getWeeklyTotals(grouped);
 
     const data = {
-        labels: ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"],
+        labels: labels.map(w => w.replace("week", "Week ")), // Optional cleaner labels
         datasets: [
             {
                 label: "Income",
@@ -102,15 +120,7 @@ window.onload = async function () {
                     type: "linear",
                     display: true,
                     position: "left",
-                },
-                y1: {
-                    type: "linear",
-                    display: true,
-                    position: "right",
-                    grid: {
-                        drawOnChartArea: false,
-                    },
-                },
+                }
             },
         },
     };
