@@ -94,8 +94,6 @@ body {
     font-size: 16px;
     min-width: 120px;
     border: none;
-    -webkit-appearance: none; /* Safari/Chrome */
-    -moz-appearance: none;
 }
 
 /* Style the dropdown options (works on most modern browsers) */
