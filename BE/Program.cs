@@ -26,6 +26,7 @@ builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<ICardService, CardService>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<ISummaryService, SummaryService>();
 
 // OpenAPI configuration
