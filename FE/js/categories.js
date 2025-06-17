@@ -1,35 +1,66 @@
 const userId = 1;
-const categoryCode = "FOOD"; // Hardcoded for now
-const month = 6;
+const categoryCode = "TRVH";
+const month = 6; // June
 const year = 2025;
 
+const categoryDescriptions = {
+    "BUSS": "Бизнес услуги",
+    "CASH": "Кеш",
+    "CLTH": "Дрехи",
+    "DEBT": "Задължения и такси",
+    "EDUC": "Образование",
+    "FINS": "Финансови услуги",
+    "HLTH": "Здраве и красота",
+    "HOME": "За дома",
+    "INAT": "Приход ATM",
+    "INCM": "Приход",
+    "INVT": "Инвестиции",
+    "OTHR": "Други",
+    "PUBS": "Публични услуги",
+    "REST": "Ресторанти и барове",
+    "RPAY": "Погасяване по кредитни продукти",
+    "SHOP": "Шопинг",
+    "SPRT": "Забавление и спорт",
+    "SUPM": "Супермаркети",
+    "TRPT": "Транспорт и авто услуги",
+    "TRSF": "Преводи",
+    "TRVH": "Пътуване и ваканция",
+    "UTIL": "Битови сметки"
+};
+
 window.addEventListener("DOMContentLoaded", async () => {
-    try {
-        // 🔶 Get transactions for this category
-        const txRes = await fetch(`https://localhost:7121/api/Category/${userId}/spending/category?code=${categoryCode}&month=${month}&year=${year}`);
-        const txData = await txRes.json(); // Expected: [{ date, description, amount }]
+    try { 
+        const spendingRes = await fetch(`https://localhost:7121/api/Categories/${userId}/category-details?code=${categoryCode}&month=${month}&year=${year}`);
+        const spendingData = await spendingRes.json();
 
-        // 🔶 Get budget for this category
+        const totalSpent = spendingData.totalSpent || 0;
+        const transactions = spendingData.transactions || [];
+        const categoryDescription = spendingData.categoryDescription || categoryDescriptions[categoryCode] || categoryCode;
+
         const budgetRes = await fetch(`https://localhost:7121/api/Budget/${userId}/category?code=${categoryCode}&month=${month}&year=${year}`);
-        const budgetData = await budgetRes.json(); // Expected: { amount }
+        const budgetData = await budgetRes.json();
+        const budgetAmount = budgetData?.amount || 1;
 
-        const totalSpent = txData.reduce((sum, tx) => sum + tx.amount, 0);
-        const budget = budgetData.amount || 1; // Avoid division by 0
-        const percentUsed = Math.min((totalSpent / budget) * 100, 100);
-
-        // 🔁 Update total spent in header
+        document.querySelector(".label").textContent = categoryDescription;
         document.querySelector(".amount").textContent = `$${totalSpent.toFixed(2)}`;
 
-        // 🔁 Update pie chart
+        let budgetElem = document.querySelector(".budget-amount");
+        if (!budgetElem) {
+            budgetElem = document.createElement("div");
+            budgetElem.classList.add("budget-amount");
+            document.querySelector(".amount-info").appendChild(budgetElem);
+        }
+        budgetElem.textContent = `Budget: $${budgetAmount.toFixed(2)}`;
+
+        const percentUsed = Math.min((totalSpent / budgetAmount) * 100, 100);
         const pie = document.querySelector(".inner-pie");
         pie.style.background = `conic-gradient(#ff6666 ${percentUsed}%, #ffe5e5 ${percentUsed}% 100%)`;
         document.querySelector(".center-text").textContent = `${Math.round(percentUsed)}%`;
 
-        // 🔁 Populate transactions
         const entriesList = document.getElementById("entriesList");
-        entriesList.innerHTML = ""; // Clear
+        entriesList.innerHTML = "";
 
-        txData.forEach(tx => {
+        transactions.forEach(tx => {
             const li = document.createElement("li");
             li.classList.add("transaction-entry");
             li.innerHTML = `
@@ -40,8 +71,8 @@ window.addEventListener("DOMContentLoaded", async () => {
             entriesList.appendChild(li);
         });
 
-    } catch (err) {
-        console.error("Error loading category data:", err);
+    } catch (error) {
+        console.error("Error loading category details:", error);
     }
 });
 

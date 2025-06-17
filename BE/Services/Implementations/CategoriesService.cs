@@ -13,21 +13,30 @@ namespace SummerPracticeWebApi.Services.Implementations
         {
             _context = context;
         }
+
         public async Task<CategoryDetailsDto> GetCategoryDetailsAsync(uint userId, string categoryCode, byte month, uint year)
         {
+            var startDate = new DateTime((int)year, month, 1);
+            var endDate = startDate.AddMonths(1);
+
+            // Try to get the category name regardless of transactions
+            var category = await _context.Categories.FirstOrDefaultAsync(c => c.Code == categoryCode);
+
+            // Get operations (may be empty)
             var operations = await _context.Operations
                 .Include(op => op.Acc)
                 .Where(op =>
                     op.IsExpense &&
                     op.Acc.UserId == userId &&
                     op.CategoryCode == categoryCode &&
-                    op.DateTime.Month == month &&
-                    op.DateTime.Year == year)
+                    op.DateTime >= startDate &&
+                    op.DateTime < endDate)
                 .OrderByDescending(op => op.DateTime)
                 .ToListAsync();
 
-            var dto = new CategoryDetailsDto
+            return new CategoryDetailsDto
             {
+                CategoryDescription = category?.Description ?? categoryCode,
                 TotalSpent = operations.Sum(op => op.AmountLcy),
                 Transactions = operations.Select(op => new CategoryTransactionDto
                 {
@@ -36,8 +45,6 @@ namespace SummerPracticeWebApi.Services.Implementations
                     Amount = op.AmountLcy
                 }).ToList()
             };
-
-            return dto;
         }
 
     }

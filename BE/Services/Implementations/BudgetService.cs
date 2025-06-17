@@ -1,0 +1,30 @@
+using SummerPracticeWebApi.Dtos.Budget;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Dtos;
+using SummerPracticeWebApi.Mappers;
+using SummerPracticeWebApi.Services.Interfaces;
+
+namespace SummerPracticeWebApi.Services.Implementations
+{
+    public class BudgetService : IBudgetService
+    {
+        private readonly IncomeExpensesContext _context;
+
+        public BudgetService(IncomeExpensesContext context)
+        {
+            _context = context;
+        }
+        public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
+        {
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
+                .FirstOrDefaultAsync();
+
+            if (budget == null) return null;
+
+            return new BudgetDto { Amount = budget.Amount };
+        }
+    }
+}
