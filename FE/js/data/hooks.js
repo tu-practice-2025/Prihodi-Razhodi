@@ -111,3 +111,36 @@ export async function getUser(email) {
         return null;
     }
 }
+
+export async function getIncomeSumary(userId, month, year) {
+    try {
+        const res = await fetch(`https://localhost:7121/api/summary/income?userId=${userId}&month=${month}&year=${year}`);
+        if (!res.ok) throw new Error("Failed to load income");
+        return await res.json();
+    } catch (err) {
+        console.error("Error loading cards", err);
+        return null;
+    }
+}
+
+export async function getExpensesSumary(userId, month, year) {
+    try {
+        const res = await fetch(`https://localhost:7121/api/summary/expenses?userId=${userId}&month=${month}&year=${year}`);
+        if (!res.ok) throw new Error("Failed to load expenses");
+        return await res.json();
+    } catch (err) {
+        console.error("Error loading expenses", err);
+        return null;
+    }
+}
+
+export async function getBalanceSumary(userId, month, year) {
+    try {
+        const res = await fetch(`https://localhost:7121/api/summary/balance/1`);
+        if (!res.ok) throw new Error("Failed to load balance");
+        return await res.json();
+    } catch (err) {
+        console.error("Error loading balance", err);
+        return null;
+    }
+}
