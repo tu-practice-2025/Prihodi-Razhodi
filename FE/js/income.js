@@ -1,18 +1,21 @@
-const userId = 1; // Replace with dynamic ID if needed
-const month = 6;
+const userId = 1; // Replace with dynamic ID
+const month = 6; // Replace with dynamic month
 const year = 2025;
+
+let skip = 0;
+const take = 10;
 
 window.addEventListener("DOMContentLoaded", async () => {
     const chartCtx = document.getElementById("incomeChart").getContext("2d");
     const tableBody = document.getElementById("incomeTableBody");
+    const showMoreBtn = document.querySelector(".button-group button");
 
     try {
-        // 1️⃣ Fetch data for line chart
         const chartRes = await fetch(`https://localhost:7121/api/Income/${userId}/monthly?month=${month}&year=${year}`);
         const chartData = await chartRes.json();
 
         const chartLabels = chartData.map(entry => formatDateLabel(entry.date));
-        const chartValues = chartData.map(entry => entry.total);
+        const chartValues = chartData.map(entry => entry.total); // total, not amount
 
         new Chart(chartCtx, {
             type: "line",
@@ -37,19 +40,10 @@ window.addEventListener("DOMContentLoaded", async () => {
             }
         });
 
-        // 2️⃣ Fetch data for transaction table
-        const tableRes = await fetch(`https://localhost:7121/api/Income/${userId}/latest?month=${month}&year=${year}`);
-        const recentIncomes = await tableRes.json();
+        await loadIncomeTransactions();
 
-        tableBody.innerHTML = "";
-        recentIncomes.forEach(tx => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${formatDate(tx.date)}</td>
-                <td>${tx.source}</td>
-                <td>$${tx.amount.toFixed(2)}</td>
-            `;
-            tableBody.appendChild(row);
+        showMoreBtn.addEventListener("click", async () => {
+            await loadIncomeTransactions();
         });
 
     } catch (error) {
@@ -57,12 +51,38 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB");
+async function loadIncomeTransactions() {
+    const tableBody = document.getElementById("incomeTableBody");
+    const showMoreBtn = document.querySelector(".button-group button");
+
+    const tableRes = await fetch(`https://localhost:7121/api/Income/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const recentIncomes = await tableRes.json();
+
+    if (recentIncomes.length === 0) {
+        showMoreBtn.disabled = true;
+        showMoreBtn.innerText = "No more transactions";
+        return;
+    }
+
+    recentIncomes.forEach(tx => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${formatDate(tx.date)}</td>
+            <td>${tx.source}</td>
+            <td>$${tx.amount.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    skip += take;
 }
 
 function formatDateLabel(dateStr) {
     const date = new Date(dateStr);
-    return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" }); // e.g. "5 Jun"
+    return date.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+}
+
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-GB");
 }
