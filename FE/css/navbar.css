@@ -93,13 +93,15 @@ body {
     padding: 4px 8px;
     font-size: 16px;
     min-width: 120px;
-    border: none;
-    /* -webkit-appearance: none;
-    -moz-appearance: none; */
 }
 
 /* Style the dropdown options (works on most modern browsers) */
 .month-select option {
     background-color: #e2001a;
     color: #ffffff;
+}
+
+option {
+    background-color: #ffffff;
+    color: #333;
 }

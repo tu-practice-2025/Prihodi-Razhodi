@@ -16,8 +16,8 @@ namespace SummerPracticeWebApi.Controllers
             _cardService = cardService;
         }
 
-        // GET: api/card/account/5
-        [HttpGet("account/{accountId}")]
+        // GET: api/card/5
+        [HttpGet("{accountId}")]
         public async Task<ActionResult<IEnumerable<CardDto>>> GetCardsByAccountId(uint accountId)
         {
             var cards = await _cardService.GetCardsByAccountId(accountId);

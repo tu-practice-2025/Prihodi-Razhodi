@@ -1,4 +1,5 @@
-﻿using SummerPracticeWebApi.Dtos;
+﻿using Org.BouncyCastle.Security;
+using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Dtos.Budget;
 using SummerPracticeWebApi.Models;
 
@@ -15,7 +16,7 @@ namespace SummerPracticeWebApi.Mappers
                 Currency = Budget.Currency,
                 Month = Budget.Month,
                 Year = Budget.Year,
-                CategoryCode = Budget.CategoryCode ?? "No Description",
+                CategoryDescription = Budget.CategoryCodeNavigation?.Description ?? "No Description",
                 UserId = Budget.UserId
             };
         }

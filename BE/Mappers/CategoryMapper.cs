@@ -10,7 +10,7 @@ namespace SummerPracticeWebApi.Mappers
             return new CategoryDto
             {
                 Code = Category.Code,
-                Description = Category.Description
+                Description = Category.Description ?? "No Description"
             };
         }
     }

@@ -23,8 +23,11 @@ builder.Services.AddScoped<IOperationService, OperationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<ISummaryService, SummaryService>();
 
 // OpenAPI configuration
 builder.Services.AddOpenApi();

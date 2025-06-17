@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Dtos.Budget;
@@ -23,23 +24,25 @@ namespace SummerPracticeWebApi.Services.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<BudgetDto>> GetBudgetsByUserAsync(uint userId)
+        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserAsync(uint userId)
         {
             var budgets = await _context.Budgets
                 .Include(b => b.CategoryCodeNavigation)
                 .Where(b => b.UserId == userId)
                 .ToListAsync();
 
-            return budgets.Select(BudgetMapper.MapToBudgetDto).ToList();
+            return budgets.Select(BudgetMapper.MapToBudgetDto);
         }
 
         public async Task<bool> UpdateBudgetAsync(BudgetDto dto)
         {
             var budget = await _context.Budgets.FindAsync(dto.Id);
+            var category = await _context.Categories
+                .FirstAsync(category => category.Description == dto.CategoryDescription);
             if (budget == null) return false;
 
             budget.Amount = dto.Amount;
-            budget.CategoryCode = dto.CategoryCode;
+            budget.CategoryCode = category.Code;
             budget.Month = dto.Month;
             budget.Year = dto.Year;
             budget.UserId = dto.UserId;
