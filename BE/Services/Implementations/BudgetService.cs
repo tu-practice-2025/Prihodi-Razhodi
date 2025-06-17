@@ -21,6 +21,14 @@ namespace SummerPracticeWebApi.Services.Implementations
             var budget = await _context.Budgets
                 .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
                 .FirstOrDefaultAsync();
+            var budget = await _context.Budgets.FindAsync(dto.Id);
+            if (budget == null) return false;
+
+            budget.Amount = dto.Amount;
+            budget.CategoryCode = dto.CategoryCode; // use code, not description
+            budget.Month = dto.Month;
+            budget.Year = dto.Year;
+            budget.UserId = dto.UserId;
 
             if (budget == null) return null;
 
