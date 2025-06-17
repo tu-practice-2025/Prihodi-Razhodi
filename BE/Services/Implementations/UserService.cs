@@ -23,5 +23,13 @@ namespace SummerPracticeWebApi.Services.Implementations
 
             return user != null ? UserMapper.MapToUserDto(user) : null;
         }
+
+        public async Task<UserDto> GetUserByUserId(uint userId)
+        {
+            var user = await _context.Users
+                .SingleOrDefaultAsync(user => user.Id == userId);
+
+            return user != null ? UserMapper.MapToUserDto(user) : null;
+        }
     }
 }
