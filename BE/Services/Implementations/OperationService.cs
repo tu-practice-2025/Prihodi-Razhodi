@@ -53,5 +53,20 @@ namespace SummerPracticeWebApi.Services.Implementations
 
             return operations.Select(OperationMapper.MapToDto);
         }
+
+        public async Task<IEnumerable<OperationDto>> getExpensesByMonthAndYear(uint userId, int month, int year)
+        {
+            var expenses = await _context.Operations
+                .Where(operation => operation.Acc.UserId == userId &&
+                    operation.IsExpense == true &&
+                    operation.DateTime.Month == month &&
+                    operation.DateTime.Year == year)
+                .Include(operation => operation.Acc)
+                .Include(operation => operation.CategoryCodeNavigation)
+                .Include(operation => operation.Card)
+                .ToListAsync();
+
+            return expenses.Select(OperationMapper.MapToDto);
+        }
     }
 }
