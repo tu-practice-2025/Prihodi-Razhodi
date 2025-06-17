@@ -6,5 +6,6 @@ namespace SummerPracticeWebApi.Services.Interfaces
     public interface IUserService
     {
         Task<UserDto> GetUserByUsername(LoginUserDto loginUserDto);
+        Task<UserDto> GetUserByUserId(uint userId);
     }
 }
