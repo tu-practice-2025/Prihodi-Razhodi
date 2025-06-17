@@ -13,7 +13,7 @@ public class EmailController : ControllerBase
         _emailService = emailService;
     }
 
-    [HttpPost("{userId}")]
+    [HttpGet("{userId}")]
     public async Task<IActionResult> SendEmail(uint userId)
     {
         var success = await _emailService.SendEmailAsync(userId);
