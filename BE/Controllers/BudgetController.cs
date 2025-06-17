@@ -1,16 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SummerPracticeWebApi.DataAccess.Context;
-using SummerPracticeWebApi.Dtos.Budget;
-using SummerPracticeWebApi.Enums;
-using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class BudgetController : ControllerBase
     {
         private readonly IBudgetService _budgetService;
@@ -20,34 +14,13 @@ namespace SummerPracticeWebApi.Controllers
             _budgetService = budgetService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddBudget([FromBody] PlanningBudgetDto dto)
+        [HttpGet("{userId}/category")]
+        public async Task<IActionResult> GetUserCategoryBudget(uint userId, [FromQuery] string code, [FromQuery] byte month, [FromQuery] uint year)
         {
-            await _budgetService.AddBudgetAsync(dto);
-            return Ok();
+            var result = await _budgetService.GetUserCategoryBudgetAsync(userId, code, month, year);
+            if (result == null) return NotFound("No budget set for this category.");
+            return Ok(result);
         }
 
-        [HttpGet("{userId}")]
-        public async Task<IActionResult> GetBudgetsByUser(uint userId)
-        {
-            var budgets = await _budgetService.GetBudgetsByUserAsync(userId);
-            return Ok(budgets);
-        }
-
-        [HttpPut]
-        public async Task<IActionResult> UpdateBudget([FromBody] BudgetDto dto)
-        {
-            var success = await _budgetService.UpdateBudgetAsync(dto);
-            if (!success) return NotFound();
-            return Ok();
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBudget(uint id)
-        {
-            var success = await _budgetService.DeleteBudgetAsync(id);
-            if (!success) return NotFound();
-            return Ok();
-        }
     }
 }

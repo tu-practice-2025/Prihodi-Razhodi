@@ -1,4 +1,4 @@
-import { saveAllCards, saveBudgets, saveAllOperations, setMonthYear, saveUser, saveAllAccounts, saveCategories } from './data/sessionStorage.js';
+import { saveAllCards, saveBudgets, saveAllOperations, setMonthYear, saveUser, saveAllAccounts, saveCategories, saveEmail } from './data/sessionStorage.js';
 import { filterAndDisplay } from './data/filters.js';
 import { getOperations, getCategories, getBudgets, getAccounts, getCards, getUser} from './data/hooks.js'
 import { renderCharts } from './charts.js';
@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initialLoading() {
+    saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
     setMonthYear();
     
     const email = localStorage.getItem('email');

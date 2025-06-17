@@ -1,8 +1,9 @@
+using SummerPracticeWebApi.Dtos.Budget;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
-using SummerPracticeWebApi.Dtos.Budget;
+using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Mappers;
-using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
@@ -15,26 +16,11 @@ namespace SummerPracticeWebApi.Services.Implementations
         {
             _context = context;
         }
-
-        public async Task AddBudgetAsync(PlanningBudgetDto dto)
+        public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
         {
-            var budget = BudgetMapper.MapPlanningBudgetDtoToModel(dto);
-            _context.Budgets.Add(budget);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserAsync(uint userId)
-        {
-            var budgets = await _context.Budgets
-                .Include(b => b.CategoryCodeNavigation)
-                .Where(b => b.UserId == userId)
-                .ToListAsync();
-
-            return budgets.Select(BudgetMapper.MapToBudgetDto);
-        }
-
-        public async Task<bool> UpdateBudgetAsync(BudgetDto dto)
-        {
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
+                .FirstOrDefaultAsync();
             var budget = await _context.Budgets.FindAsync(dto.Id);
             if (budget == null) return false;
 
@@ -44,18 +30,9 @@ namespace SummerPracticeWebApi.Services.Implementations
             budget.Year = dto.Year;
             budget.UserId = dto.UserId;
 
-            await _context.SaveChangesAsync();
-            return true;
-        }
+            if (budget == null) return null;
 
-        public async Task<bool> DeleteBudgetAsync(uint id)
-        {
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null) return false;
-
-            _context.Budgets.Remove(budget);
-            await _context.SaveChangesAsync();
-            return true;
+            return new BudgetDto { Amount = budget.Amount };
         }
     }
 }
