@@ -6,6 +6,6 @@ namespace SummerPracticeWebApi.Services.Interfaces
     {
         Task<IEnumerable<CategoryDto>> GetAllCategories();
         Task<List<CategorySpendingDto>> GetUserSpendingsByCategoryAsync(uint userId, byte month, uint year);
-        Task<List<ExpenseTransactionDto>> GetLatestExpensesAsync(uint userId, byte month, uint year);
+        Task<List<ExpenseTransactionDto>> GetLatestExpensesAsync(uint userId, byte month, uint year, int skip, int take);
     }
 }

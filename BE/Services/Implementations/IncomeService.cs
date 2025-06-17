@@ -31,7 +31,7 @@ namespace SummerPracticeWebApi.Services.Implementations
                 .ToListAsync();
         }
 
-        public async Task<List<IncomeTransactionDto>> GetLatestIncomesAsync(uint userId, byte month, uint year)
+        public async Task<List<IncomeTransactionDto>> GetLatestIncomesAsync(uint userId, byte month, uint year, int skip = 0, int take = 10)
         {
             return await _context.Operations
                 .Where(op => !op.IsExpense &&
@@ -39,13 +39,14 @@ namespace SummerPracticeWebApi.Services.Implementations
                              op.DateTime.Month == month &&
                              op.DateTime.Year == year)
                 .OrderByDescending(op => op.DateTime)
+                .Skip(skip)
+                .Take(take)
                 .Select(op => new IncomeTransactionDto
                 {
                     Date = op.DateTime,
                     Source = op.Description ?? "No Description",
                     Amount = op.AmountLcy
                 })
-                .Take(10) // How much incomes to show
                 .ToListAsync();
         }
     }

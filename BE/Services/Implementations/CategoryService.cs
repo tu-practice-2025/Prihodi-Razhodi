@@ -43,7 +43,7 @@ namespace SummerPracticeWebApi.Services.Implementations
             return spendings;
         }
 
-        public async Task<List<ExpenseTransactionDto>> GetLatestExpensesAsync(uint userId, byte month, uint year)
+        public async Task<List<ExpenseTransactionDto>> GetLatestExpensesAsync(uint userId, byte month, uint year, int skip, int take)
         {
             return await _context.Operations
                 .Include(op => op.CategoryCodeNavigation)
@@ -54,13 +54,14 @@ namespace SummerPracticeWebApi.Services.Implementations
                     op.DateTime.Month == month &&
                     op.DateTime.Year == year)
                 .OrderByDescending(op => op.DateTime)
+                .Skip(skip)
+                .Take(take)
                 .Select(op => new ExpenseTransactionDto
                 {
                     Date = op.DateTime,
                     Category = op.CategoryCodeNavigation.Description ?? "Uncategorized",
                     Amount = op.AmountLcy
                 })
-                .Take(10)
                 .ToListAsync();
         }
     }

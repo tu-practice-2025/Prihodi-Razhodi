@@ -22,9 +22,14 @@ namespace SummerPracticeWebApi.Controllers
         }
 
         [HttpGet("{userId}/latest")]
-        public async Task<IActionResult> GetLatestIncomes(uint userId, [FromQuery] byte month, [FromQuery] uint year)
+        public async Task<IActionResult> GetLatestIncomes(
+            uint userId,
+            [FromQuery] byte month,
+            [FromQuery] uint year,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 10)
         {
-            var result = await _incomeService.GetLatestIncomesAsync(userId, month, year);
+            var result = await _incomeService.GetLatestIncomesAsync(userId, month, year, skip, take);
             return Ok(result);
         }
     }
