@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Dtos.Budget;
@@ -37,12 +36,10 @@ namespace SummerPracticeWebApi.Services.Implementations
         public async Task<bool> UpdateBudgetAsync(BudgetDto dto)
         {
             var budget = await _context.Budgets.FindAsync(dto.Id);
-            var category = await _context.Categories
-                .FirstAsync(category => category.Description == dto.CategoryDescription);
             if (budget == null) return false;
 
             budget.Amount = dto.Amount;
-            budget.CategoryCode = category.Code;
+            budget.CategoryCode = dto.CategoryCode; // use code, not description
             budget.Month = dto.Month;
             budget.Year = dto.Year;
             budget.UserId = dto.UserId;

@@ -43,15 +43,15 @@
                     <option>GBP</option>
                 </select>
 
-                <select id="category" name="category" required>
+                <select id="category">
                     <option value="">Category</option>
-                    <option>Food</option>
-                    <option>Transport</option>
-                    <option>Household</option>
-                    <option>Health</option>
-                    <option>Education</option>
-                    <option>Beauty</option>
-                    <option>Lifestyle</option>
+                    <option value="REST">Food</option>
+                    <option value="TRPT">Transport</option>
+                    <option value="HOME">Household</option>
+                    <option value="HLTH">Health</option>
+                    <option value="EDUC">Education</option>
+                    <option value="CLTH">Clothes</option>
+                    <option value="SPRT">Lifestyle</option>
                 </select>
 
                 <div class="toggle-wrapper">
@@ -81,13 +81,13 @@
                     <option value="12">December</option>
                 </select>
 
-                <button type="submit">Enter</button>
+                <button id="enter" type="submit">Enter</button>
             </form>
 
             <section class="recent-entries">
                 <h2>Recent Entries</h2>
                 <ul id="entriesList">
-                    <!-- JS entries here -->
+                    <!-- JS entries will be added here -->
                 </ul>
             </section>
         </main>
