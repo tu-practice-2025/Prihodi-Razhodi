@@ -30,7 +30,7 @@ namespace SummerPracticeWebApi.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetBudgetsByUser(uint userId)
         {
-            var budgets = await _budgetService.GetBudgetsByUserAsync(userId);
+            var budgets = await _budgetService.GetBudgetsByUserId(userId);
             return Ok(budgets);
         }
 

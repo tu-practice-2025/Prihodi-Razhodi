@@ -24,7 +24,7 @@ namespace SummerPracticeWebApi.Services.Implementations
             await _context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserAsync(uint userId)
+        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserId(uint userId)
         {
             var budgets = await _context.Budgets
                 .Include(b => b.CategoryCodeNavigation)
@@ -59,6 +59,18 @@ namespace SummerPracticeWebApi.Services.Implementations
             _context.Budgets.Remove(budget);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserIdMonthAndYear(uint userId, int month, int year)
+        {
+            var budgets = await _context.Budgets
+                .Include(b => b.CategoryCodeNavigation)
+                .Where(b => b.UserId == userId && 
+                            b.Month == month &&
+                            b.Year == year)
+                .ToListAsync();
+
+            return budgets.Select(BudgetMapper.MapToBudgetDto);
         }
     }
 }

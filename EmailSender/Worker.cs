@@ -12,7 +12,7 @@ namespace EmailSender
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using var httpClient = new HttpClient();
-            var url = "https://localhost:7121/api/email/1";
+            var url = "https://localhost:7121/api/email";
 
             while (!stoppingToken.IsCancellationRequested)
             {
@@ -38,7 +38,7 @@ namespace EmailSender
                         _logger.LogError(exception, "Error while sending email");
                     }
 
-                    var tomorrow = now.Date.AddDays(1);
+                    var tomorrow = now.Date.AddSeconds(1);
                     var delay = (tomorrow - now).Milliseconds;
                     delay = Math.Abs(delay);
                     await Task.Delay(delay, stoppingToken);
@@ -46,7 +46,7 @@ namespace EmailSender
                 else
                 {
                     _logger.LogError("Today is not the 1 of the month!");
-                    await Task.Delay(TimeSpan.FromDays(1), stoppingToken);
+                    await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);
                 }
             }
         }
