@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Mappers;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
@@ -13,7 +14,7 @@ namespace SummerPracticeWebApi.Services.Implementations
             _context = context;
         }
 
-        public async Task<decimal> getExpensesByMonthAndYear(uint userId, int month, int year)
+        public async Task<decimal> GetExpensesByMonthAndYear(uint userId, int month, int year)
         {
             decimal expenses = await _context.Operations
                 .Where(operation => operation.Acc.UserId == userId &&
@@ -28,7 +29,7 @@ namespace SummerPracticeWebApi.Services.Implementations
             return expenses;
         }
 
-        public async Task<decimal> getIncomeByMonthAndYear(uint userId, int month, int year)
+        public async Task<decimal> GetIncomeByMonthAndYear(uint userId, int month, int year)
         {
             decimal expenses = await _context.Operations
                 .Where(operation => operation.Acc.UserId == userId &&
@@ -43,13 +44,30 @@ namespace SummerPracticeWebApi.Services.Implementations
             return expenses;
         }
 
-        public async Task<decimal> getBalanceSummary(uint userId)
+        public async Task<decimal> GetBalanceSummary(uint userId)
         {
             decimal balance = await _context.Accounts
                 .Where(account => account.UserId == userId)
                 .SumAsync(account => account.Balance);
 
             return balance;
+        }
+
+        public async Task<Dictionary<string, decimal>> GetExpensesCategorised(uint userId, int month, int year)
+        {
+            var totals = await _context.Operations
+                .Where(o => o.Acc.UserId == userId
+                         && o.IsExpense == true
+                         && o.DateTime.Month == month
+                         && o.DateTime.Year == year)
+                .GroupBy(o => o.CategoryCode ?? "OTHR")
+                .Select(g => new {
+                    Category = g.Key,
+                    Total = g.Sum(o => o.AmountLcy)
+                })
+                .ToDictionaryAsync(x => x.Category, x => x.Total);
+
+            return totals;
         }
     }
 }

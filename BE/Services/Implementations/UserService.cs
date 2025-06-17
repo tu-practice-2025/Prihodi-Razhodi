@@ -31,5 +31,12 @@ namespace SummerPracticeWebApi.Services.Implementations
 
             return user != null ? UserMapper.MapToUserDto(user) : null;
         }
+
+        public async Task<IEnumerable<UserDto>> GetAllUsers()
+        {
+            return await _context.Users
+                .Select(user => UserMapper.MapToUserDto(user))
+                .ToListAsync(); ;
+        }
     }
 }

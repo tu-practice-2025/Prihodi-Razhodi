@@ -2,8 +2,9 @@
 {
     public interface ISummaryService
     {
-        Task<decimal> getExpensesByMonthAndYear(uint userId, int month, int year);
-        Task<decimal> getIncomeByMonthAndYear(uint userId, int month, int year);
-        Task<decimal> getBalanceSummary(uint userId);
+        Task<decimal> GetExpensesByMonthAndYear(uint userId, int month, int year);
+        Task<decimal> GetIncomeByMonthAndYear(uint userId, int month, int year);
+        Task<decimal> GetBalanceSummary(uint userId);
+        Task<Dictionary<string, decimal>> GetExpensesCategorised(uint userId, int month, int year);
     }
 }
