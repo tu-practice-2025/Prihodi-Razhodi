@@ -24,6 +24,15 @@ namespace SummerPracticeWebApi.Controllers
             return Ok(await _summaryService.getExpensesByMonthAndYear(userId, month, year));
         }
 
+        [HttpGet("income")]
+        public async Task<IActionResult> GetIncomeSummary(
+            [FromQuery] uint userId,
+            [FromQuery] int month,
+            [FromQuery] int year)
+        {
+            return Ok(await _summaryService.getIncomeByMonthAndYear(userId, month, year));
+        }
+
         [HttpGet("balance/{userId}")]
         public async Task<IActionResult> GetBalanceSummary(uint userId)
         {

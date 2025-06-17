@@ -28,6 +28,21 @@ namespace SummerPracticeWebApi.Services.Implementations
             return expenses;
         }
 
+        public async Task<decimal> getIncomeByMonthAndYear(uint userId, int month, int year)
+        {
+            decimal expenses = await _context.Operations
+                .Where(operation => operation.Acc.UserId == userId &&
+                    operation.IsExpense == false &&
+                    operation.DateTime.Month == month &&
+                    operation.DateTime.Year == year)
+                .Include(operation => operation.Acc)
+                .Include(operation => operation.CategoryCodeNavigation)
+                .Include(operation => operation.Card)
+                .SumAsync(operation => operation.AmountLcy);
+
+            return expenses;
+        }
+
         public async Task<decimal> getBalanceSummary(uint userId)
         {
             decimal balance = await _context.Accounts
