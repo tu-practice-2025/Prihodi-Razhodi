@@ -5,6 +5,7 @@ using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Mappers;
 using SummerPracticeWebApi.Services.Interfaces;
+using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Services.Implementations
 {
@@ -15,23 +16,6 @@ namespace SummerPracticeWebApi.Services.Implementations
         public BudgetService(IncomeExpensesContext context)
         {
             _context = context;
-        }
-
-        public async Task AddBudgetAsync(PlanningBudgetDto dto)
-        {
-            var budget = BudgetMapper.MapPlanningBudgetDtoToModel(dto);
-            _context.Budgets.Add(budget);
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserId(uint userId)
-        {
-            var budgets = await _context.Budgets
-                .Include(b => b.CategoryCodeNavigation)
-                .Where(b => b.UserId == userId)
-                .ToListAsync();
-
-            return budgets.Select(BudgetMapper.MapToBudgetDto);
         }
 
         public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
