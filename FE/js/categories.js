@@ -1,55 +1,103 @@
-document.addEventListener("DOMContentLoaded", () => {
-  fetch("data.json")
-    .then(response => {
-      if (!response.ok) throw new Error("Network response was not ok");
-      return response.json();
-    })
-    .then(data => {
-      updateCategoryAmount(data.categoryAmount);
-      updateGoalChart(data.goalPercentage);
-      renderTransactions(data.transactions);
-    })
-    .catch(error => {
-      console.error("Fetch error:", error);
-    });
+const userId = 1;
+const params = new URLSearchParams(window.location.search);
+const categoryCode = params.get("code") || "TRVH";
+const month = sessionStorage.getItem("month");
+const year = 2025;
+
+const categoryDescriptions = {
+    "BUSS": "Бизнес услуги",
+    "CASH": "Кеш",
+    "CLTH": "Дрехи",
+    "DEBT": "Задължения и такси",
+    "EDUC": "Образование",
+    "FINS": "Финансови услуги",
+    "HLTH": "Здраве и красота",
+    "HOME": "За дома",
+    "INAT": "Приход ATM",
+    "INCM": "Приход",
+    "INVT": "Инвестиции",
+    "OTHR": "Други",
+    "PUBS": "Публични услуги",
+    "REST": "Ресторанти и барове",
+    "RPAY": "Погасяване по кредитни продукти",
+    "SHOP": "Шопинг",
+    "SPRT": "Забавление и спорт",
+    "SUPM": "Супермаркети",
+    "TRPT": "Транспорт и авто услуги",
+    "TRSF": "Преводи",
+    "TRVH": "Пътуване и ваканция",
+    "UTIL": "Битови сметки"
+};
+
+window.addEventListener("DOMContentLoaded", async () => {
+    const labelEl = document.querySelector(".label");
+    const amountEl = document.querySelector(".amount");
+    const budgetEl = document.querySelector(".budget-amount");
+    const pie = document.querySelector(".pie");
+    const centerText = document.querySelector(".center-text");
+    const entriesList = document.getElementById("entriesList");
+
+    try {
+        const spendingRes = await fetch(`https://localhost:7121/api/Categories/${userId}/category-details?code=${categoryCode}&month=${month}&year=${year}`);
+        const spendingData = await spendingRes.json();
+
+        const totalSpent = spendingData.totalSpent || 0;
+        const transactions = spendingData.transactions || [];
+        const categoryDescription = spendingData.categoryDescription || categoryDescriptions[categoryCode] || categoryCode;
+
+        labelEl.textContent = categoryDescription;
+        amountEl.textContent = `$${totalSpent.toFixed(2)}`;
+
+        const budgetRes = await fetch(`https://localhost:7121/api/Budget/${userId}/category?code=${categoryCode}&month=${month}&year=${year}`);
+        const budgetData = await budgetRes.json();
+        const budgetAmount = budgetData?.amount || 1;
+
+        budgetEl.textContent = `Budget: $${budgetAmount.toFixed(2)}`;
+
+        const percentUsed = Math.min((totalSpent / budgetAmount) * 100, 100);
+        pie.style.background = `conic-gradient(#ff6666 ${percentUsed}%, #ffe5e5 ${percentUsed}% 100%)`;
+        centerText.textContent = `${Math.round(percentUsed)}%`;
+
+        entriesList.innerHTML = "";
+
+        if (transactions.length === 0) {
+            const li = document.createElement("li");
+            li.classList.add("transaction-entry");
+            li.style.justifyContent = "center";
+            li.textContent = "No transactions available for this category.";
+            entriesList.appendChild(li);
+        } else {
+            transactions.forEach(tx => {
+                const li = document.createElement("li");
+                li.classList.add("transaction-entry");
+                li.innerHTML = `
+                    <span>${formatDate(tx.date)}</span>
+                    <span>${tx.description}</span>
+                    <span>$${tx.amount.toFixed(2)}</span>
+                `;
+                entriesList.appendChild(li);
+            });
+        }
+
+    } catch (error) {
+        console.error("Error loading category details:", error);
+
+        labelEl.textContent = categoryDescriptions[categoryCode] || categoryCode;
+        amountEl.textContent = "$0.00";
+        budgetEl.textContent = "Budget: $0.00";
+        pie.style.background = `conic-gradient(#ffe5e5 100%)`;
+        centerText.textContent = "0%";
+
+        entriesList.innerHTML = "";
+        const li = document.createElement("li");
+        li.classList.add("transaction-entry");
+        li.style.justifyContent = "center";
+        li.textContent = "Could not load data.";
+        entriesList.appendChild(li);
+    }
 });
 
-function updateCategoryAmount(amount) {
-  const amountEl = document.querySelector(".amount-info .amount");
-  amountEl.textContent = `$${amount.toFixed(2)}`;
-}
-
-function updateGoalChart(percentage) {
-  const pie = document.querySelector(".pie");
-  const centerText = document.querySelector(".center-text");
-  centerText.textContent = `${percentage}%`;
-  pie.style.background = `conic-gradient(#666 0% ${percentage}%, #eee ${percentage}% 100%)`;
-}
-
-function renderTransactions(transactions) {
-  const container = document.querySelector(".transactions-section");
-  container.innerHTML = "<h2>Transactions</h2>";
-
-  transactions.forEach(tx => {
-    const txDiv = document.createElement("div");
-    txDiv.classList.add("transaction");
-
-    const idSpan = document.createElement("span");
-    idSpan.textContent = tx.id;
-
-    const merchantSpan = document.createElement("span");
-    merchantSpan.classList.add("merchant");
-    merchantSpan.textContent = tx.merchant;
-
-    const amountSpan = document.createElement("span");
-    amountSpan.classList.add("amount");
-    amountSpan.textContent = (tx.amount > 0 ? "+" : "") + tx.amount.toFixed(2);
-    amountSpan.classList.add(tx.amount >= 0 ? "positive" : "negative");
-
-    txDiv.appendChild(idSpan);
-    txDiv.appendChild(merchantSpan);
-    txDiv.appendChild(amountSpan);
-
-    container.appendChild(txDiv);
-  });
+function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-GB");
 }

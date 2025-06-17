@@ -89,14 +89,14 @@ button[type="submit"]:hover {
     justify-content: space-between;
     align-items: center;
 }
-
+.enter {
+}
 .income,
 .planned-income {
     color: green;
 }
 
-.expense,
-.planned-expense [type="number"] {
+.expense .planned-expense [type="number"] {
     color: red;
 }
 

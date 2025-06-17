@@ -1,5 +1,5 @@
 const userId = 1; // Replace with dynamic ID
-const month = 6; // Replace with dynamic month
+const month = sessionStorage.getItem("month");
 const year = 2025;
 
 let skip = 0;

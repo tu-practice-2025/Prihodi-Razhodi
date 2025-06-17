@@ -14,6 +14,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
+
 builder.Services.AddDbContext<IncomeExpensesContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("DefaultConnection")
@@ -22,14 +30,16 @@ builder.Services.AddDbContext<IncomeExpensesContext>(options =>
 builder.Services.AddScoped<IOperationService, OperationService>();
 builder.Services.AddScoped<IAccountService, AccountService>();
 builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IBudgetService, BudgetService>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IPlanningService, PlanningService>();
+builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<ICardService, CardService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISummaryService, SummaryService>();
 builder.Services.AddScoped<IPromptSenderService, PromptSenderService>();
 builder.Services.AddScoped<IAiResponseService, AiResponseService>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
+builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 
 // OpenAPI configuration
 builder.Services.AddOpenApi();

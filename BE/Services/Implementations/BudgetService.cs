@@ -1,9 +1,9 @@
-using Microsoft.AspNetCore.Http.HttpResults;
+using SummerPracticeWebApi.Dtos.Budget;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
-using SummerPracticeWebApi.Dtos.Budget;
+using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Mappers;
-using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
@@ -34,31 +34,23 @@ namespace SummerPracticeWebApi.Services.Implementations
             return budgets.Select(BudgetMapper.MapToBudgetDto);
         }
 
-        public async Task<bool> UpdateBudgetAsync(BudgetDto dto)
+        public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
         {
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
+                .FirstOrDefaultAsync();
             var budget = await _context.Budgets.FindAsync(dto.Id);
-            var category = await _context.Categories
-                .FirstAsync(category => category.Description == dto.CategoryDescription);
             if (budget == null) return false;
 
             budget.Amount = dto.Amount;
-            budget.CategoryCode = category.Code;
+            budget.CategoryCode = dto.CategoryCode; // use code, not description
             budget.Month = dto.Month;
             budget.Year = dto.Year;
             budget.UserId = dto.UserId;
 
-            await _context.SaveChangesAsync();
-            return true;
-        }
+            if (budget == null) return null;
 
-        public async Task<bool> DeleteBudgetAsync(uint id)
-        {
-            var budget = await _context.Budgets.FindAsync(id);
-            if (budget == null) return false;
-
-            _context.Budgets.Remove(budget);
-            await _context.SaveChangesAsync();
-            return true;
+            return new BudgetDto { Amount = budget.Amount };
         }
 
         public async Task<IEnumerable<BudgetDto>> GetBudgetsByUserIdMonthAndYear(uint userId, int month, int year)
