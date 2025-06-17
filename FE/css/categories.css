@@ -43,6 +43,7 @@ html {
     gap: 1rem;
     align-items: stretch;
 }
+
 .amount-header {
     display: flex;
     align-items: center;
@@ -73,16 +74,14 @@ html {
     color: #333;
 }
 
-.transactions-section {
-    padding: 1.5rem;
-    border-radius: 0.8rem;
-}
-
 .goal-section {
     padding: 1.5rem;
     border-radius: 0.8rem;
     background-color: #fff5f5;
     border: 1px solid #e9dada;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .goal-section h2,
@@ -92,16 +91,9 @@ html {
     text-align: center;
 }
 
-.goal-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .pie {
     width: 20rem;
     height: 20rem;
-    background: conic-gradient(#ff6d6d 0% 80%, #fff5f5 80% 100%);
     border-radius: 50%;
     position: relative;
     display: flex;
@@ -112,7 +104,8 @@ html {
 .inner-pie {
     width: 4rem;
     height: 4rem;
-    background: #fff5f5 100%;
+    transition: background 0.5s ease;
+    background: #fff5f5 !important;
     border-radius: 50%;
     position: relative;
     display: flex;
@@ -128,18 +121,38 @@ html {
 }
 
 .transactions-section {
-    align-items: stretch;
+    padding: 1rem;
+    border-radius: 1rem;
+    background-color: #fff5f5;
+    width: 100%;
+    box-sizing: border-box;
+    flex-grow: 1;
+    overflow-y: auto;
+    max-height: 600px;
 }
 
-.transaction {
-    background: #fff;
-    border: 1px solid #333;
-    border-radius: 0.5rem;
+.transactions-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.transactions-section li,
+.transaction-entry {
+    background-color: #ffffff;
     padding: 0.75rem 1rem;
     margin-bottom: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #e9dada;
+    display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 1rem;
+    font-size: 1rem;
+}
+
+
+.transaction {
+    display: none;
 }
 
 .transaction .merchant {
@@ -157,37 +170,11 @@ html {
     font-weight: bold;
 }
 
-.transactions-section {
-    background-color: #fff5f5;
-    padding: 24px;
-    width: 100%;
-    max-width: 400px;
-}
-
-.transactions-section ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.transactions-section li {
-    background-color: #ffffff;
-    padding: 10px 14px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    border: 1px solid #e9dada;
-    /* font-size: 0.95em; */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 #entriesList li {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 8px;
-    border-bottom: 1px solid #ccc;
     gap: 10px;
 }
 
@@ -202,20 +189,3 @@ html {
 #entriesList li span {
     flex-grow: 1;
 }
-
-.transactions-section {
-    max-height: 400px;
-    overflow-y: auto;
-    background: #ffecec;
-    padding: 1rem;
-    border-radius: 10px;
-}
-
-.transaction-entry {
-    display: flex;
-    justify-content: space-between;
-    padding: 6px 0;
-    border-bottom: 1px solid #f0cfcf;
-    font-size: 0.95rem;
-}
-

@@ -1,5 +1,5 @@
 const userId = 1;
-const month = 6;
+const month = sessionStorage.getItem("month");
 const year = 2025;
 
 let skip = 0;
