@@ -2,7 +2,7 @@ using SummerPracticeWebApi.Dtos;
 
 namespace SummerPracticeWebApi.Services.Interfaces
 {
-    public interface ICategoryService
+    public interface IExpensesService
     {
         Task<IEnumerable<CategoryDto>> GetAllCategories();
         Task<List<CategorySpendingDto>> GetUserSpendingsByCategoryAsync(uint userId, byte month, uint year);

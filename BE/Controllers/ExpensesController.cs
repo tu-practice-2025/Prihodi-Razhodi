@@ -6,11 +6,11 @@ namespace SummerPracticeWebApi.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : ControllerBase
+    public class ExpensesController : ControllerBase
     {
-        private readonly ICategoryService _categoryService;
+        private readonly IExpensesService _categoryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public ExpensesController(IExpensesService categoryService)
         {
             _categoryService = categoryService;
         }

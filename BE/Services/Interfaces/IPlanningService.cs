@@ -3,7 +3,7 @@ using SummerPracticeWebApi.Models;
 
 namespace SummerPracticeWebApi.Services.Interfaces
 {
-    public interface IBudgetService
+    public interface IPlanningService
     {
         Task AddBudgetAsync(PlanningBudgetDto dto);
         Task<IEnumerable<BudgetDto>> GetBudgetsByUserAsync(uint userId);

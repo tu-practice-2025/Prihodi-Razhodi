@@ -8,11 +8,11 @@ using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
 {
-    public class CategoryService : ICategoryService
+    public class ExpensesService : IExpensesService
     {
         private readonly IncomeExpensesContext _context;
 
-        public CategoryService(IncomeExpensesContext context)
+        public ExpensesService(IncomeExpensesContext context)
         {
             _context = context;
         }

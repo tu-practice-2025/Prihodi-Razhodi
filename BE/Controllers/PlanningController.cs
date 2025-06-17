@@ -11,11 +11,11 @@ namespace SummerPracticeWebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BudgetController : ControllerBase
+    public class PlanningController : ControllerBase
     {
-        private readonly IBudgetService _budgetService;
+        private readonly IPlanningService _budgetService;
 
-        public BudgetController(IBudgetService budgetService)
+        public PlanningController(IPlanningService budgetService)
         {
             _budgetService = budgetService;
         }
