@@ -11,7 +11,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     const showMoreBtn = document.querySelector(".button-group button");
 
     try {
-        const chartRes = await fetch(`https://localhost:7121/api/Category/${userId}/spending?month=${month}&year=${year}`);
+        const chartRes = await fetch(`https://localhost:7121/api/Expenses/${userId}/spending?month=${month}&year=${year}`);
         const chartData = await chartRes.json();
 
         const labels = chartData.map(item => item.category);
@@ -58,7 +58,7 @@ async function loadExpenseTransactions() {
     const tableBody = document.getElementById("expenseTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
 
-    const res = await fetch(`https://localhost:7121/api/Category/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const res = await fetch(`https://localhost:7121/api/Expenses/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
     const data = await res.json();
 
     if (data.length === 0) {

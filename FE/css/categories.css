@@ -202,3 +202,20 @@ html {
 #entriesList li span {
     flex-grow: 1;
 }
+
+.transactions-section {
+    max-height: 400px;
+    overflow-y: auto;
+    background: #ffecec;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.transaction-entry {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    border-bottom: 1px solid #f0cfcf;
+    font-size: 0.95rem;
+}
+
