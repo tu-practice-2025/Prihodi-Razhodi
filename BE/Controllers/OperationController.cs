@@ -38,5 +38,14 @@ namespace SummerPracticeWebApi.Controllers
             }
                
         }
+
+        [HttpGet("expenses")]
+        public async Task<IActionResult> GetExpensesOperations(
+            [FromQuery] uint userId,
+            [FromQuery] int month,
+            [FromQuery] int year)
+        {
+            return Ok(await _operationService.getExpensesByMonthAndYear(userId, month, year));
+        }
     }
 }

@@ -1,51 +1,91 @@
-// Примерни данни за графиката
-const expenseData = {
-    labels: ["Rent", "Utilities", "Groceries", "Transport", "Entertainment"],
-    datasets: [
-        {
-            label: "Expenses in June",
-            data: [900, 120, 300, 100, 150],
-            backgroundColor: [
-                "rgba(255, 99, 132, 0.6)",
-                "rgba(255, 159, 64, 0.6)",
-                "rgba(255, 205, 86, 0.6)",
-                "rgba(75, 192, 192, 0.6)",
-                "rgba(153, 102, 255, 0.6)",
-            ],
-        },
-    ],
-};
+const userId = 1;
+const month = 6;
+const year = 2025;
 
-const config = {
-    type: "bar",
-    data: expenseData,
-    options: {
-        responsive: true,
-        plugins: {
-            legend: { position: "top" },
-            title: { display: true, text: "Expenses by Category" },
-        },
-    },
-};
+let skip = 0;
+const take = 10;
 
-// Рендериране на графиката
-window.addEventListener("DOMContentLoaded", () => {
-    const ctx = document.getElementById("expensesChart").getContext("2d");
-    new Chart(ctx, config);
-
-    // Примерни транзакции
-    const transactions = [
-        { date: "2025-06-01", category: "Rent", amount: "$900" },
-        { date: "2025-06-03", category: "Groceries", amount: "$75" },
-        { date: "2025-06-06", category: "Utilities", amount: "$60" },
-        { date: "2025-06-08", category: "Transport", amount: "$25" },
-        { date: "2025-06-10", category: "Entertainment", amount: "$50" },
-    ];
-
+window.addEventListener("DOMContentLoaded", async () => {
+    const chartCtx = document.getElementById("expensesChart").getContext("2d");
     const tableBody = document.getElementById("expenseTableBody");
-    transactions.forEach((tx) => {
+    const showMoreBtn = document.querySelector(".button-group button");
+
+    try {
+        const chartRes = await fetch(`https://localhost:7121/api/Category/${userId}/spending?month=${month}&year=${year}`);
+        const chartData = await chartRes.json();
+
+        const labels = chartData.map(item => item.category);
+        const values = chartData.map(item => item.total);
+
+        new Chart(chartCtx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: `Expenses in ${getMonthName(month)}`,
+                    data: values,
+                    backgroundColor: [
+                        "rgba(255, 99, 132, 0.6)",
+                        "rgba(255, 159, 64, 0.6)",
+                        "rgba(255, 205, 86, 0.6)",
+                        "rgba(75, 192, 192, 0.6)",
+                        "rgba(153, 102, 255, 0.6)",
+                        "rgba(54, 162, 235, 0.6)",
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: "top" },
+                    title: { display: true, text: "Expenses by Category" },
+                },
+            },
+        });
+
+        await loadExpenseTransactions();
+
+        showMoreBtn.addEventListener("click", async () => {
+            await loadExpenseTransactions();
+        });
+
+    } catch (error) {
+        console.error("Error loading expenses:", error);
+    }
+});
+
+async function loadExpenseTransactions() {
+    const tableBody = document.getElementById("expenseTableBody");
+    const showMoreBtn = document.querySelector(".button-group button");
+
+    const res = await fetch(`https://localhost:7121/api/Category/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const data = await res.json();
+
+    if (data.length === 0) {
+        showMoreBtn.disabled = true;
+        showMoreBtn.innerText = "No more transactions";
+        return;
+    }
+
+    data.forEach((tx) => {
         const row = document.createElement("tr");
-        row.innerHTML = `<td>${tx.date}</td><td>${tx.category}</td><td>${tx.amount}</td>`;
+        row.innerHTML = `
+            <td>${formatDate(tx.date)}</td>
+            <td>${tx.category}</td>
+            <td>$${tx.amount.toFixed(2)}</td>
+        `;
         tableBody.appendChild(row);
     });
-});
+
+    skip += take;
+}
+
+function getMonthName(month) {
+    const date = new Date(2025, month - 1);
+    return date.toLocaleString("default", { month: "long" });
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-GB"); // e.g. 14/06/2025
+}
