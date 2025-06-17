@@ -14,6 +14,14 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     });
 
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
+
+
 builder.Services.AddDbContext<IncomeExpensesContext>(options =>
     options.UseMySQL(
         builder.Configuration.GetConnectionString("DefaultConnection")

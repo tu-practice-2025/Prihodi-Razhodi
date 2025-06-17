@@ -11,5 +11,6 @@ namespace SummerPracticeWebApi.Dtos.Budget
         public uint Year { get; set; }
         public string CategoryDescription { get; set; }
         public uint UserId { get; set; }
+        public string CategoryCode { get; set; }
     }
 }
