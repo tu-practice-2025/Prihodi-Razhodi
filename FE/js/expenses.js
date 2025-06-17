@@ -2,18 +2,20 @@ const userId = 1;
 const month = 6;
 const year = 2025;
 
+let skip = 0;
+const take = 10;
+
 window.addEventListener("DOMContentLoaded", async () => {
     const chartCtx = document.getElementById("expensesChart").getContext("2d");
     const tableBody = document.getElementById("expenseTableBody");
+    const showMoreBtn = document.querySelector(".button-group button");
 
     try {
-        // 🔶 Fetch expense data (for chart)
-        const response = await fetch(`https://localhost:7121/api/Category/${userId}/spending?month=${month}&year=${year}`);
-        const data = await response.json();
+        const chartRes = await fetch(`https://localhost:7121/api/Category/${userId}/spending?month=${month}&year=${year}`);
+        const chartData = await chartRes.json();
 
-        // 🔶 Render chart
-        const labels = data.map(item => item.category);
-        const values = data.map(item => item.total);
+        const labels = chartData.map(item => item.category);
+        const values = chartData.map(item => item.total);
 
         new Chart(chartCtx, {
             type: "bar",
@@ -41,27 +43,42 @@ window.addEventListener("DOMContentLoaded", async () => {
             },
         });
 
-        // 🔶 Fetch latest transactions (for table)
-        const latestRes = await fetch(`https://localhost:7121/api/Category/${userId}/latest?month=${month}&year=${year}`);
-        const latestData = await latestRes.json();
+        await loadExpenseTransactions();
 
-        // 🔶 Render table
-        tableBody.innerHTML = "";
-        latestData.forEach((tx) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-        <td>${formatDate(tx.date)}</td>
-        <td>${tx.category}</td>
-        <td>$${tx.amount.toFixed(2)}</td>
-    `;
-    tableBody.appendChild(row);
-});
-
+        showMoreBtn.addEventListener("click", async () => {
+            await loadExpenseTransactions();
+        });
 
     } catch (error) {
         console.error("Error loading expenses:", error);
     }
 });
+
+async function loadExpenseTransactions() {
+    const tableBody = document.getElementById("expenseTableBody");
+    const showMoreBtn = document.querySelector(".button-group button");
+
+    const res = await fetch(`https://localhost:7121/api/Category/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const data = await res.json();
+
+    if (data.length === 0) {
+        showMoreBtn.disabled = true;
+        showMoreBtn.innerText = "No more transactions";
+        return;
+    }
+
+    data.forEach((tx) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${formatDate(tx.date)}</td>
+            <td>${tx.category}</td>
+            <td>$${tx.amount.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+
+    skip += take;
+}
 
 function getMonthName(month) {
     const date = new Date(2025, month - 1);
