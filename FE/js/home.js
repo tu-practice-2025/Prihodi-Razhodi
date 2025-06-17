@@ -6,6 +6,7 @@ import { renderCharts } from './charts.js';
 document.addEventListener("DOMContentLoaded", async () => {
     await initialLoading();
     renderCharts();
+    display();
 
     const testBtn = document.getElementById("testButton");
     if (testBtn) {
@@ -40,28 +41,41 @@ async function initialLoading() {
     }
 
     saveUser(user);
-    const userId = user.id;
 
-    const [accounts, categories, operations, budgets] = await Promise.all([
-        getAccounts(userId),
-        getCategories(),
-        getOperations(userId, sessionStorage.getItem("month"), sessionStorage.getItem("year")),
-        getBudgets(userId)
-    ]);
 
-    if (accounts) saveAllAccounts(accounts);
-    if (categories) saveCategories(categories);
-    if (operations) saveAllOperations(operations);
-    if (budgets) saveBudgets(budgets);
+    // const userId = user.id;
 
-    filterAndDisplay();
+    // const [accounts, categories, operations, budgets] = await Promise.all([
+    //     getAccounts(userId),
+    //     getCategories(),
+    //     getOperations(userId, sessionStorage.getItem("month"), sessionStorage.getItem("year")),
+    //     getBudgets(userId)
+    // ]);
 
-    if (accounts?.length) {
-    const cardPromises = accounts.map(account => getCards(account.id));
-    const cardResults = await Promise.all(cardPromises);
+    // if (accounts) saveAllAccounts(accounts);
+    // if (categories) saveCategories(categories);
+    // if (operations) saveAllOperations(operations);
+    // if (budgets) saveBudgets(budgets);
 
-    const allCards = cardResults.flat().filter(Boolean);
+    // filterAndDisplay();
 
-    saveAllCards(allCards);
-    }
+    // if (accounts?.length) {
+    // const cardPromises = accounts.map(account => getCards(account.id));
+    // const cardResults = await Promise.all(cardPromises);
+
+    // const allCards = cardResults.flat().filter(Boolean);
+
+    // saveAllCards(allCards);
+    // }
+}
+
+export function display() {
+    const income = sessionStorage.getItem('income');
+    document.getElementById("incomeDisplay").textContent = income ? `${income} BGN` : "0 BGN";
+
+    const expenses = sessionStorage.getItem('expenses');
+    document.getElementById("expensesDisplay").textContent = expenses ? `${expenses} BGN` : "0 BGN";
+
+    const balance = sessionStorage.getItem('balance');
+    document.getElementById("balanceDisplay").textContent = balance ? `${balance} BGN` : "0 BGN";
 }
