@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 async function initialLoading() {
     saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
-    setMonthYear();
+    // setMonthYear();
 
     const email = localStorage.getItem("email");
     const user = await getUser(email);
@@ -57,30 +57,34 @@ async function initialLoading() {
 
     saveUser(user);
 
-    // const userId = user.id;
+    const userId = user.id;
+    const [accounts, categories, operations, budgets] = await Promise.all([
+        getAccounts(userId),
+        getCategories(),
+        getOperations(
+            userId,
+            sessionStorage.getItem("month"),
+            sessionStorage.getItem("year")
+        ),
+        getBudgets(userId),
+    ]);
 
-    // const [accounts, categories, operations, budgets] = await Promise.all([
-    //     getAccounts(userId),
-    //     getCategories(),
-    //     getOperations(userId, sessionStorage.getItem("month"), sessionStorage.getItem("year")),
-    //     getBudgets(userId)
-    // ]);
+    if (accounts) saveAllAccounts(accounts);
+    if (categories) saveCategories(categories);
+    if (operations) saveAllOperations(operations);
+    if (budgets) saveBudgets(budgets);
 
-    // if (accounts) saveAllAccounts(accounts);
-    // if (categories) saveCategories(categories);
-    // if (operations) saveAllOperations(operations);
-    // if (budgets) saveBudgets(budgets);
+    filterAndDisplay();
 
-    // filterAndDisplay();
+    if (accounts?.length) {
+        console.log(accounts);
+        const cardPromises = accounts.map((account) => getCards(account.id));
+        const cardResults = await Promise.all(cardPromises);
 
-    // if (accounts?.length) {
-    // const cardPromises = accounts.map(account => getCards(account.id));
-    // const cardResults = await Promise.all(cardPromises);
+        const allCards = cardResults.flat().filter(Boolean);
 
-    // const allCards = cardResults.flat().filter(Boolean);
-
-    // saveAllCards(allCards);
-    // }
+        saveAllCards(allCards);
+    }
 }
 
 export function display() {

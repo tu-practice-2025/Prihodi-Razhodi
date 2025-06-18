@@ -10,5 +10,7 @@ namespace SummerPracticeWebApi.Services.Interfaces
         Task<BudgetDto> CreateBudgetAsync(BudgetDto budgetDto);
         Task<bool> UpdateBudgetAsync(BudgetDto budgetDto);
         Task<bool> DeleteBudgetAsync(uint id);
+        Task<IEnumerable<BudgetDto>> GetBudgetsByUserIdMonthAndYear(uint userId, int month, int year);
+
     }
 }

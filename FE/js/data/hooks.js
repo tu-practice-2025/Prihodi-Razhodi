@@ -13,7 +13,7 @@ export async function getOperations(userId, month, year) {
 
 export async function getCategories() {
     try {
-        const res = await fetch(`https://localhost:7121/api/category`);
+        const res = await fetch(`https://localhost:7121/api/Expenses/`);
         if (!res.ok) throw new Error("Failed to load categories");
         return await res.json();
     } catch (err) {

@@ -2,20 +2,20 @@ import { filterAndDisplay, filterOperations } from "./data/filters.js";
 import { renderCharts } from "./charts.js";
 
 const categoryDescriptions = {
-    "BUSS": "Бизнес услуги",
-    "CLTH": "Дрехи",
-    "DEBT": "Задължения и такси",
-    "EDUC": "Образование",
-    "HLTH": "Здраве и красота",
-    "HOME": "За дома",
-    "OTHR": "Други",
-    "PUBS": "Публични услуги",
-    "REST": "Ресторанти и барове",
-    "SHOP": "Шопинг",
-    "SPRT": "Забавление и спорт",
-    "SUPM": "Супермаркети",
-    "TRPT": "Транспорт и авто услуги",
-    "TRVH": "Пътуване и ваканция",
+    BUSS: "Бизнес услуги",
+    CLTH: "Дрехи",
+    DEBT: "Задължения и такси",
+    EDUC: "Образование",
+    HLTH: "Здраве и красота",
+    HOME: "За дома",
+    OTHR: "Други",
+    PUBS: "Публични услуги",
+    REST: "Ресторанти и барове",
+    SHOP: "Шопинг",
+    SPRT: "Забавление и спорт",
+    SUPM: "Супермаркети",
+    TRPT: "Транспорт и авто услуги",
+    TRVH: "Пътуване и ваканция",
 };
 
 function populateCategoryDropdown() {
@@ -34,8 +34,9 @@ $(function () {
     $(".header").load("./nav-bar.html", function () {
         // ✅ Bootstrap dropdown fix
         setTimeout(() => {
-            const dropdownElements = document.querySelectorAll('.dropdown-toggle');
-            dropdownElements.forEach(el => new bootstrap.Dropdown(el));
+            const dropdownElements =
+                document.querySelectorAll(".dropdown-toggle");
+            dropdownElements.forEach((el) => new bootstrap.Dropdown(el));
         }, 0); // Use setTimeout to ensure HTML is parsed before initializing
 
         // ✅ Populate categories
@@ -46,12 +47,14 @@ $(function () {
         if (monthSelector) {
             const savedMonth = sessionStorage.getItem("month");
             if (savedMonth) {
-                monthSelector.value = savedMonth.toString().padStart(2, '0');
+                monthSelector.value = savedMonth.toString().padStart(2, "0");
             }
 
             monthSelector.addEventListener("change", (event) => {
                 const selectedValue = parseInt(event.target.value);
+                console.log(3, event.target.value);
                 sessionStorage.setItem("month", selectedValue);
+                sessionStorage.setItem("year", 2025);
                 window.location.reload();
 
                 if (typeof filterOperations === "function") filterOperations();
@@ -59,5 +62,13 @@ $(function () {
                 if (typeof renderCharts === "function") renderCharts();
             });
         }
+        const selectedValue = parseInt(monthSelector.value);
+        console.log(1, selectedValue);
+        sessionStorage.setItem("month", selectedValue);
+        sessionStorage.setItem("year", 2025);
+
+        if (typeof filterOperations === "function") filterOperations();
+        if (typeof filterAndDisplay === "function") filterAndDisplay();
+        if (typeof renderCharts === "function") renderCharts();
     });
 });
