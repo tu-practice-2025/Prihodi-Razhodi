@@ -67,8 +67,19 @@
                         <h4>Quick access</h4>
                         <div class="button-group">
                             <button>Send report</button>
-                            <button
-                                id="testButton">test</button>
+                            <button id="openInsightsBtn" class="insights-button">Financial Advisor</button>
+
+                            <div id="insightsModal" class="modal">
+                                <div class="modal-content">
+                                    <span id="closeModalBtn" class="close">&times;</span>
+                                    <h2>Your Insights</h2>
+                                    <div id="insightsContent">
+                                        <p>Loading insights...</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button>Show all transactions</button>
                         </div>
                     </div>
                 </div>
