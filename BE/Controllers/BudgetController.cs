@@ -16,9 +16,9 @@ namespace SummerPracticeWebApi.Controllers
         }
 
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUserBudgets(uint userId)
+        public async Task<IActionResult> GetUserBudgets(uint userId, [FromQuery] byte? month = null, [FromQuery] uint? year = null)
         {
-            var result = await _budgetService.GetUserBudgetsAsync(userId);
+            var result = await _budgetService.GetUserBudgetsAsync(userId, month, year);
             return Ok(result);
         }
 
