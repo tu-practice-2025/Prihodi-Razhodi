@@ -6,12 +6,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const USER_ID = 1;
     const YEAR = 2025;
 
+    const month = sessionStorage.getItem("month");
+    const monthParam = month ? `?month=${month}` : "";
+
     let isEditing = false;
     let currentEditingElement = null;
 
     // Load existing entries
     function loadEntries() {
-        fetch(`${API_BASE_URL}/${USER_ID}`)
+        fetch(`${API_BASE_URL}/${USER_ID}${monthParam}`)
             .then((res) => {
                 if (!res.ok)
                     throw new Error(`Failed to load entries: ${res.status}`);
@@ -128,9 +131,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Create text content with line break safely
         const textSpan = document.createElement("span");
-        textSpan.textContent = `${entry.currency ? "Expense" : "Income"} - ${
-            entry.categoryDescription
-        }: ${entry.amount} ${entry.currency} Planned for: ${entry.month}`;
+        const monthNames = [
+        "", "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ];
+
+        const monthName = monthNames[entry.month];
+
+        textSpan.textContent = `${entry.currency ? "Expense" : "Income"} - ${entry.categoryDescription}: ${entry.amount} ${entry.currency} Planned for: ${monthName}`;
 
         const br = document.createElement("br");
 

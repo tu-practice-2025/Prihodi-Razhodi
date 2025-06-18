@@ -2,6 +2,7 @@ body {
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #ffffff;
     margin: 0;
+    overflow: hidden;
 }
 
 main {
@@ -49,7 +50,7 @@ button[type="submit"] {
     width: 100%;
     padding: 12px;
     margin-top: 14px;
-    background-color: #4caf50;
+    background-color: #e2001a;
     color: white;
     font-size: 1em;
     border: none;
@@ -59,7 +60,8 @@ button[type="submit"] {
 }
 
 button[type="submit"]:hover {
-    background-color: #388e3c;
+    background-color: #c00016;
+
 }
 
 .recent-entries {
@@ -70,6 +72,9 @@ button[type="submit"]:hover {
     width: 100%;
     max-width: 400px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+    max-height: 600px;  /* Adjust as needed */
+    overflow-y: auto;
 }
 
 .recent-entries ul {
@@ -187,4 +192,8 @@ button[type="submit"]:hover {
 
 #entriesList li span {
     flex-grow: 1;
+}
+
+#category {
+    margin-bottom: 14px;
 }

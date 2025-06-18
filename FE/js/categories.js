@@ -46,15 +46,15 @@ window.addEventListener("DOMContentLoaded", async () => {
         const categoryDescription = spendingData.categoryDescription || categoryDescriptions[categoryCode] || categoryCode;
 
         labelEl.textContent = categoryDescription;
-        amountEl.textContent = `$${totalSpent.toFixed(2)}`;
+        amountEl.textContent = `${totalSpent.toFixed(2)}`;
 
         const budgetRes = await fetch(`https://localhost:7121/api/Budget/${userId}/category?code=${categoryCode}&month=${month}&year=${year}`);
         const budgetData = await budgetRes.json();
         const budgetAmount = budgetData?.amount || 1;
 
-        budgetEl.textContent = `Budget: $${budgetAmount.toFixed(2)}`;
+        budgetEl.textContent = `Budget: ${budgetAmount.toFixed(2)}`;
 
-        const percentUsed = Math.min((totalSpent / budgetAmount) * 100, 100);
+        const percentUsed = Math.min((totalSpent / budgetAmount) * 100);
         pie.style.background = `conic-gradient(#ff6666 ${percentUsed}%, #ffe5e5 ${percentUsed}% 100%)`;
         centerText.textContent = `${Math.round(percentUsed)}%`;
 
