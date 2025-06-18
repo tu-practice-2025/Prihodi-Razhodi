@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SummerPracticeWebApi.Services.Implementations;
+using SummerPracticeWebApi.Services.Interfaces;
 
 [ApiController]
 [Route("api/[controller]")]
 public class EmailController : ControllerBase
 {
-    private readonly EmailService _emailService;
-    private readonly OperationService operationService;
+    private readonly IEmailService _emailService;
 
-    public EmailController(EmailService emailService)
+    public EmailController(IEmailService emailService)
     {
         _emailService = emailService;
     }
@@ -16,16 +15,16 @@ public class EmailController : ControllerBase
     [HttpGet("{userId}")]
     public async Task<IActionResult> SendEmail(uint userId)
     {
-        var success = await _emailService.SendEmailAsync(userId);
+        var success = await _emailService.SendEmailByUserId(userId);
 
         return success ? Ok("Email sent") : StatusCode(500, "Failed to send email");
     }
 
-    //[HttpGet("apikey")]
-    //public IActionResult GetKey()
-    //{
-    //    var key = _emailService.GetType().GetField("_apiKey", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?.GetValue(_emailService);
-    //    return Ok(new { apiKey = key });
-    //}
+    [HttpGet("")]
+    public async Task<IActionResult> SendEmailsToAllUsers()
+    {
+        var success = await _emailService.SendEmailsToAllUsers();
 
+        return success ? Ok("Email sent") : StatusCode(500, "Failed to send email");
+    }
 }

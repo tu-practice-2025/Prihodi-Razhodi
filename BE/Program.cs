@@ -34,8 +34,10 @@ builder.Services.AddScoped<IPlanningService, PlanningService>();
 builder.Services.AddScoped<IExpensesService, ExpensesService>();
 builder.Services.AddScoped<IIncomeService, IncomeService>();
 builder.Services.AddScoped<ICardService, CardService>();
-builder.Services.AddScoped<EmailService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ISummaryService, SummaryService>();
+builder.Services.AddScoped<IPromptSenderService, PromptSenderService>();
+builder.Services.AddScoped<IAiResponseService, AiResponseService>();
 builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddScoped<ICategoriesService, CategoriesService>();
 

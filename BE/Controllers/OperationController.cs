@@ -45,7 +45,25 @@ namespace SummerPracticeWebApi.Controllers
             [FromQuery] int month,
             [FromQuery] int year)
         {
-            return Ok(await _operationService.getExpensesByMonthAndYear(userId, month, year));
+            return Ok(await _operationService.GetExpensesByMonthAndYear(userId, month, year));
+        }
+
+        [HttpGet("incomes")]
+        public async Task<IActionResult> GetIncomeOperations(
+            [FromQuery] uint userId,
+            [FromQuery] int month,
+            [FromQuery] int year)
+        {
+            return Ok(await _operationService.GetIncomesByMonthAndYear(userId, month, year));
+        }
+
+        [HttpGet("categorised")]
+        public async Task<IActionResult> GetOperationsByCategory(
+            [FromQuery] uint userId,
+            [FromQuery] int month,
+            [FromQuery] int year)
+        {
+            return Ok(await _operationService.GetOperationsByCategory(userId, month, year));
         }
     }
 }
