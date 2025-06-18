@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Dtos.Budget;
 using SummerPracticeWebApi.Mappers;
 using SummerPracticeWebApi.Services.Interfaces;
@@ -57,6 +58,18 @@ namespace SummerPracticeWebApi.Services.Implementations
                 UserId = budget.UserId,
                 CategoryCode = budget.CategoryCode ?? string.Empty
             };
+        }
+
+
+        public async Task<BudgetDto?> GetUserCategoryBudget(uint userId, string categoryCode, byte month, uint year)
+        {
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
+                .FirstOrDefaultAsync();
+
+            if (budget == null) return null;
+
+            return new BudgetDto { Amount = budget.Amount };
         }
 
         public async Task<BudgetDto> CreateBudgetAsync(BudgetDto budgetDto)
