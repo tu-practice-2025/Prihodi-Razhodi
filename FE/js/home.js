@@ -1,7 +1,23 @@
-import { saveAllCards, saveBudgets, saveAllOperations, setMonthYear, saveUser, saveAllAccounts, saveCategories, saveEmail } from './data/sessionStorage.js';
-import { filterAndDisplay } from './data/filters.js';
-import { getOperations, getCategories, getBudgets, getAccounts, getCards, getUser} from './data/hooks.js'
-import { renderCharts } from './charts.js';
+import {
+    saveAllCards,
+    saveBudgets,
+    saveAllOperations,
+    setMonthYear,
+    saveUser,
+    saveAllAccounts,
+    saveCategories,
+    saveEmail,
+} from "./data/sessionStorage.js";
+import { filterAndDisplay } from "./data/filters.js";
+import {
+    getOperations,
+    getCategories,
+    getBudgets,
+    getAccounts,
+    getCards,
+    getUser,
+} from "./data/hooks.js";
+import { renderCharts } from "./charts.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
     await initialLoading();
@@ -13,13 +29,11 @@ document.addEventListener("DOMContentLoaded", async () => {
         testBtn.addEventListener("click", test);
     }
 
-    function test(){
+    function test() {
         // setYear(2025);
         // setMonth(6);
         // filterOperations();
         // filterAndDisplay();
-    
-    
         // deleteBudget(5)
         // .then(data => {
         //     console.log("Posted budget successfully:", data);
@@ -33,8 +47,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 async function initialLoading() {
     saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
     setMonthYear();
-    
-    const email = localStorage.getItem('email');
+
+    const email = localStorage.getItem("email");
     const user = await getUser(email);
     if (!user) {
         console.error("No user found");
@@ -42,7 +56,6 @@ async function initialLoading() {
     }
 
     saveUser(user);
-
 
     // const userId = user.id;
 
@@ -71,12 +84,18 @@ async function initialLoading() {
 }
 
 export function display() {
-    const income = sessionStorage.getItem('income');
-    document.getElementById("incomeDisplay").textContent = income ? `${income} BGN` : "0 BGN";
+    const income = sessionStorage.getItem("income");
+    document.getElementById("incomeDisplay").textContent = income
+        ? `${income} BGN`
+        : "0 BGN";
 
-    const expenses = sessionStorage.getItem('expenses');
-    document.getElementById("expensesDisplay").textContent = expenses ? `${expenses} BGN` : "0 BGN";
+    const expenses = sessionStorage.getItem("expenses");
+    document.getElementById("expensesDisplay").textContent = expenses
+        ? `${expenses} BGN`
+        : "0 BGN";
 
-    const balance = sessionStorage.getItem('balance');
-    document.getElementById("balanceDisplay").textContent = balance ? `${balance} BGN` : "0 BGN";
+    const balance = sessionStorage.getItem("balance");
+    document.getElementById("balanceDisplay").textContent = balance
+        ? `${balance} BGN`
+        : "0 BGN";
 }

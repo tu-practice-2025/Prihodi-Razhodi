@@ -1,7 +1,9 @@
 let lineChartInstance = null;
 
 export function renderCharts() {
-    const operations = JSON.parse(sessionStorage.getItem("thisMonthAndYearOperations"));    //fetching operations
+    const operations = JSON.parse(
+        sessionStorage.getItem("thisMonthAndYearOperations")
+    ); //fetching operations
     if (!operations) {
         console.error("No operations loaded");
         return;
@@ -12,10 +14,19 @@ export function renderCharts() {
         tempDate.setHours(0, 0, 0, 0);
 
         // Thursday is used to determine the week (ISO 8601)
-        tempDate.setDate(tempDate.getDate() + 3 - ((tempDate.getDay() + 6) % 7));
+        tempDate.setDate(
+            tempDate.getDate() + 3 - ((tempDate.getDay() + 6) % 7)
+        );
 
         const firstThursday = new Date(tempDate.getFullYear(), 0, 4);
-        const weekNumber = 1 + Math.round(((tempDate - firstThursday) / 86400000 - 3 + ((firstThursday.getDay() + 6) % 7)) / 7);
+        const weekNumber =
+            1 +
+            Math.round(
+                ((tempDate - firstThursday) / 86400000 -
+                    3 +
+                    ((firstThursday.getDay() + 6) % 7)) /
+                    7
+            );
 
         return weekNumber;
     }
@@ -26,7 +37,11 @@ export function renderCharts() {
 
         // Get ISO weeks covered by the month
         const weekSet = new Set();
-        for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+        for (
+            let d = new Date(startDate);
+            d <= endDate;
+            d.setDate(d.getDate() + 1)
+        ) {
             weekSet.add(getISOWeek(new Date(d)));
         }
 
@@ -37,7 +52,7 @@ export function renderCharts() {
         }
 
         // Assign operations into correct weeks
-        operations.forEach(op => {
+        operations.forEach((op) => {
             const date = new Date(op.dateTime);
             const weekNum = getISOWeek(date);
             const key = `week${weekNum}`;
@@ -48,7 +63,6 @@ export function renderCharts() {
 
         return grouped;
     }
-
 
     function getWeeklyTotals(grouped) {
         const income = [];
@@ -65,7 +79,7 @@ export function renderCharts() {
             let incomeSum = 0;
             let expenseSum = 0;
 
-            grouped[week].forEach(op => {
+            grouped[week].forEach((op) => {
                 if (op.isExpense) expenseSum += op.amountLcy;
                 else incomeSum += op.amountLcy;
             });
@@ -85,7 +99,7 @@ export function renderCharts() {
     const { income, expenses, labels } = getWeeklyTotals(grouped);
 
     const data = {
-        labels: labels.map(w => w.replace("week", "Week ")), // Optional cleaner labels
+        labels: labels.map((w) => w.replace("week", "Week ")), // Optional cleaner labels
         datasets: [
             {
                 label: "Income",
@@ -98,8 +112,8 @@ export function renderCharts() {
                 data: expenses,
                 borderColor: "red",
                 backgroundColor: "rgba(255, 0, 0, 0.2)",
-            }
-        ]
+            },
+        ],
     };
 
     const lineConfig = {
@@ -122,7 +136,7 @@ export function renderCharts() {
                     type: "linear",
                     display: true,
                     position: "left",
-                }
+                },
             },
         },
     };
@@ -176,4 +190,4 @@ export function renderCharts() {
     } else {
         console.error("No canvas with id='doughnutChart'");
     }
-};
+}

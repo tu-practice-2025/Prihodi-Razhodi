@@ -1,7 +1,7 @@
-using SummerPracticeWebApi.Enums;
-
 namespace SummerPracticeWebApi.Dtos.Budget
 {
+    using SummerPracticeWebApi.Enums;
+
     public class BudgetDto
     {
         public uint Id { get; set; }
@@ -9,8 +9,8 @@ namespace SummerPracticeWebApi.Dtos.Budget
         public Currency Currency { get; set; }
         public byte Month { get; set; }
         public uint Year { get; set; }
-        public string CategoryDescription { get; set; }
+        public string CategoryDescription { get; set; } = string.Empty;
         public uint UserId { get; set; }
-        public string CategoryCode { get; set; }
+        public string CategoryCode { get; set; } = string.Empty;
     }
 }
