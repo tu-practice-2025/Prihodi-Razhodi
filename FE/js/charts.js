@@ -3,7 +3,7 @@ let lineChartInstance = null;
 export function renderCharts() {
     const operations = JSON.parse(
         sessionStorage.getItem("thisMonthAndYearOperations")
-    ); //fetching operations
+    ); // fetching operations
     if (!operations) {
         console.error("No operations loaded");
         return;
@@ -99,7 +99,7 @@ export function renderCharts() {
     const { income, expenses, labels } = getWeeklyTotals(grouped);
 
     const data = {
-        labels: labels.map((w) => w.replace("week", "Week ")), // Optional cleaner labels
+        labels: labels.map((w) => w.replace("week", "Week ")),
         datasets: [
             {
                 label: "Income",
@@ -151,43 +151,64 @@ export function renderCharts() {
         console.error("No canvas with id='lineChart'");
     }
 
-    // 🍩 ДОУГНАТ ГРАФИКА (Expenses by Category)
-    const doughnutLabels = ["Food", "Transport", "Health", "Lifestyle"];
-    const doughnutData = {
-        labels: doughnutLabels,
-        datasets: [
-            {
-                label: "Expenses",
-                data: [400, 250, 150, 300],
-                backgroundColor: [
-                    "rgba(255, 99, 132, 0.7)",
-                    "rgba(54, 162, 235, 0.7)",
-                    "rgba(255, 206, 86, 0.7)",
-                    "rgba(75, 192, 192, 0.7)",
-                ],
-                borderWidth: 1,
-            },
-        ],
-    };
+    // Call the dynamic doughnut chart renderer
+    renderDoughnutChart();
+}
 
-    const doughnutConfig = {
-        type: "doughnut",
-        data: doughnutData,
-        options: {
-            responsive: true,
-            plugins: {
-                title: {
-                    display: true,
-                    text: "Expenses by Category",
+// NEW FUNCTION — dynamically populates the doughnut chart
+async function renderDoughnutChart() {
+    const userId = 1;
+    const month = sessionStorage.getItem("month");
+    const year = sessionStorage.getItem("year");
+
+    try {
+        const res = await fetch(
+            `https://localhost:7121/api/Expenses/${userId}/spending?month=${month}&year=${year}`
+        );
+        const data = await res.json();
+
+        const labels = data.map((item) => item.category);
+        const values = data.map((item) => item.total);
+
+        const doughnutCtx = document
+            .getElementById("pieChart")
+            ?.getContext("2d");
+        if (!doughnutCtx) {
+            console.error("Doughnut chart canvas not found");
+            return;
+        }
+
+        new Chart(doughnutCtx, {
+            type: "doughnut",
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: "Expenses",
+                        data: values,
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.7)",
+                            "rgba(54, 162, 235, 0.7)",
+                            "rgba(255, 206, 86, 0.7)",
+                            "rgba(75, 192, 192, 0.7)",
+                            "rgba(153, 102, 255, 0.7)",
+                            "rgba(255, 159, 64, 0.7)",
+                        ],
+                        borderWidth: 1,
+                    },
+                ],
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Expenses by Category",
+                    },
                 },
             },
-        },
-    };
-
-    const doughnutCtx = document.getElementById("pieChart")?.getContext("2d");
-    if (doughnutCtx) {
-        new Chart(doughnutCtx, doughnutConfig);
-    } else {
-        console.error("No canvas with id='doughnutChart'");
+        });
+    } catch (error) {
+        console.error("Failed to render doughnut chart:", error);
     }
 }
