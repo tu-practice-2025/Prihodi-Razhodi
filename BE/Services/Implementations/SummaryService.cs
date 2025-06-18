@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
 using SummerPracticeWebApi.Mappers;
+using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
@@ -56,16 +57,16 @@ namespace SummerPracticeWebApi.Services.Implementations
         public async Task<Dictionary<string, decimal>> GetExpensesCategorised(uint userId, int month, int year)
         {
             var totals = await _context.Operations
-                .Where(o => o.Acc.UserId == userId
-                         && o.IsExpense == true
-                         && o.DateTime.Month == month
-                         && o.DateTime.Year == year)
-                .GroupBy(o => o.CategoryCode ?? "OTHR")
-                .Select(g => new {
-                    Category = g.Key,
-                    Total = g.Sum(o => o.AmountLcy)
+                .Where(operation => operation.Acc.UserId == userId
+                         && operation.IsExpense == true
+                         && operation.DateTime.Month == month
+                         && operation.DateTime.Year == year)
+                .GroupBy(operation => operation.CategoryCodeNavigation.Description ?? "Other")
+                .Select(pair => new {
+                    Category = pair.Key,
+                    Total = pair.Sum(operation => operation.AmountLcy)
                 })
-                .ToDictionaryAsync(x => x.Category, x => x.Total);
+                .ToDictionaryAsync(pair => pair.Category, pair => pair.Total);
 
             return totals;
         }
