@@ -10,11 +10,23 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentEditingElement = null;
 
     // Load existing entries
-    fetch(`${API_BASE_URL}/${USER_ID}`)
-        .then((res) => res.json())
-        .then((data) => {
-            data.forEach((entry) => addEntryToDOM(entry));
-        });
+    function loadEntries() {
+        fetch(`${API_BASE_URL}/${USER_ID}`)
+            .then((res) => {
+                if (!res.ok)
+                    throw new Error(`Failed to load entries: ${res.status}`);
+                return res.json();
+            })
+            .then((data) => {
+                entriesList.innerHTML = "";
+                data.forEach((entry) => addEntryToDOM(entry));
+            })
+            .catch((error) => {
+                console.error("Error loading entries:", error);
+                // alert("Could not load entries. See console for details.");
+            });
+    }
+    loadEntries();
 
     form.addEventListener("submit", function (e) {
         e.preventDefault();
@@ -33,6 +45,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const parsedAmount = parseFloat(amount);
         const parsedMonth = parseInt(month);
 
+        if (isNaN(parsedAmount) || isNaN(parsedMonth)) {
+            alert("Amount and month must be valid numbers.");
+            return;
+        }
+
         if (isEditing && currentEditingElement) {
             const payload = {
                 id: parseInt(currentEditingElement.dataset.id),
@@ -48,23 +65,25 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload),
-            }).then((response) => {
-                if (!response.ok) {
-                    alert("Failed to update entry.");
-                    return;
-                }
-                // Reload updated list
-                fetch(`${API_BASE_URL}/${USER_ID}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        entriesList.innerHTML = "";
-                        data.forEach((entry) => addEntryToDOM(entry));
-                    });
-                isEditing = false;
-                currentEditingElement = null;
-                form.reset();
-                document.getElementById("entryToggle").checked = false;
-            });
+            })
+                .then((response) => {
+                    if (!response.ok)
+                        throw new Error(
+                            `Failed to update entry: ${response.status}`
+                        );
+                    return JSON.stringify(response);
+                })
+                .then(() => {
+                    loadEntries();
+                    isEditing = false;
+                    currentEditingElement = null;
+                    form.reset();
+                    document.getElementById("entryToggle").checked = false;
+                })
+                .catch((error) => {
+                    console.error(error);
+                    //alert("Failed to update entry.");
+                });
         } else {
             const postPayload = {
                 amount: parsedAmount,
@@ -79,21 +98,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(postPayload),
-            }).then((response) => {
-                if (!response.ok) {
-                    alert("Failed to add entry.");
-                    return;
-                }
-                // Reload after successful insert
-                fetch(`${API_BASE_URL}/${USER_ID}`)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        entriesList.innerHTML = "";
-                        data.forEach((entry) => addEntryToDOM(entry));
-                    });
-                form.reset();
-                document.getElementById("entryToggle").checked = false;
-            });
+            })
+                .then((response) => {
+                    if (!response.ok)
+                        throw new Error(
+                            `Failed to add entry: ${response.status}`
+                        );
+                    return response.json();
+                })
+                .then(() => {
+                    loadEntries();
+                    form.reset();
+                    document.getElementById("entryToggle").checked = false;
+                })
+                .catch((error) => {
+                    console.error(error);
+                    // alert("Failed to add entry.");
+                });
         }
     });
 
@@ -102,46 +123,58 @@ document.addEventListener("DOMContentLoaded", function () {
         li.classList.add(entry.currency ? "expense-entry" : "income-entry");
         li.dataset.id = entry.id;
 
-        const textSpan = document.createElement("span");
-        textSpan.innerHTML = `${entry.currency ? "Expense" : "Income"} - ${
-            entry.categoryDescription
-        }: ${entry.amount} ${entry.currency} <br>Planned for: ${entry.month}`;
+        // Clear previous content
+        li.textContent = "";
 
+        // Create text content with line break safely
+        const textSpan = document.createElement("span");
+        textSpan.textContent = `${entry.currency ? "Expense" : "Income"} - ${
+            entry.categoryDescription
+        }: ${entry.amount} ${entry.currency} Planned for: ${entry.month}`;
+
+        const br = document.createElement("br");
+
+        // Edit button
         const editButton = document.createElement("button");
-        editButton.innerHTML = "✏️</br>Edit";
+        editButton.innerHTML = "✏️ Edit";
         editButton.className = "edit-btn";
         editButton.addEventListener("click", () => {
             document.getElementById("amount").value = entry.amount;
             document.getElementById("currency").value = entry.currency;
             document.getElementById("category").value = entry.categoryCode; // use code
             document.getElementById("month").value = entry.month;
-            document.getElementById("entryToggle").checked = entry.currency
-                ? true
-                : false;
+            document.getElementById("entryToggle").checked = !!entry.currency;
 
             isEditing = true;
             currentEditingElement = li;
             form.scrollIntoView({ behavior: "smooth" });
         });
 
+        // Delete button
         const deleteButton = document.createElement("button");
-        deleteButton.innerHTML = "❌</br>Delete";
+        deleteButton.innerHTML = "❌ Delete";
         deleteButton.className = "delete-btn";
         deleteButton.addEventListener("click", () => {
             if (confirm("Are you sure you want to delete this entry?")) {
                 fetch(`${API_BASE_URL}/${entry.id}`, {
                     method: "DELETE",
-                }).then((response) => {
-                    if (!response.ok) {
-                        alert("Failed to delete entry.");
-                        return;
-                    }
-                    li.remove();
-                });
+                })
+                    .then((response) => {
+                        if (!response.ok)
+                            throw new Error(
+                                `Failed to delete entry: ${response.status}`
+                            );
+                        li.remove();
+                    })
+                    .catch((error) => {
+                        console.error("Delete error:", error);
+                        //alert("Failed to delete entry.");
+                    });
             }
         });
 
         li.appendChild(textSpan);
+        li.appendChild(br);
         li.appendChild(editButton);
         li.appendChild(deleteButton);
         entriesList.appendChild(li);

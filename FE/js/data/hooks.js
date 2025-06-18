@@ -1,6 +1,8 @@
 export async function getOperations(userId, month, year) {
     try {
-        const res = await fetch(`https://localhost:7121/api/operation?userId=${userId}&month=${month}&year=${year}`);
+        const res = await fetch(
+            `https://localhost:7121/api/operation?userId=${userId}&month=${month}&year=${year}`
+        );
         if (!res.ok) throw new Error("Failed to load operations");
         return await res.json();
     } catch (err) {
@@ -21,7 +23,7 @@ export async function getCategories() {
 }
 
 export async function getBudgets(userId) {
-    try{
+    try {
         const res = await fetch(`https://localhost:7121/api/budget/${userId}`);
         if (!res.ok) throw new Error("Failed to load budgets");
         return await res.json();
@@ -32,11 +34,11 @@ export async function getBudgets(userId) {
 }
 
 export async function postBudget(budget) {
-    try{
+    try {
         const res = await fetch(`https://localhost:7121/api/budget`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(budget)
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(budget),
         });
         if (!res.ok) throw new Error("Failed to post budget");
         return await res.json();
@@ -49,9 +51,9 @@ export async function postBudget(budget) {
 export async function putBudgets(budget) {
     try {
         const res = await fetch(`https://localhost:7121/api/budget/`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(budget)
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(budget),
         });
         if (!res.ok) throw new Error("Failed to update budget");
         return await res.json();
@@ -63,9 +65,12 @@ export async function putBudgets(budget) {
 
 export async function deleteBudget(budgetId) {
     try {
-        const res = await fetch(`https://localhost:7121/api/budget/${budgetId}`, {
-            method: "DELETE"
-        });
+        const res = await fetch(
+            `https://localhost:7121/api/budget/${budgetId}`,
+            {
+                method: "DELETE",
+            }
+        );
         if (!res.ok) throw new Error("Failed to delete budget");
         console.log(res);
         return await res.json();
@@ -98,11 +103,11 @@ export async function getCards(accountId) {
 }
 
 export async function getUser(email) {
-    try{
+    try {
         const res = await fetch(`https://localhost:7121/api/user`, {
             method: "POST",
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
         });
         if (!res.ok) throw new Error("Failed to load user");
         return await res.json();
@@ -114,7 +119,11 @@ export async function getUser(email) {
 
 export async function getIncomeSumary(userId, month, year) {
     try {
-        const res = await fetch(`https://localhost:7121/api/summary/income?userId=${userId}&month=${month}&year=${year}`);
+        console.log("Getting income summary");
+
+        const res = await fetch(
+            `https://localhost:7121/api/summary/income?userId=${userId}&month=${month}&year=${year}`
+        );
         if (!res.ok) throw new Error("Failed to load income");
         return await res.json();
     } catch (err) {
@@ -125,7 +134,10 @@ export async function getIncomeSumary(userId, month, year) {
 
 export async function getExpensesSumary(userId, month, year) {
     try {
-        const res = await fetch(`https://localhost:7121/api/summary/expenses?userId=${userId}&month=${month}&year=${year}`);
+        console.log("Getting expenses summary");
+        const res = await fetch(
+            `https://localhost:7121/api/summary/expenses?userId=${userId}&month=${month}&year=${year}`
+        );
         if (!res.ok) throw new Error("Failed to load expenses");
         return await res.json();
     } catch (err) {
