@@ -102,8 +102,8 @@ html {
 }
 
 .inner-pie {
-    width: 4rem;
-    height: 4rem;
+    width: 6rem;
+    height: 6rem;
     transition: background 0.5s ease;
     background: #fff5f5 !important;
     border-radius: 50%;

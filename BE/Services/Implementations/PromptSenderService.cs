@@ -13,7 +13,7 @@ namespace SummerPracticeWebApi.Services.Implementations
 
         public async Task<string> FetchAiResponse(string prompt)
         {
-            var url = "http://127.0.0.1:8080/completion";
+            var url = "http://127.0.0.1:9000/completion";
 
             var requestBody = new
             {

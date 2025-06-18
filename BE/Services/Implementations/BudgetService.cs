@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SummerPracticeWebApi.DataAccess.Context;
+using SummerPracticeWebApi.Dtos;
 using SummerPracticeWebApi.Dtos.Budget;
 using SummerPracticeWebApi.Mappers;
 using SummerPracticeWebApi.Services.Interfaces;
@@ -15,11 +16,20 @@ namespace SummerPracticeWebApi.Services.Implementations
             _context = context;
         }
 
-        public async Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId)
+        public async Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId, byte? month = null, uint? year = null)
         {
-            return await _context.Budgets
+            var query = _context.Budgets
                 .Where(b => b.UserId == userId)
                 .Include(b => b.CategoryCodeNavigation)
+                .AsQueryable();
+
+            if (month.HasValue)
+                query = query.Where(b => b.Month == month.Value);
+
+            if (year.HasValue)
+                query = query.Where(b => b.Year == year.Value);
+
+            return await query
                 .Select(b => new BudgetDto
                 {
                     Id = b.Id,
@@ -33,6 +43,8 @@ namespace SummerPracticeWebApi.Services.Implementations
                 })
                 .ToListAsync();
         }
+
+
 
         public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
         {
@@ -57,6 +69,18 @@ namespace SummerPracticeWebApi.Services.Implementations
                 UserId = budget.UserId,
                 CategoryCode = budget.CategoryCode ?? string.Empty
             };
+        }
+
+
+        public async Task<BudgetDto?> GetUserCategoryBudget(uint userId, string categoryCode, byte month, uint year)
+        {
+            var budget = await _context.Budgets
+                .Where(b => b.UserId == userId && b.CategoryCode == categoryCode && b.Month == month && b.Year == year)
+                .FirstOrDefaultAsync();
+
+            if (budget == null) return null;
+
+            return new BudgetDto { Amount = budget.Amount };
         }
 
         public async Task<BudgetDto> CreateBudgetAsync(BudgetDto budgetDto)
