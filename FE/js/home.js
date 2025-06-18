@@ -103,3 +103,40 @@ export function display() {
         ? `${balance} BGN`
         : "0 BGN";
 }
+document.addEventListener("DOMContentLoaded", function () {
+    const openBtn = document.getElementById("openInsightsBtn");
+    const modal = document.getElementById("insightsModal");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const content = document.getElementById("insightsContent");
+
+    openBtn.addEventListener("click", async () => {
+        modal.style.display = "block";
+        content.innerHTML = "<p>Loading insights...</p>";
+
+        try {
+            const response = await fetch("/api/insights/analyze");
+            if (!response.ok) throw new Error("Failed to fetch insights");
+            const data = await response.json();
+
+            content.innerHTML = `
+                <ul>
+                ${data.insights.map(insight => `<li>${insight}</li>`).join("")}
+                </ul>
+            `;
+        } catch (err) {
+            content.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+        }
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", event => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+
