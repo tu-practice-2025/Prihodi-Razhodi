@@ -18,8 +18,8 @@ namespace SummerPracticeWebApi.Services.Implementations
             var requestBody = new
             {
                 prompt = prompt,
-                n_predict = 100,
-                temperature = 0.7
+                n_predict = 500,
+                temperature = 0.5
             };
 
             var json = JsonSerializer.Serialize(requestBody);
