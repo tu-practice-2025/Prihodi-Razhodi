@@ -18,6 +18,7 @@ namespace SummerPracticeWebApi.Services.Implementations
             _summaryService = summaryService;
         }
 
+
         public async Task<string> GetResponse(uint userId)
         {
             var now = DateTime.Now;

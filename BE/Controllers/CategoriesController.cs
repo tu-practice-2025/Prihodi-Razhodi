@@ -16,7 +16,7 @@ namespace SummerPracticeWebApi.Controllers
             _categoriesService = categoriesService;
         }
 
-        [HttpGet("{userId}/category-details")]
+        [HttpGet("/{userId}/category-details")]
         public async Task<IActionResult> GetCategoryDetails(uint userId, [FromQuery] string code, [FromQuery] byte month, [FromQuery] uint year)
         {
             var result = await _categoriesService.GetCategoryDetailsAsync(userId, code, month, year);
