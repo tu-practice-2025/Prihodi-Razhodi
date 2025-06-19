@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initialLoading() {
-    saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
+    saveEmail("petar.andreev462@example.com");
     // setMonthYear();
 
     const email = localStorage.getItem("email");
