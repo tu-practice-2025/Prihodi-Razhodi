@@ -54,10 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const parsedAmount = parseFloat(amount);
 
-        if (isNaN(parsedAmount)) {
-            alert("Amount must be a valid number.");
-            return;
-        }
 
         if (isEditing && currentEditingElement) {
             const payload = {

@@ -232,3 +232,9 @@ TestResults/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignore all ASP.NET Core configuration files
+appsettings*.json
+
+appsettings.json
+appsettings.Development.json
