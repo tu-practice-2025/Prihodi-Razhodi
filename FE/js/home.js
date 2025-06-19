@@ -115,7 +115,9 @@ document.addEventListener("DOMContentLoaded", function () {
         content.innerHTML = "<p>Loading insights...</p>";
 
         try {
-            const response = await fetch("https://localhost:7121/api/airesponse/1");
+            const response = await fetch(
+                "https://localhost:7121/api/airesponse/1"
+            );
             if (!response.ok) throw new Error("Failed to fetch insights");
             const data = await response.json();
 
