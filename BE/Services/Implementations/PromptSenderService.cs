@@ -1,48 +1,48 @@
-﻿using SummerPracticeWebApi.Services.Interfaces;
-using System.Text;
-using System.Text.Json;
+﻿using System.Text.Json;
+using System.Net.Http.Json;
+using SummerPracticeWebApi.Services.Interfaces;
 
 namespace SummerPracticeWebApi.Services.Implementations
 {
-    public class PromptSenderService : IPromptSenderService
+    public sealed class PromptSenderService : IPromptSenderService
     {
-        private static readonly HttpClient client = new HttpClient
+        private static readonly HttpClient client = new()
         {
-            Timeout = TimeSpan.FromSeconds(1000)
+            BaseAddress = new Uri("http://localhost:8080"),
+            Timeout = TimeSpan.FromSeconds(100)
         };
 
-        public async Task<string> FetchAiResponse(string prompt)
+        public async Task<string> FetchAiResponse(string systemPrompt, string userPrompt)
         {
-            var url = "http://127.0.0.1:9000/completion";
-
-            var requestBody = new
+            var body = new
             {
-                prompt = prompt,
-                n_predict = 500,
-                temperature = 0.5
+                messages = new[] {
+                    new { role = "system", content = systemPrompt },
+                    new { role = "user",   content = userPrompt   }
+                },
+                max_tokens = 160,
+                temperature = 0.65,
+                presence_penalty = 0.3,
+                top_k = 25,
+                top_p = 1,
+                repetition_penalty = 1.1,
             };
 
-            var json = JsonSerializer.Serialize(requestBody);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            using var res = await client.PostAsJsonAsync("/v1/chat/completions", body);
 
-            try
-            {
-                var response = await client.PostAsync(url, content);
-                var responseContent = await response.Content.ReadAsStringAsync();
+            res.EnsureSuccessStatusCode();
 
-                if (response.IsSuccessStatusCode)
-                {
-                    return responseContent;
-                }
-                else
-                {
-                    return $"Error {response.StatusCode}: {responseContent}";
-                }
-            }
-            catch (Exception exception)
-            {
-                return $"Exception: {exception.Message}";
-            }
+            await using var stream = await res.Content.ReadAsStreamAsync();
+            using var doc = await JsonDocument.ParseAsync(stream);
+
+            var content = doc.RootElement
+                             .GetProperty("choices")[0]
+                             .GetProperty("message")
+                             .GetProperty("content")
+                             .GetString()!
+                             .Trim();
+
+            return content;
         }
     }
 }

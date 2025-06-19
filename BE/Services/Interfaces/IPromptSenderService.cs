@@ -2,6 +2,6 @@
 {
     public interface IPromptSenderService
     {
-        Task<string> FetchAiResponse(string prompt);
+        Task<string> FetchAiResponse(string promptSystem, string promptUser);
     }
 }

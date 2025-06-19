@@ -2,6 +2,7 @@
 using SummerPracticeWebApi.Models;
 using SummerPracticeWebApi.Services.Interfaces;
 using System.Text.Json;
+using static System.Net.WebRequestMethods;
 
 namespace SummerPracticeWebApi.Services.Implementations
 {
@@ -17,25 +18,44 @@ namespace SummerPracticeWebApi.Services.Implementations
             _budgetService = budgetService;
             _summaryService = summaryService;
         }
-
+            
 
         public async Task<string> GetResponse(uint userId)
         {
             var now = DateTime.Now;
-
             var income = await _summaryService.GetIncomeByMonthAndYear(userId, now.Month, now.Year);
             var operationsByCategories = await _summaryService.GetExpensesCategorised(userId, now.Month, now.Year);
             var budgets = await _budgetService.GetBudgetsByUserIdMonthAndYear(userId, now.Month, now.Year);
             var balance = await _summaryService.GetBalanceSummary(userId);
 
-            var testPrompt = "Expenses by categories: " + JsonSerializer.Serialize(operationsByCategories) + 
-                "\nBudgets by categories: " + JsonSerializer.Serialize(budgets) + 
-                "\nCurrent balance: " + balance.ToString();
+            IEnumerable<string> lines = budgets.Select(b =>
+            {
+                var spent = operationsByCategories.TryGetValue(b.CategoryDescription, out var v) ? v : 0m;
+                var pct = b.Amount == 0 ? 0 : spent / b.Amount;
+                string tag = pct switch
+                {
+                    > 1.1m => "OVER",
+                    < 0.9m => "UNDER",
+                    _ => "ON-TRACK"
+                };
+                return $"{b.CategoryDescription}: {tag} (plan {b.Amount:F0}, spent {spent:F0})";
+            });
+            string status = string.Join(" · ", lines);
 
+            string system = """
+                You are an upbeat personal finance coach. 
+                Respond in English. Give exactly **three** short, numbered insights. 
+                Start each line with “1.”, “2.”, “3.”.  Speak directly to the client (“you …”).
+                No headings, no extra sections.
+                """;
 
-            var prompt = $"Analize the data below:\nIncome: {income}\nBudget: {JsonSerializer.Serialize(budgets)}\nExpenses: {JsonSerializer.Serialize(operationsByCategories)}\nIdentify exactly 3 categories where expenses exceed budget (ignore fixed housing).\r\nFor each, write one concise, specific sentence advising how much to reduce spending next month and why, referencing the difference in euros.\r\nDo not add general tips or introductions. Return only the 3 advice sentences.";
+            string user = $"""
+                Income this month: {income:F0} BGN
+                Current balance : {balance:F0} BGN
+                Budget status   : {status}
+                """;
 
-            return await _promptSenderService.FetchAiResponse(prompt);
+            return await _promptSenderService.FetchAiResponse(system, user);
         }
     }
 }
