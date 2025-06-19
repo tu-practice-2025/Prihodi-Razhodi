@@ -57,8 +57,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
 
     // Fallback values
-    amountEl.textContent = `$${totalSpent.toFixed(2)}`;
-    budgetEl.textContent = `Budget: $${budgetAmount.toFixed(2)}`;
+    amountEl.textContent = `${totalSpent.toFixed(2)}`;
+    budgetEl.textContent = `Budget: ${budgetAmount.toFixed(2)}`;
 
     const percentUsed =
         budgetAmount > 0 ? (totalSpent / budgetAmount) * 100 : 0;
@@ -80,7 +80,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             li.innerHTML = `
             <span>${formatDate(tx.date)}</span>
             <span>${tx.description}</span>
-            <span>$${tx.amount.toFixed(2)}</span>
+            <span>${tx.amount.toFixed(2)}</span>
         `;
             entriesList.appendChild(li);
         });

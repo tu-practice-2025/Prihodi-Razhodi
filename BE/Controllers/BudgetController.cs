@@ -51,7 +51,7 @@ namespace SummerPracticeWebApi.Controllers
             if (!updated)
                 return NotFound();
 
-            return NoContent();
+            return Ok(new { success = true });
         }
 
         // Changed parameter to uint to match the entity key type

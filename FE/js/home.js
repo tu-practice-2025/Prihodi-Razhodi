@@ -25,31 +25,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     display();
 
     sendReportBtn.addEventListener("click", async () => {
-    try {
-        const email = localStorage.getItem("email");
-        const user = await getUser(email);
+        try {
+            const email = localStorage.getItem("email");
+            const user = await getUser(email);
 
-        if (!user || !user.id) {
-            alert("User not found.");
-            return;
+            if (!user || !user.id) {
+                alert("User not found.");
+                return;
+            }
+
+            const response = await fetch(
+                `https://localhost:7121/api/email/${user.id}`
+            );
+            if (!response.ok) throw new Error("Failed to send email");
+
+            alert("Report sent successfully!");
+        } catch (err) {
+            console.error(err);
+            alert("There was a problem sending the report.");
         }
-
-        const response = await fetch(`https://localhost:7121/api/email/${user.id}`);
-        if (!response.ok) throw new Error("Failed to send email");
-
-        alert("Report sent successfully!");
-    } catch (err) {
-        console.error(err);
-        alert("There was a problem sending the report.");
-    }
-});
-
+    });
 
     const testBtn = document.getElementById("testButton");
     if (testBtn) {
         testBtn.addEventListener("click", test);
     }
-
 
     const openBtn = document.getElementById("openInsightsBtn");
     const modal = document.getElementById("insightsModal");
@@ -61,7 +61,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         content.innerHTML = "<p>Loading insights...</p>";
 
         try {
-            const response = await fetch("https://localhost:7121/api/airesponse/1");
+            const response = await fetch(
+                "https://localhost:7121/api/airesponse/1"
+            );
             if (!response.ok) throw new Error("Failed to fetch insights");
             const data = await response.json();
 
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         modal.style.display = "none";
     });
 
-    window.addEventListener("click", event => {
+    window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
         }
