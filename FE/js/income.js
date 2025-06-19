@@ -6,23 +6,34 @@ let skip = 0;
 const take = 10;
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const incomeHeading = document.getElementById("incomeHeading");
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    incomeHeading.textContent = `Income Overview – ${monthNames[parseInt(month) - 1]} ${year}`;
+
     const chartCtx = document.getElementById("incomeChart").getContext("2d");
     const tableBody = document.getElementById("incomeTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
 
     try {
-        const chartRes = await fetch(`https://localhost:7121/api/Income/${userId}/monthly?month=${month}&year=${year}`);
+        const chartRes = await fetch(
+            `https://localhost:7121/api/Income/${userId}/monthly?month=${month}&year=${year}`
+        );
         const chartData = await chartRes.json();
 
-        const chartLabels = chartData.map(entry => formatDateLabel(entry.date));
-        const chartValues = chartData.map(entry => entry.total); // total, not amount
+        const chartLabels = chartData.map((entry) =>
+            formatDateLabel(entry.date)
+        );
+        const chartValues = chartData.map((entry) => entry.total); // total, not amount
 
         new Chart(chartCtx, {
             type: "line",
             data: {
                 labels: chartLabels,
                 datasets: [{
-                    label: "Income ($)",
+                    label: `Incomes in ${getMonthName(month)}`,
                     data: chartValues,
                     borderColor: "green",
                     backgroundColor: "rgba(0, 128, 0, 0.1)",
@@ -34,10 +45,10 @@ window.addEventListener("DOMContentLoaded", async () => {
                 responsive: true,
                 scales: {
                     y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+                        beginAtZero: true,
+                    },
+                },
+            },
         });
 
         await loadIncomeTransactions();
@@ -45,7 +56,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         showMoreBtn.addEventListener("click", async () => {
             await loadIncomeTransactions();
         });
-
     } catch (error) {
         console.error("Error loading income data:", error);
     }
@@ -55,7 +65,9 @@ async function loadIncomeTransactions() {
     const tableBody = document.getElementById("incomeTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
 
-    const tableRes = await fetch(`https://localhost:7121/api/Income/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const tableRes = await fetch(
+        `https://localhost:7121/api/Income/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`
+    );
     const recentIncomes = await tableRes.json();
 
     if (recentIncomes.length === 0) {
@@ -64,12 +76,12 @@ async function loadIncomeTransactions() {
         return;
     }
 
-    recentIncomes.forEach(tx => {
+    recentIncomes.forEach((tx) => {
         const row = document.createElement("tr");
         row.innerHTML = `
             <td>${formatDate(tx.date)}</td>
             <td>${tx.source}</td>
-            <td>$${tx.amount.toFixed(2)}</td>
+            <td>${tx.amount.toFixed(2)} BGN</td>
         `;
         tableBody.appendChild(row);
     });
@@ -85,4 +97,9 @@ function formatDateLabel(dateStr) {
 function formatDate(dateStr) {
     const date = new Date(dateStr);
     return date.toLocaleDateString("en-GB");
+}
+
+function getMonthName(month) {
+    const date = new Date(2025, month - 1);
+    return date.toLocaleString("default", { month: "long" });
 }

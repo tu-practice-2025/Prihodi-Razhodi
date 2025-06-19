@@ -29,27 +29,27 @@ public class EmailService : IEmailService
         var user = await _userService.GetUserByUserId(userId);
 
         var now = DateTime.Now;
-        var month = now.Month - 1;
-        var year = now.Year - 1;
+        var month = now.Month;
+        var year = now.Year;
 
         var operationsByCategory = await _operationService
             .GetOperationsByCategory(userId, month, year);
 
         // 2) build email body
         var sb = new StringBuilder();
-        sb.AppendLine($"<h2>Месечен отчет за {now:MMMM yyyy}</h2>");
-        sb.AppendLine($"<p><strong>Общо приходи:</strong> {_summaryService.GetIncomeByMonthAndYear(userId, month, year).Result}</p>");
-        sb.AppendLine($"<p><strong>Общо разходи:</strong> {_summaryService.GetExpensesByMonthAndYear(userId, month, year).Result}</p>");
-        sb.AppendLine($"<p><strong>Общ баланс:</strong> {_summaryService.GetBalanceSummary(userId).Result}</p>");
+        sb.AppendLine($"<h2>Monthly report for {now:MMMM yyyy}</h2>");
+        sb.AppendLine($"<p><strong>Income:</strong> {_summaryService.GetIncomeByMonthAndYear(userId, month, year).Result} BGN</p>");
+        sb.AppendLine($"<p><strong>Expenses:</strong> {_summaryService.GetExpensesByMonthAndYear(userId, month, year).Result} BGN</p>");
+        sb.AppendLine($"<p><strong>Current Balance:</strong> {_summaryService.GetBalanceSummary(userId).Result} BGN</p>");
 
-        sb.AppendLine("<h3>Разходи по категории</h3>");
+        sb.AppendLine("<h3>Expenses by categories</h3>");
         sb.AppendLine("<ul>");
         foreach (var pair in operationsByCategory)
         {
             var categoryCode = pair.Key;
             var dtos = pair.Value;
             var total = dtos.Sum(d => d.AmountLcy);
-            sb.AppendLine($"  <li>{categoryCode}: {total:C}</li>");
+            sb.AppendLine($"  <li>{categoryCode}: {total} BGN</li>");
         }
         sb.AppendLine("</ul>");
 
@@ -63,7 +63,7 @@ public class EmailService : IEmailService
         var to = new EmailAddress(user.Email, $"{user.FirstName} {user.LastName}");
         var msg = MailHelper.CreateSingleEmail(
             from, to,
-            subject: $"Вашият отчет за {now:MMMM yyyy}",
+            subject: $"Your report for {now:MMMM yyyy}",
             plainTextContent: sb.ToString(),
             htmlContent: sb.ToString()
         );
@@ -80,7 +80,6 @@ public class EmailService : IEmailService
         {
             await SendEmailByUserId(user.Id);
         }
-
         return true;
     }
 }
