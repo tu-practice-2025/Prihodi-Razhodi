@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="css/home.css" />
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script type = "module" src="./js/charts.js"></script>
+        <script type="module" src="./js/charts.js"></script>
         <script type="module" src="./js/show-navigation.js"></script>
         <script type="module" src="./js/home.js"></script>
         <script type="module" src="./js/data/filters.js"></script>
@@ -62,26 +62,6 @@
                             <canvas id="lineChart"></canvas>
                         </div>
                     </div>
-
-                    <div class="quick-access">
-                        <h4>Quick access</h4>
-                        <div class="button-group">
-                            <button>Send report</button>
-                            <button id="openInsightsBtn" class="insights-button">Financial Advisor</button>
-
-                            <div id="insightsModal" class="modal">
-                                <div class="modal-content">
-                                    <span id="closeModalBtn" class="close">&times;</span>
-                                    <h2>Your Insights</h2>
-                                    <div id="insightsContent">
-                                        <p>Loading insights...</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button>Show all transactions</button>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="right-side">
@@ -93,8 +73,32 @@
                     </div>
                 </div>
             </div>
+
+            <div class="quick-access mt-4">
+                <h4>Quick access</h4>
+                <div class="button-group">
+                    <button id="sendReportBtn">Send report</button>
+                    <button id="openInsightsBtn" class="insights-button">
+                        Financial Advisor
+                    </button>
+
+                    <div id="insightsModal" class="modal">
+                        <div class="modal-content">
+                            <span id="closeModalBtn" class="close"
+                                >&times;</span
+                            >
+                            <h2>Your Insights</h2>
+                            <div id="insightsContent">
+                                <p>Loading insights...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button>Show all transactions</button>
+                </div>
+            </div>
         </div>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
         <script src="js/show-navigation.js"></script>
     </body>

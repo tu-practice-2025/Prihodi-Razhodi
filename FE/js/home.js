@@ -24,29 +24,66 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderCharts();
     display();
 
+    sendReportBtn.addEventListener("click", async () => {
+    try {
+        const email = localStorage.getItem("email");
+        const user = await getUser(email);
+
+        if (!user || !user.id) {
+            alert("User not found.");
+            return;
+        }
+
+        const response = await fetch(`https://localhost:7121/api/email/${user.id}`);
+        if (!response.ok) throw new Error("Failed to send email");
+
+        alert("Report sent successfully!");
+    } catch (err) {
+        console.error(err);
+        alert("There was a problem sending the report.");
+    }
+});
+
+
     const testBtn = document.getElementById("testButton");
     if (testBtn) {
         testBtn.addEventListener("click", test);
     }
 
-    function test() {
-        // setYear(2025);
-        // setMonth(6);
-        // filterOperations();
-        // filterAndDisplay();
-        // deleteBudget(5)
-        // .then(data => {
-        //     console.log("Posted budget successfully:", data);
-        // })
-        // .catch(err => {
-        //     console.error("Error:", err);
-        // });
-    }
+
+    const openBtn = document.getElementById("openInsightsBtn");
+    const modal = document.getElementById("insightsModal");
+    const closeBtn = document.getElementById("closeModalBtn");
+    const content = document.getElementById("insightsContent");
+
+    openBtn.addEventListener("click", async () => {
+        modal.style.display = "block";
+        content.innerHTML = "<p>Loading insights...</p>";
+
+        try {
+            const response = await fetch("https://localhost:7121/api/airesponse/1");
+            if (!response.ok) throw new Error("Failed to fetch insights");
+            const data = await response.json();
+
+            content.textContent = JSON.stringify(data.content);
+        } catch (err) {
+            content.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+        }
+    });
+
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    window.addEventListener("click", event => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
 });
 
 async function initialLoading() {
-    saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
-    // setMonthYear();
+    saveEmail("petar.andreev462@example.com");
 
     const email = localStorage.getItem("email");
     const user = await getUser(email);
@@ -77,12 +114,9 @@ async function initialLoading() {
     filterAndDisplay();
 
     if (accounts?.length) {
-        console.log(accounts);
         const cardPromises = accounts.map((account) => getCards(account.id));
         const cardResults = await Promise.all(cardPromises);
-
         const allCards = cardResults.flat().filter(Boolean);
-
         saveAllCards(allCards);
     }
 }
@@ -129,11 +163,9 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
     });
 
-    window.addEventListener("click", event => {
+    window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     });
 });
-
-

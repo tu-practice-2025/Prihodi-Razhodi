@@ -1,32 +1,17 @@
 const userId = 1;
 const params = new URLSearchParams(window.location.search);
-const categoryCode = params.get("code") || "TRVH";
+const categoryCode = params.get("code") || "TRPT";
 const month = sessionStorage.getItem("month");
 const year = 2025;
 
-const categoryDescriptions = {
-    "BUSS": "Бизнес услуги",
-    "CASH": "Кеш",
-    "CLTH": "Дрехи",
-    "DEBT": "Задължения и такси",
-    "EDUC": "Образование",
-    "FINS": "Финансови услуги",
-    "HLTH": "Здраве и красота",
-    "HOME": "За дома",
-    "INAT": "Приход ATM",
-    "INCM": "Приход",
-    "INVT": "Инвестиции",
-    "OTHR": "Други",
-    "PUBS": "Публични услуги",
-    "REST": "Ресторанти и барове",
-    "RPAY": "Погасяване по кредитни продукти",
-    "SHOP": "Шопинг",
-    "SPRT": "Забавление и спорт",
-    "SUPM": "Супермаркети",
-    "TRPT": "Транспорт и авто услуги",
-    "TRSF": "Преводи",
-    "TRVH": "Пътуване и ваканция",
-    "UTIL": "Битови сметки"
+const categoryCodeToEnglish = {
+    REST: "Food",
+    TRPT: "Transport",
+    HOME: "Household",
+    HLTH: "Health",
+    EDUC: "Education",
+    CLTH: "Clothes",
+    SPRT: "Lifestyle"
 };
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -43,9 +28,9 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         const totalSpent = spendingData.totalSpent || 0;
         const transactions = spendingData.transactions || [];
-        const categoryDescription = spendingData.categoryDescription || categoryDescriptions[categoryCode] || categoryCode;
+        const englishLabel = categoryCodeToEnglish[categoryCode] || categoryCode;
 
-        labelEl.textContent = categoryDescription;
+        labelEl.textContent = englishLabel;
         amountEl.textContent = `${totalSpent.toFixed(2)}`;
 
         const budgetRes = await fetch(`https://localhost:7121/api/Budget/${userId}/category?code=${categoryCode}&month=${month}&year=${year}`);
