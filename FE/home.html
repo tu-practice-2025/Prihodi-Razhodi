@@ -66,28 +66,20 @@
             <div class="chart-placeholder">
               <canvas id="lineChart"></canvas>
             </div>
-            <div class="main-grid">
-                <div class="left-side">
-                    <div class="chart-container">
-                        <h4>Income & Expenses</h4>
-                        <div class="chart-placeholder">
-                            <canvas id="lineChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="right-side">
-                    <div class="chart-container full-height">
-                        <h4>Expenses by Category</h4>
-                        <div class="chart-placeholder pie-placeholder">
-                            <canvas id="pieChart"></canvas>
-                        </div>
-                    </div>
-                </div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="chart-container">
+            <h4>Expenses by Category</h4>
+            <div class="chart-placeholder pie-placeholder">
+              <canvas id="pieChart"></canvas>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Insights Modal -->
     <div id="insightsModal" class="modal">
       <div class="modal-content">
         <span id="closeModalBtn" class="close">&times;</span>
@@ -102,6 +94,28 @@
         <div id="insightsContent">
           <p>Loading insights...</p>
         </div>
+      </div>
+    </div>
+   
+    <script>
+      function toggleQuickAccess() {
+        const quickCard = document.getElementById("quickAccessCard");
+        const shrinkables = document.querySelectorAll(".shrinkable");
+
+        const isExpanded = quickCard.classList.contains("expanded");
+
+        if (isExpanded) {
+          quickCard.classList.remove("expanded");
+          quickCard.classList.add("collapsed");
+          shrinkables.forEach(el => el.classList.remove("shrinked"));
+        } else {
+          quickCard.classList.remove("collapsed");
+          quickCard.classList.add("expanded");
+          shrinkables.forEach(el => el.classList.add("shrinked"));
+        }
+      }
+    </script>
+
     <script>
       function toggleQuickAccess() {
         const quickCard = document.getElementById("quickAccessCard");
