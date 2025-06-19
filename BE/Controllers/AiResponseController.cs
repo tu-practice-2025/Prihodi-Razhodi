@@ -17,7 +17,10 @@ namespace SummerPracticeWebApi.Controllers
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetResponse(uint userId)
         {
-            return Ok(await _aiResponseService.GetResponse(userId));
+            var result = await _aiResponseService.GetResponse(userId);
+            var response = new JsonResult(result);
+            return Ok(response);
         }
     }
 }
+

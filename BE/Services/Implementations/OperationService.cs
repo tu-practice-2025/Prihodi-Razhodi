@@ -58,6 +58,7 @@ namespace SummerPracticeWebApi.Services.Implementations
         {
             var operations = await _context.Operations
                 .Where(operations => operations.Acc.UserId == userId &&
+                       operations.IsExpense == true &&
                        operations.DateTime.Month == month &&
                        operations.DateTime.Year == year)
                 .Include(operation => operation.CategoryCodeNavigation)
@@ -65,7 +66,7 @@ namespace SummerPracticeWebApi.Services.Implementations
                 .Include(operation => operation.Acc)
                 .ToListAsync();
 
-            return operations.GroupBy(operation => operation.CategoryCode ?? "OTHR")
+            return operations.GroupBy(operation => operation.CategoryCodeNavigation.Description ?? "Other")
                 .ToDictionary(group => group.Key, group => group.Select(OperationMapper.MapToDto).ToList());
         }
 

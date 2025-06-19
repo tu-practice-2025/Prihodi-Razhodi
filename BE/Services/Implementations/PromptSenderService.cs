@@ -39,8 +39,7 @@ namespace SummerPracticeWebApi.Services.Implementations
                              .GetProperty("choices")[0]
                              .GetProperty("message")
                              .GetProperty("content")
-                             .GetString()!
-                             .Trim();
+                             .GetString();
 
             return content;
         }
