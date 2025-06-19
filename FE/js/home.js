@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
 
             const response = await fetch(
-                `https://localhost:7121/api/email/${user.id}`
+                `https://localhost:7121/api/email/1`
             );
             if (!response.ok) throw new Error("Failed to send email");
 
@@ -85,7 +85,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 });
 
 async function initialLoading() {
-    saveEmail("petar.andreev462@example.com");
+    saveEmail("totalyrealemail@totalyrealdomain.comtotalyre1");
 
     const email = localStorage.getItem("email");
     const user = await getUser(email);
