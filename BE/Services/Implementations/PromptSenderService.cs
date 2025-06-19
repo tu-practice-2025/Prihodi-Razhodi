@@ -8,7 +8,7 @@ namespace SummerPracticeWebApi.Services.Implementations
     {
         private static readonly HttpClient client = new()
         {
-            BaseAddress = new Uri("http://localhost:8080"),
+            BaseAddress = new Uri("http://localhost:9000"),
             Timeout = TimeSpan.FromSeconds(100)
         };
 
@@ -39,8 +39,7 @@ namespace SummerPracticeWebApi.Services.Implementations
                              .GetProperty("choices")[0]
                              .GetProperty("message")
                              .GetProperty("content")
-                             .GetString()!
-                             .Trim();
+                             .GetString();
 
             return content;
         }
