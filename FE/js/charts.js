@@ -33,9 +33,8 @@ export function renderCharts() {
 
     function groupOperationsByWeek(operations, selectedMonth, selectedYear) {
         const startDate = new Date(selectedYear, selectedMonth - 1, 1);
-        const endDate = new Date(selectedYear, selectedMonth, 0); // last day of the month
+        const endDate = new Date(selectedYear, selectedMonth, 0);
 
-        // Get ISO weeks covered by the month
         const weekSet = new Set();
         for (
             let d = new Date(startDate);
@@ -45,13 +44,11 @@ export function renderCharts() {
             weekSet.add(getISOWeek(new Date(d)));
         }
 
-        // Initialize empty week structure
         const grouped = {};
         for (const weekNum of weekSet) {
             grouped[`week${weekNum}`] = [];
         }
 
-        // Assign operations into correct weeks
         operations.forEach((op) => {
             const date = new Date(op.dateTime);
             const weekNum = getISOWeek(date);
@@ -151,11 +148,9 @@ export function renderCharts() {
         console.error("No canvas with id='lineChart'");
     }
 
-    // Call the dynamic doughnut chart renderer
     renderDoughnutChart();
 }
 
-// NEW FUNCTION — dynamically populates the doughnut chart
 async function renderDoughnutChart() {
     const userId = 1;
     const month = sessionStorage.getItem("month");

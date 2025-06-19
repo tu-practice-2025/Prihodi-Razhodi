@@ -8,7 +8,7 @@ const categoryDescriptions = {
     HLTH: "Health",
     EDUC: "Education",
     CLTH: "Clothes",
-    SPRT: "Lifestyle"
+    SPRT: "Lifestyle",
 };
 
 function populateCategoryDropdown() {
@@ -42,7 +42,7 @@ $(function () {
 
             monthSelector.addEventListener("change", (event) => {
                 const selectedValue = parseInt(event.target.value);
-                console.log(3, event.target.value);
+                // console.log(3, event.target.value);
                 sessionStorage.setItem("month", selectedValue);
                 sessionStorage.setItem("year", 2025);
                 window.location.reload();

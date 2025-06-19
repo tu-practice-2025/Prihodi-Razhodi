@@ -10,13 +10,13 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentEditingElement = null;
 
     const categoryCodeToEnglish = {
-        "REST": "Food",
-        "TRPT": "Transport",
-        "HOME": "Household",
-        "HLTH": "Health",
-        "EDUC": "Education",
-        "CLTH": "Clothes",
-        "SPRT": "Lifestyle"
+        REST: "Food",
+        TRPT: "Transport",
+        HOME: "Household",
+        HLTH: "Health",
+        EDUC: "Education",
+        CLTH: "Clothes",
+        SPRT: "Lifestyle",
     };
 
     // Load existing entries
@@ -46,6 +46,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const amount = document.getElementById("amount").value.trim();
         const category = document.getElementById("category").value;
         const currency = "BGN";
+        const month = sessionStorage.getItem("month");
+        const monthParam = month ? `?month=${month}` : "";
+        console.log(monthParam);
 
         if (!amount || !category) {
             alert("Please, complete all required fields.");
@@ -54,13 +57,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const parsedAmount = parseFloat(amount);
 
-
         if (isEditing && currentEditingElement) {
             const payload = {
                 id: parseInt(currentEditingElement.dataset.id),
                 amount: parsedAmount,
                 currency: currency,
                 categoryCode: category,
+                month: month,
                 year: YEAR,
                 userId: USER_ID,
             };
@@ -72,7 +75,9 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then((response) => {
                     if (!response.ok)
-                        throw new Error(`Failed to update entry: ${response.status}`);
+                        throw new Error(
+                            `Failed to update entry: ${response.status}`
+                        );
                     return response.json();
                 })
                 .then(() => {
@@ -100,7 +105,9 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then((response) => {
                     if (!response.ok)
-                        throw new Error(`Failed to add entry: ${response.status}`);
+                        throw new Error(
+                            `Failed to add entry: ${response.status}`
+                        );
                     return response.json();
                 })
                 .then(() => {
@@ -120,12 +127,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const textSpan = document.createElement("span");
         const monthNames = [
-            "", "January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"
+            "",
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December",
         ];
         const monthName = monthNames[entry.month];
 
-        const englishCategory = categoryCodeToEnglish[entry.categoryCode] || entry.categoryDescription;
+        const englishCategory =
+            categoryCodeToEnglish[entry.categoryCode] ||
+            entry.categoryDescription;
 
         textSpan.textContent = `Expense - ${englishCategory}: ${entry.amount} ${entry.currency} Planned for: ${monthName}`;
 
@@ -153,7 +173,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                     .then((response) => {
                         if (!response.ok)
-                            throw new Error(`Failed to delete entry: ${response.status}`);
+                            throw new Error(
+                                `Failed to delete entry: ${response.status}`
+                            );
                         li.remove();
                     })
                     .catch((error) => {

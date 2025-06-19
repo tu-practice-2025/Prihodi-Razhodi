@@ -41,6 +41,7 @@ body {
     gap: 1rem;
     background: #fff5f5;
     padding: 1rem;
+    margin-bottom: 20px;
     border-radius: 1rem;
     border: 1px solid #e9dada;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
@@ -172,7 +173,7 @@ body {
 }
 
 .insights-button:hover {
-  background: linear-gradient(to right, #4cae4c, #5cb85c);
+    background: linear-gradient(to right, #4cae4c, #5cb85c);
 }
 
 .insights-button{
@@ -292,15 +293,15 @@ body {
 }
 
 .close {
-  color: #aaa;
-  float: right;
-  font-size: 2rem;
-  font-weight: bold;
-  cursor: pointer;
+    color: #aaa;
+    float: right;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .close:hover {
-  color: #000;
+    color: #000;
 }
 
 .stars-container {

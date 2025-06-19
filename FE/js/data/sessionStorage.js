@@ -39,12 +39,12 @@ export function saveThisMonthAndYearOperations(operations) {
 }
 
 export function saveIncomeAndExpenses(income, expenses) {
-    sessionStorage.setItem("income", income);
-    sessionStorage.setItem("expenses", expenses);
+    sessionStorage.setItem("income", Number(income).toFixed(2));
+    sessionStorage.setItem("expenses", Number(expenses).toFixed(2));
 }
 
 export function saveBalance(balance) {
-    sessionStorage.setItem("balance", balance);
+    sessionStorage.setItem("balance", Number(balance).toFixed(2));
 }
 
 export function saveBudgets(budgets) {
