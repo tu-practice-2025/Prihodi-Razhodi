@@ -6,6 +6,13 @@ let skip = 0;
 const take = 10;
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const expenseHeading = document.getElementById("expenseHeading");
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    expenseHeading.textContent = `Expense Overview – ${monthNames[parseInt(month) - 1]} ${year}`;
+
     const chartCtx = document.getElementById("expensesChart").getContext("2d");
     const tableBody = document.getElementById("expenseTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
@@ -37,8 +44,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             options: {
                 responsive: true,
                 plugins: {
-                    legend: { position: "top" },
-                    title: { display: true, text: "Expenses by Category" },
+                    legend: { position: "top" }
                 },
             },
         });
