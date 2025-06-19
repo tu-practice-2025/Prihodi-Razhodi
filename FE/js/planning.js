@@ -6,14 +6,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const USER_ID = 1;
     const YEAR = 2025;
 
-    const month = sessionStorage.getItem("month");
-    const monthParam = month ? `?month=${month}` : "";
-
     let isEditing = false;
     let currentEditingElement = null;
 
+    const categoryCodeToEnglish = {
+        "REST": "Food",
+        "TRPT": "Transport",
+        "HOME": "Household",
+        "HLTH": "Health",
+        "EDUC": "Education",
+        "CLTH": "Clothes",
+        "SPRT": "Lifestyle"
+    };
+
     // Load existing entries
     function loadEntries() {
+        const month = sessionStorage.getItem("month");
+        const monthParam = month ? `?month=${month}` : "";
+
         fetch(`${API_BASE_URL}/${USER_ID}${monthParam}`)
             .then((res) => {
                 if (!res.ok)
@@ -26,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
             .catch((error) => {
                 console.error("Error loading entries:", error);
-                // alert("Could not load entries. See console for details.");
             });
     }
     loadEntries();
@@ -35,31 +44,23 @@ document.addEventListener("DOMContentLoaded", function () {
         e.preventDefault();
 
         const amount = document.getElementById("amount").value.trim();
-        const currency = document.getElementById("currency").value;
         const category = document.getElementById("category").value;
-        const month = document.getElementById("month").value;
-        const isExpense = document.getElementById("entryToggle").checked;
+        const currency = "BGN";
 
-        if (!amount || !category || !currency || !month) {
+        if (!amount || !category) {
             alert("Please, complete all required fields.");
             return;
         }
 
         const parsedAmount = parseFloat(amount);
-        const parsedMonth = parseInt(month);
 
-        if (isNaN(parsedAmount) || isNaN(parsedMonth)) {
-            alert("Amount and month must be valid numbers.");
-            return;
-        }
 
         if (isEditing && currentEditingElement) {
             const payload = {
                 id: parseInt(currentEditingElement.dataset.id),
                 amount: parsedAmount,
                 currency: currency,
-                categoryCode: category, // send code, not description
-                month: parsedMonth,
+                categoryCode: category,
                 year: YEAR,
                 userId: USER_ID,
             };
@@ -71,28 +72,23 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then((response) => {
                     if (!response.ok)
-                        throw new Error(
-                            `Failed to update entry: ${response.status}`
-                        );
-                    return JSON.stringify(response);
+                        throw new Error(`Failed to update entry: ${response.status}`);
+                    return response.json();
                 })
                 .then(() => {
                     loadEntries();
                     isEditing = false;
                     currentEditingElement = null;
                     form.reset();
-                    document.getElementById("entryToggle").checked = false;
                 })
                 .catch((error) => {
                     console.error(error);
-                    //alert("Failed to update entry.");
                 });
         } else {
             const postPayload = {
                 amount: parsedAmount,
                 currency: currency,
                 categoryCode: category,
-                month: parsedMonth,
                 year: YEAR,
                 userId: USER_ID,
             };
@@ -104,61 +100,49 @@ document.addEventListener("DOMContentLoaded", function () {
             })
                 .then((response) => {
                     if (!response.ok)
-                        throw new Error(
-                            `Failed to add entry: ${response.status}`
-                        );
+                        throw new Error(`Failed to add entry: ${response.status}`);
                     return response.json();
                 })
                 .then(() => {
                     loadEntries();
                     form.reset();
-                    document.getElementById("entryToggle").checked = false;
                 })
                 .catch((error) => {
                     console.error(error);
-                    // alert("Failed to add entry.");
                 });
         }
     });
 
     function addEntryToDOM(entry) {
         const li = document.createElement("li");
-        li.classList.add(entry.currency ? "expense-entry" : "income-entry");
+        li.classList.add("expense-entry");
         li.dataset.id = entry.id;
 
-        // Clear previous content
-        li.textContent = "";
-
-        // Create text content with line break safely
         const textSpan = document.createElement("span");
         const monthNames = [
-        "", "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
+            "", "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
         ];
-
         const monthName = monthNames[entry.month];
 
-        textSpan.textContent = `${entry.currency ? "Expense" : "Income"} - ${entry.categoryDescription}: ${entry.amount} ${entry.currency} Planned for: ${monthName}`;
+        const englishCategory = categoryCodeToEnglish[entry.categoryCode] || entry.categoryDescription;
+
+        textSpan.textContent = `Expense - ${englishCategory}: ${entry.amount} ${entry.currency} Planned for: ${monthName}`;
 
         const br = document.createElement("br");
 
-        // Edit button
         const editButton = document.createElement("button");
         editButton.innerHTML = "✏️ Edit";
         editButton.className = "edit-btn";
         editButton.addEventListener("click", () => {
             document.getElementById("amount").value = entry.amount;
-            document.getElementById("currency").value = entry.currency;
-            document.getElementById("category").value = entry.categoryCode; // use code
-            document.getElementById("month").value = entry.month;
-            document.getElementById("entryToggle").checked = !!entry.currency;
+            document.getElementById("category").value = entry.categoryCode;
 
             isEditing = true;
             currentEditingElement = li;
             form.scrollIntoView({ behavior: "smooth" });
         });
 
-        // Delete button
         const deleteButton = document.createElement("button");
         deleteButton.innerHTML = "❌ Delete";
         deleteButton.className = "delete-btn";
@@ -169,14 +153,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                     .then((response) => {
                         if (!response.ok)
-                            throw new Error(
-                                `Failed to delete entry: ${response.status}`
-                            );
+                            throw new Error(`Failed to delete entry: ${response.status}`);
                         li.remove();
                     })
                     .catch((error) => {
                         console.error("Delete error:", error);
-                        //alert("Failed to delete entry.");
                     });
             }
         });
