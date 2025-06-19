@@ -25,7 +25,7 @@
         <div class="header"></div>
         <main>
             <form id="enterData">
-                <h2>Enter Data</h2>
+                <h2>Enter Budget</h2>
 
                 <input
                     type="number"
@@ -34,14 +34,6 @@
                     placeholder="0.00"
                     required
                 />
-
-                <select id="currency" name="currency" required>
-                    <option value="">Currency</option>
-                    <option>BGN</option>
-                    <option>EUR</option>
-                    <option>USD</option>
-                    <option>GBP</option>
-                </select>
 
                 <select id="category">
                     <option value="">Category</option>
@@ -54,40 +46,14 @@
                     <option value="SPRT">Lifestyle</option>
                 </select>
 
-                <div class="toggle-wrapper">
-                    <span class="toggle-label">Income</span>
-
-                    <label class="switch">
-                        <input type="checkbox" id="entryToggle" />
-                        <span class="slider"></span>
-                    </label>
-
-                    <span class="toggle-label">Expense</span>
-                </div>
-
-                <select id="month" name="month" required>
-                    <option value="">Month</option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
+                <input type="hidden" id="month" name="month" />
 
                 <button id="enter" type="submit">Enter</button>
             </form>
 
             <section class="recent-entries">
-                <h2>Recent Entries</h2>
+                <h2>Budgets for the month</h2>
                 <ul id="entriesList">
-                    <!-- JS entries will be added here -->
                 </ul>
             </section>
         </main>
