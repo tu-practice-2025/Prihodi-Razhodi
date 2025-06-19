@@ -114,15 +114,13 @@ document.addEventListener("DOMContentLoaded", function () {
         content.innerHTML = "<p>Loading insights...</p>";
 
         try {
-            const response = await fetch("/api/insights/analyze");
+            const response = await fetch(
+                "https://localhost:7121/api/airesponse/1"
+            );
             if (!response.ok) throw new Error("Failed to fetch insights");
             const data = await response.json();
 
-            content.innerHTML = `
-                <ul>
-                ${data.insights.map(insight => `<li>${insight}</li>`).join("")}
-                </ul>
-            `;
+            content.textContent = JSON.stringify(data.content);
         } catch (err) {
             content.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
         }
@@ -132,11 +130,9 @@ document.addEventListener("DOMContentLoaded", function () {
         modal.style.display = "none";
     });
 
-    window.addEventListener("click", event => {
+    window.addEventListener("click", (event) => {
         if (event.target === modal) {
             modal.style.display = "none";
         }
     });
 });
-
-
