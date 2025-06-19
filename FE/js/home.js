@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", async () => {
             alert("User not found.");
             return;
         }
-
         const response = await fetch(`https://localhost:7121/api/email/${user.id}`);
         if (!response.ok) throw new Error("Failed to send email");
 
@@ -43,6 +42,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         alert("There was a problem sending the report.");
     }
 });
+
 
 
     const testBtn = document.getElementById("testButton");
