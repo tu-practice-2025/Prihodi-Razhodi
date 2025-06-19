@@ -137,36 +137,41 @@ export function display() {
         ? `${balance} BGN`
         : "0 BGN";
 }
-
 document.addEventListener("DOMContentLoaded", function () {
     const openBtn = document.getElementById("openInsightsBtn");
     const modal = document.getElementById("insightsModal");
     const closeBtn = document.getElementById("closeModalBtn");
     const content = document.getElementById("insightsContent");
 
-    openBtn.addEventListener("click", async () => {
+    openBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        console.log(1);
         modal.style.display = "block";
         content.innerHTML = "<p>Loading insights...</p>";
 
         try {
-            const response = await fetch(
-                "https://localhost:7121/api/airesponse/1"
-            );
-            if (!response.ok) throw new Error("Failed to fetch insights");
+            const response = await fetch("/api/insights/analyze");
+            if (!response.ok) throw new Error("");
             const data = await response.json();
 
-            content.textContent = JSON.stringify(data.content);
+            content.innerHTML = `
+                <ul>
+                ${data.insights.map(insight => `<li>${insight}</li>`).join("")}
+                </ul>
+            `;
         } catch (err) {
-            content.innerHTML = `<p style="color: red;">Error: ${err.message}</p>`;
+            content.innerHTML = `<p style="color: red;">Uh-oh. I'm currently unable to load your insights :( </br>Please try again later <3</p>`;
         }
     });
 
     closeBtn.addEventListener("click", () => {
+        console.log(2);
         modal.style.display = "none";
     });
 
     window.addEventListener("click", (event) => {
         if (event.target === modal) {
+            console.log(3);
             modal.style.display = "none";
         }
     });
