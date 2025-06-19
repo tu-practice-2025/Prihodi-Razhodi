@@ -61,12 +61,12 @@ namespace SummerPracticeWebApi.Services.Implementations
                          && operation.IsExpense == true
                          && operation.DateTime.Month == month
                          && operation.DateTime.Year == year)
-                .GroupBy(operation => operation.CategoryCodeNavigation.Description ?? "Other")
+                .GroupBy(operation => operation.CategoryCodeNavigation.Code ?? "Other")
                 .Select(pair => new {
-                    Category = pair.Key,
+                    Description = pair.Key,
                     Total = pair.Sum(operation => operation.AmountLcy)
                 })
-                .ToDictionaryAsync(pair => pair.Category, pair => pair.Total);
+                .ToDictionaryAsync(pair => pair.Description, pair => pair.Total);
 
             return totals;
         }
