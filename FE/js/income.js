@@ -6,6 +6,13 @@ let skip = 0;
 const take = 10;
 
 window.addEventListener("DOMContentLoaded", async () => {
+    const incomeHeading = document.getElementById("incomeHeading");
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    incomeHeading.textContent = `Income Overview – ${monthNames[parseInt(month) - 1]} ${year}`;
+
     const chartCtx = document.getElementById("incomeChart").getContext("2d");
     const tableBody = document.getElementById("incomeTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
@@ -25,16 +32,14 @@ window.addEventListener("DOMContentLoaded", async () => {
             type: "line",
             data: {
                 labels: chartLabels,
-                datasets: [
-                    {
-                        label: `Incomes in ${getMonthName(month)}`,
-                        data: chartValues,
-                        borderColor: "green",
-                        backgroundColor: "rgba(0, 128, 0, 0.1)",
-                        tension: 0.3,
-                        fill: true,
-                    },
-                ],
+                datasets: [{
+                    label: `Incomes in ${getMonthName(month)}`,
+                    data: chartValues,
+                    borderColor: "green",
+                    backgroundColor: "rgba(0, 128, 0, 0.1)",
+                    tension: 0.3,
+                    fill: true,
+                }]
             },
             options: {
                 responsive: true,
