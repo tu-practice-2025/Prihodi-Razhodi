@@ -11,28 +11,32 @@ window.addEventListener("DOMContentLoaded", async () => {
     const showMoreBtn = document.querySelector(".button-group button");
 
     try {
-        const chartRes = await fetch(`https://localhost:7121/api/Expenses/${userId}/spending?month=${month}&year=${year}`);
+        const chartRes = await fetch(
+            `https://localhost:7121/api/Expenses/${userId}/spending?month=${month}&year=${year}`
+        );
         const chartData = await chartRes.json();
 
-        const labels = chartData.map(item => item.category);
-        const values = chartData.map(item => item.total);
+        const labels = chartData.map((item) => item.category);
+        const values = chartData.map((item) => item.total);
 
         new Chart(chartCtx, {
             type: "bar",
             data: {
                 labels: labels,
-                datasets: [{
-                    label: `Expenses in ${getMonthName(month)}`,
-                    data: values,
-                    backgroundColor: [
-                        "rgba(255, 99, 132, 0.6)",
-                        "rgba(255, 159, 64, 0.6)",
-                        "rgba(255, 205, 86, 0.6)",
-                        "rgba(75, 192, 192, 0.6)",
-                        "rgba(153, 102, 255, 0.6)",
-                        "rgba(54, 162, 235, 0.6)",
-                    ],
-                }]
+                datasets: [
+                    {
+                        label: `Expenses in ${getMonthName(month)}`,
+                        data: values,
+                        backgroundColor: [
+                            "rgba(255, 99, 132, 0.6)",
+                            "rgba(255, 159, 64, 0.6)",
+                            "rgba(255, 205, 86, 0.6)",
+                            "rgba(75, 192, 192, 0.6)",
+                            "rgba(153, 102, 255, 0.6)",
+                            "rgba(54, 162, 235, 0.6)",
+                        ],
+                    },
+                ],
             },
             options: {
                 responsive: true,
@@ -48,7 +52,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         showMoreBtn.addEventListener("click", async () => {
             await loadExpenseTransactions();
         });
-
     } catch (error) {
         console.error("Error loading expenses:", error);
     }
@@ -58,7 +61,9 @@ async function loadExpenseTransactions() {
     const tableBody = document.getElementById("expenseTableBody");
     const showMoreBtn = document.querySelector(".button-group button");
 
-    const res = await fetch(`https://localhost:7121/api/Expenses/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`);
+    const res = await fetch(
+        `https://localhost:7121/api/Expenses/${userId}/latest?month=${month}&year=${year}&skip=${skip}&take=${take}`
+    );
     const data = await res.json();
 
     if (data.length === 0) {
@@ -72,7 +77,7 @@ async function loadExpenseTransactions() {
         row.innerHTML = `
             <td>${formatDate(tx.date)}</td>
             <td>${tx.category}</td>
-            <td>$${tx.amount.toFixed(2)}</td>
+            <td>${tx.amount.toFixed(2)} BGN</td>
         `;
         tableBody.appendChild(row);
     });
