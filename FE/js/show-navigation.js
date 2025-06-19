@@ -2,20 +2,13 @@ import { filterAndDisplay, filterOperations } from "./data/filters.js";
 import { renderCharts } from "./charts.js";
 
 const categoryDescriptions = {
-    BUSS: "Бизнес услуги",
-    CLTH: "Дрехи",
-    DEBT: "Задължения и такси",
-    EDUC: "Образование",
-    HLTH: "Здраве и красота",
-    HOME: "За дома",
-    OTHR: "Други",
-    PUBS: "Публични услуги",
-    REST: "Ресторанти и барове",
-    SHOP: "Шопинг",
-    SPRT: "Забавление и спорт",
-    SUPM: "Супермаркети",
-    TRPT: "Транспорт и авто услуги",
-    TRVH: "Пътуване и ваканция",
+    REST: "Food",
+    TRPT: "Transport",
+    HOME: "Household",
+    HLTH: "Health",
+    EDUC: "Education",
+    CLTH: "Clothes",
+    SPRT: "Lifestyle"
 };
 
 function populateCategoryDropdown() {
@@ -32,17 +25,14 @@ function populateCategoryDropdown() {
 
 $(function () {
     $(".header").load("./nav-bar.html", function () {
-        // ✅ Bootstrap dropdown fix
         setTimeout(() => {
             const dropdownElements =
                 document.querySelectorAll(".dropdown-toggle");
             dropdownElements.forEach((el) => new bootstrap.Dropdown(el));
-        }, 0); // Use setTimeout to ensure HTML is parsed before initializing
+        }, 0);
 
-        // ✅ Populate categories
         populateCategoryDropdown();
 
-        // ✅ Month selector logic
         const monthSelector = document.getElementById("monthSelector");
         if (monthSelector) {
             const savedMonth = sessionStorage.getItem("month");
