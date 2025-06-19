@@ -81,13 +81,15 @@ document.addEventListener("DOMContentLoaded", function () {
                     return response.json();
                 })
                 .then(() => {
-                    loadEntries();
                     isEditing = false;
                     currentEditingElement = null;
                     form.reset();
                 })
                 .catch((error) => {
                     console.error(error);
+                })
+                .finally(() => {
+                    loadEntries();
                 });
         } else {
             const postPayload = {
