@@ -13,13 +13,13 @@ namespace SummerPracticeWebApi.Services.Implementations
 
         public async Task<string> FetchAiResponse(string prompt)
         {
-            var url = "http://127.0.0.1:8080/completion";
+            var url = "http://127.0.0.1:9000/completion";
 
             var requestBody = new
             {
                 prompt = prompt,
-                n_predict = 100,
-                temperature = 0.7
+                n_predict = 500,
+                temperature = 0.5
             };
 
             var json = JsonSerializer.Serialize(requestBody);

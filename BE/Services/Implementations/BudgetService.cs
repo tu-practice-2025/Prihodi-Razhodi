@@ -16,11 +16,20 @@ namespace SummerPracticeWebApi.Services.Implementations
             _context = context;
         }
 
-        public async Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId)
+        public async Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId, byte? month = null, uint? year = null)
         {
-            return await _context.Budgets
+            var query = _context.Budgets
                 .Where(b => b.UserId == userId)
                 .Include(b => b.CategoryCodeNavigation)
+                .AsQueryable();
+
+            if (month.HasValue)
+                query = query.Where(b => b.Month == month.Value);
+
+            if (year.HasValue)
+                query = query.Where(b => b.Year == year.Value);
+
+            return await query
                 .Select(b => new BudgetDto
                 {
                     Id = b.Id,
@@ -34,6 +43,8 @@ namespace SummerPracticeWebApi.Services.Implementations
                 })
                 .ToListAsync();
         }
+
+
 
         public async Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year)
         {

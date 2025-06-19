@@ -5,7 +5,7 @@ namespace SummerPracticeWebApi.Services.Interfaces
 {
     public interface IBudgetService
     {
-        Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId);
+        Task<List<BudgetDto>> GetUserBudgetsAsync(uint userId, byte? month = null, uint? year = null);
         Task<BudgetDto?> GetUserCategoryBudgetAsync(uint userId, string categoryCode, byte month, uint year);
 
         Task<BudgetDto> CreateBudgetAsync(BudgetDto budgetDto);
