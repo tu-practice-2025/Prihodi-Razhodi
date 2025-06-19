@@ -22,11 +22,11 @@
   <body>
     <div class="header"></div>
     <div class="dashboard">
-      <!-- Summary Cards -->
+      <!-- Summary Cards + Quick Access -->
       <div class="summary-cards">
         <a href="income.html" class="card-link">
-          <div class="card income">
-            <div class="card-icon">$</div>
+          <div class="card income shrinkable">
+            <div class="card-icon">🪙</div>
             <div class="card-content">
               <h4>Income</h4>
               <p id="incomeDisplay"></p>
@@ -34,25 +34,32 @@
           </div>
         </a>
         <a href="expenses.html" class="card-link">
-          <div class="card expenses">
-            <div class="card-icon">$</div>
+          <div class="card expenses shrinkable">
+            <div class="card-icon">🪙</div>
             <div class="card-content">
               <h4>Expenses</h4>
               <p id="expensesDisplay"></p>
             </div>
           </div>
         </a>
-        <a href="balance.html" class="card-link">
-          <div class="card balance">
-            <div class="card-icon">$</div>
+          <div class="card balance shrinkable">
+            <div class="card-icon">🪙</div>
             <div class="card-content">
               <h4>Balance</h4>
               <p id="balanceDisplay"></p>
             </div>
           </div>
-        </a>
+
+        <div class="card quick-access collapsed" id="quickAccessCard" onclick="toggleQuickAccess()">
+          <h4 class="quick-access-header">ᐊ Quick Access</h4>
+          <div class="quick-access-content">
+            <button id="sendReportBtn">Send report</button>
+            <button id="openInsightsBtn" class="insights-button">Financial Advisor</button>
+          </div>
+        </div>
       </div>
 
+      <!-- Charts -->
       <div class="main-grid">
         <div class="left-side">
           <div class="chart-container">
@@ -70,35 +77,45 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <div class="quick-access mt-4">
-          <h4>Quick access</h4>
-          <div class="button-group">
-            <button>Send report</button>
-            <button id="openInsightsBtn" class="insights-button">
-              Financial Advisor
-            </button>
-          </div>
-
-          <div id="insightsModal" class="modal">
-            <div class="modal-content">
-              <span id="closeModalBtn" class="close">&times;</span>
-              <h2>Your Insights ✨</h2>
-              <div class="stars-container">
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-                <div class="star"></div>
-              </div>
-              <div id="insightsContent">
-                <p>Loading insights...</p>
-              </div>
-            </div>
-          </div>
+    <!-- Insights Modal -->
+    <div id="insightsModal" class="modal">
+      <div class="modal-content">
+        <span id="closeModalBtn" class="close">&times;</span>
+        <h2>Your Insights ✨</h2>
+        <div class="stars-container">
+          <div class="star"></div>
+          <div class="star"></div>
+          <div class="star"></div>
+          <div class="star"></div>
+          <div class="star"></div>
+        </div>
+        <div id="insightsContent">
+          <p>Loading insights...</p>
         </div>
       </div>
     </div>
+
+    <script>
+      function toggleQuickAccess() {
+        const quickCard = document.getElementById("quickAccessCard");
+        const shrinkables = document.querySelectorAll(".shrinkable");
+
+        const isExpanded = quickCard.classList.contains("expanded");
+
+        if (isExpanded) {
+          quickCard.classList.remove("expanded");
+          quickCard.classList.add("collapsed");
+          shrinkables.forEach(el => el.classList.remove("shrinked"));
+        } else {
+          quickCard.classList.remove("collapsed");
+          quickCard.classList.add("expanded");
+          shrinkables.forEach(el => el.classList.add("shrinked"));
+        }
+      }
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/show-navigation.js"></script>
